@@ -3,177 +3,914 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desritory</title>
+  <title>Desritory • Unblocked Fun & Freedom</title>
   <style>
-    /* Reset and base */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: #f5f5f5; color: #333; line-height: 1.6; }
-    a { text-decoration: none; color: inherit; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
-    /* Header / Hero */
-    header {
+    :root {
+      --primary: #4F46E5;
+      --primary-light: #6366F1;
+      --accent: #22C065;
+      --bg: #F8FAFC;
+      --card: #FFFFFF;
+      --text: #1E293B;
+      --text-light: #64748B;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system_ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Navbar */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 100%;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
-      background: linear-gradient(135deg, #6C63FF, #4FACFE);
-      color: white;
-      text-align: center;
-      padding: 0 20px;
+      justify-content: space-between;
     }
-    header h1 {
-      font-size: 4rem;
-      margin-bottom: 20px;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.02em;
     }
-    header p {
-      font-size: 1.3rem;
-      margin-bottom: 30px;
-    }
-    .cta-buttons a {
+
+    .logo-dot {
+      width: 9px;
+      height: 9px;
+      background: var(--accent);
+      border-radius: 50%;
       display: inline-block;
-      margin: 0 10px;
-      padding: 12px 25px;
-      background: white;
-      color: #4FACFE;
-      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .nav-links a {
+      color: var(--text-light);
+      transition: color 0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .search-bar {
+      background: #F1F5F9;
+      border-radius: 999px;
+      padding: 8px 16px;
+      width: 260px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #E2E8F0;
+      transition: all 0.2s;
+    }
+
+    .search-bar:focus-within {
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+      border-color: var(--primary-light);
+    }
+
+    .search-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 14px;
+    }
+
+    .github-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #1E293B;
+      color: white;
+      padding: 9px 16px;
       border-radius: 8px;
-      transition: 0.3s;
-    }
-    .cta-buttons a:hover {
-      background: #e0e0ff;
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.2s;
     }
 
-    /* Features Section */
-    .features {
+    .github-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Hero */
+
+    .hero {
+      padding-top: 132px;
+      padding-bottom: 64px;
+      background: linear-gradient(135deg, #F8FAFC 0%, #F0F9FF 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 60px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
     }
-    .feature-card {
-      background: white;
-      border-radius: 12px;
-      padding: 25px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      transition: 0.3s;
-    }
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .feature-card h3 { margin: 15px 0 10px; font-size: 1.3rem; }
-    .feature-card p { font-size: 0.95rem; color: #555; }
 
-    /* Categories Section */
-    .categories {
-      padding: 60px 20px;
-      max-width: 1200px;
+    .hero-left h1 {
+      font-size: 58px;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+
+    .hero-left .highlight {
+      color: var(--primary);
+    }
+
+    .hero-left p {
+      font-size: 20px;
+      color: var(--text-light);
+      max-width: 420px;
+      margin-bottom: 32px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px -2px rgba(79, 70, 229, 0.3);
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .btn-primary:hover {
+      background: #4338CA;
+      box-shadow: 0 10px 20px -4px rgba(79, 70, 229, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 1.5px solid #E2E8F0;
+      color: var(--text);
+      padding: 14px 26px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary-light);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    .trust-bar {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-top: 52px;
+      opacity: 0.85;
+    }
+
+    .trust-bar div {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-visual .browser-frame {
+      background: #1E293B;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+      overflow: hidden;
+      border: 8px solid #111827;
+    }
+
+    .browser-header {
+      height: 38px;
+      background: #111827;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #EF4444; }
+
+    .dot-yellow { background: #FBBF24; }
+
+    .dot-green { background: #4ADE80; }
+
+    .browser-content {
+      background: #F8FAFC;
+      padding: 20px;
+      min-height: 280px;
+    }
+
+    .mock-tab-bar {
+      display: flex;
+      background: #E2E8F0;
+      border-radius: 8px;
+      padding: 4px;
+      margin-bottom: 16px;
+    }
+
+    .mock-tab {
+      padding: 6px 14px;
+      background: white;
+      border-radius: 6px;
+      font-size: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      font-weight: 500;
+    }
+
+    .mock-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .mock-card {
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+
+    .mock-img {
+      height: 84px;
+      background: #E0F2FE;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .mock-img.game { background: linear-gradient(135deg, #C4D0FF, #E0E7FF); }
+
+    .mock-img.movie { background: linear-gradient(135deg, #FCE7F3, #FCE7F3); }
+
+    .mock-img.proxy { background: linear-gradient(135deg, #DBEAFE, #EFF6FF); }
+
+    /* Quick Categories */
+
+    .categories-section {
+      padding: 32px 0 80px;
+      background: white;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .section-header {
+      max-width: 1280px;
       margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 24px;
     }
-    .categories h2 {
-      text-align: center;
-      margin-bottom: 40px;
-      font-size: 2rem;
-      color: #4FACFE;
+
+    .section-header h2 {
+      font-size: 22px;
+      color: #0F172A;
     }
+
+    .section-header a {
+      font-size: 14px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     .category-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+      gap: 16px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
     }
-    .category-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 30px 20px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.1rem;
+
+    .category-item {
+      background: white;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 20px 18px;
+      transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
       cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
-    .category-card:hover {
-      background: #4FACFE;
+
+    .category-item:hover {
+      border-color: #C4D0FF;
+      box-shadow: 0 10px 15px -3px rgb(99 102 241 / 0.07);
+      transform: translateY(-3px);
+    }
+
+    .category-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+
+    .games .category-icon { background: #E0E7FF; }
+
+    .movies .category-icon { background: #FCE7F3; }
+
+    .proxy .category-icon { background: #DBEAFE; }
+
+    .tools .category-icon { background: #ECFDF5; }
+
+    .tv .category-icon { background: #FEF3C7; }
+
+    .category-item h3 {
+      font-weight: 600;
+      font-size: 17px;
+      margin-bottom: 2px;
+    }
+
+    .category-item p {
+      font-size: 13.5px;
+      color: var(--text-light);
+      line-height: 1.35;
+    }
+
+    /* Features */
+
+    .features-section {
+      padding: 92px 0;
+      background: #F8FAFC;
+    }
+
+    .features-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .features-header h2 {
+      font-size: 32px;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .features-header p {
+      color: var(--text-light);
+      font-size: 18px;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 26px;
+      position: relative;
+      border: 1px solid transparent;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .feature:hover {
+      border-color: #E0E7FF;
+      box-shadow: 0 12px 22px -4px rgb(79 70 229 / 0.08);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      background: #F0F9FF;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .feature h3 {
+      font-size: 19px;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      color: var(--text-light);
+      font-size: 15px;
+    }
+
+    /* Proxy Demo */
+
+    .proxy-demo {
+      background: #1E293B;
       color: white;
-      transform: translateY(-5px);
+      padding: 82px 0;
+      text-align: center;
+    }
+
+    .proxy-demo h2 {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+
+    .proxy-demo p {
+      max-width: 380px;
+      margin: 0 auto 32px;
+      opacity: 0.88;
+      font-size: 16px;
+    }
+
+    .proxy-input-wrapper {
+      max-width: 440px;
+      margin: 0 auto;
+      background: #111827;
+      padding: 6px;
+      border-radius: 999px;
+      display: flex;
+    }
+
+    .proxy-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 15px;
+      padding: 14px 22px;
+    }
+
+    .proxy-input::placeholder {
+      color: #94A3B8;
+    }
+
+    .proxy-btn {
+      background: #22C065;
+      color: white;
+      padding: 0 26px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 15px;
+      white-space: nowrap;
     }
 
     /* Footer */
+
     footer {
-      text-align: center;
-      padding: 30px 20px;
-      background: #333;
-      color: white;
+      background: #0F172A;
+      color: #CBD5E1;
+      padding: 68px 0 28px;
     }
-    footer a { color: #6C63FF; margin: 0 8px; }
+
+    .footer-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 84px;
+    }
+
+    .footer-logo {
+      font-size: 26px;
+      font-weight: 700;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .footer-description {
+      color: #94A3B8;
+      font-size: 15px;
+      max-width: 238px;
+      line-height: 1.65;
+    }
+
+    .footer-column h4 {
+      font-weight: 600;
+      margin-bottom: 18px;
+      color: #E2E8F0;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 14.5px;
+    }
+
+    .footer-links a {
+      transition: color 0.2s;
+      color: #94A3B8;
+    }
+
+    .footer-links a:hover {
+      color: #C4D0FF;
+    }
+
+    .copyright {
+      border-top: 1px solid #1E293B;
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #64748B;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 920px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        padding-top: 30px;
+      }
+      
+      .hero-left h1 {
+        font-size: 48px;
+      }
+      
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-container {
+        padding: 0 20px;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .search-bar {
+        width: 160px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Hero Section -->
-  <header>
-    <h1>Desritory</h1>
-    <p>Fast. Clean. Unblocked. Your go-to site for games, movies & tools.</p>
-    <div class="cta-buttons">
-      <a href="#games">🎮 Games</a>
-      <a href="#movies">📺 Movies & TV</a>
-      <a href="#proxy">🌐 Browser Proxy</a>
-    </div>
-  </header>
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">
+        Desritory<span class="logo-dot"></span>
+      </div>
+      
+      <div class="nav-links">
+        <a href="#games">Games</a>
+        <a href="#movies">Movies &amp; TV</a>
+        <a href="#proxy">Proxy</a>
+        <a href="#tools">Tools</a>
+      </div>
 
-  <!-- Features Section -->
-  <section class="features">
-    <div class="feature-card">
-      <h3>⚡ Fast Loading</h3>
-      <p>Quick access with minimal lag for all users.</p>
+      <div class="nav-right">
+        <div class="search-bar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="#94A3B8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="15.5" y2="15.5"></line></svg>
+          <input type="text" placeholder="Search games, movies, sites…">
+        </div>
+        
+        <a href="https://github.com" target="_blank" class="github-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.11.793-.26.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.744.083-.729.083-.729 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.467-2.38 1.235-3.22-.123-.303-.534-1.523.116-3.176 0 0 1.008-.322 4.157 1.55A14.46 14.46 0 0112 6.44c1.29.005 2.59.174 3.8.51 3.147-1.872 4.154-1.55 4.154-1.55.652 1.653.24 2.873.117 3.176.77.84 1.234 1.91 1.234 3.22 0 4.61-2.807 5.623-5.48 5.922.43.37.81 1.1.81 2.22v3.293c0 .32.19.694.8.576C20.565 21.796 24 17.3 24 12 24 5.373 18.63 0 12 0z"/></svg>
+          GitHub
+        </a>
+      </div>
     </div>
-    <div class="feature-card">
-      <h3>🎨 Clean Interface</h3>
-      <p>Organized and easy to navigate on any device.</p>
-    </div>
-    <div class="feature-card">
-      <h3>🧩 Customization</h3>
-      <p>Personalize your experience the way you like it.</p>
-    </div>
-    <div class="feature-card">
-      <h3>🌐 Safe Proxy</h3>
-      <p>Access blocked websites safely and securely.</p>
-    </div>
-    <div class="feature-card">
-      <h3>🎮 Games</h3>
-      <p>Play popular unblocked games anytime.</p>
-    </div>
-    <div class="feature-card">
-      <h3>📺 Movies & TV</h3>
-      <p>Stream movies and TV shows seamlessly.</p>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-left">
+        <h1>Desritory<span class="highlight">.</span><br>Fast, clean,<br>unblocked.</h1>
+        <p>Access games, movies, TV shows, tools and more—without hassle. Built for school, built for freedom.</p>
+        
+        <div class="cta-row">
+          <a href="#games" class="btn-primary">
+            🎮 Browse Games
+          </a>
+          <a href="#proxy" class="btn-secondary">
+            🌐 Try Proxy Now
+          </a>
+        </div>
+
+        <div class="trust-bar">
+          <div>⚡ 2× faster loading</div>
+          <div>🧼 Zero ads in UI</div>
+          <div>🔒 School-safe</div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="browser-frame">
+          <div class="browser-header">
+            <div class="browser-dots">
+              <div class="dot dot-red"></div>
+              <div class="dot dot-yellow"></div>
+              <div class="dot dot-green"></div>
+            </div>
+          </div>
+          <div class="browser-content">
+            <div class="mock-tab-bar">
+              <div class="mock-tab">🎮 Unblocked Games</div>
+              <div class="mock-tab" style="opacity:0.6">📺 Watch Free Movies</div>
+            </div>
+            
+            <div class="mock-grid">
+              <div class="mock-card">
+                <div class="mock-img game"></div>
+                <div style="font-weight:600;font-size:13px;margin-bottom:3px;">Geometry Dash</div>
+                <div style="color:#94A3B8;font-size:11px;">Action • 4.8 ⭐</div>
+              </div>
+              <div class="mock-card">
+                <div class="mock-img movie"></div>
+                <div style="font-weight:600;font-size:13px;margin-bottom:3px;">The Batman</div>
+                <div style="color:#94A3B8;font-size:11px;">Action • 2022</div>
+              </div>
+              <div class="mock-card">
+                <div class="mock-img proxy"></div>
+                <div style="font-weight:600;font-size:13px;margin-bottom:3px;">Proxy</div>
+                <div style="color:#94A3B8;font-size:11px;">Bypass restrictions</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Categories Section -->
-  <section class="categories">
-    <h2>Explore Categories</h2>
+  <!-- Quick Categories -->
+  <section class="categories-section" id="games">
+    <div class="section-header">
+      <h2>Popular Categories</h2>
+      <a href="#">See everything →</a>
+    </div>
+    
     <div class="category-grid">
-      <div class="category-card" id="games">Games</div>
-      <div class="category-card" id="movies">Movies & TV</div>
-      <div class="category-card" id="tools">Tools</div>
-      <div class="category-card" id="proxy">Browser Proxy</div>
-      <div class="category-card" id="extras">Other Stuff</div>
+      <div class="category-item games" onclick="alert('🎮 120+ unblocked games are loading! (Demo)')">
+        <div class="category-icon">🎮</div>
+        <h3>Games</h3>
+        <p>Popular titles &amp; classics. Zero lag.</p>
+      </div>
+      
+      <div class="category-item movies" onclick="alert('📺 Streaming movies &amp; TV shows in 720p+ (Demo)')">
+        <div class="category-icon">🎬</div>
+        <h3>Movies</h3>
+        <p>Blockbuster hits &amp; new releases.</p>
+      </div>
+      
+      <div class="category-item proxy" onclick="alert('🌐 Safe browser proxy demo activated!')">
+        <div class="category-icon">🌐</div>
+        <h3>Free Proxy</h3>
+        <p>Browse blocked sites safely.</p>
+      </div>
+      
+      <div class="category-item tools" onclick="alert('🛠️ Productivity tools, calculators, note pads &amp; more')">
+        <div class="category-icon">🛠️</div>
+        <h3>Tools</h3>
+        <p>Calculators, notes, timers &amp; more.</p>
+      </div>
+      
+      <div class="category-item tv" onclick="alert('📺 Live TV streams &amp; shows are ready!')">
+        <div class="category-icon">📺</div>
+        <h3>TV Shows</h3>
+        <p>Stream your favorite series.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="features-container">
+      <div class="features-header">
+        <h2>Why students love Desritory</h2>
+        <p>Built with care. Works everywhere. Keeps things simple.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <h3>Lightning fast</h3>
+          <p>Pages load instantly. No bloated scripts or trackers.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎨</div>
+          <h3>Clean &amp; simple</h3>
+          <p>Beautiful minimal interface. Easy to navigate on any device.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🧩</div>
+          <h3>Customizable</h3>
+          <p>Choose your theme, layout, and favorite shortcuts.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🌐</div>
+          <h3>Free Proxy Built-in</h3>
+          <p>Visit blocked sites securely. No sign-up required.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎮</div>
+          <h3>100+ Unblocked Games</h3>
+          <p>Popular titles updated weekly. No downloads.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📺</div>
+          <h3>Movies &amp; TV</h3>
+          <p>Stream the latest releases and classics directly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proxy Demo Section -->
+  <section class="proxy-demo" id="proxy">
+    <h2>Blocked site? Try our proxy.</h2>
+    <p>Just paste any URL and hit Go. Works instantly.</p>
+    
+    <div class="proxy-input-wrapper">
+      <input type="text" class="proxy-input" placeholder="https://example.com" value="https://school-blocked-site.edu">
+      <div class="proxy-btn" onclick="alert('🔓 Proxy active! Loading…\n\n(You’d see the site here in a real version)')">Go →</div>
+    </div>
+    
+    <div style="margin-top:22px;font-size:13px;color:#94A3B8;">
+      Safe • Private • No logs
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>Open-source & community-driven. Designed for speed and freedom.</p>
-    <p>
-      <a href="#">About</a> |
-      <a href="#">GitHub</a> |
-      <a href="#">Contact</a>
-    </p>
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Desritory<span class="logo-dot"></span></div>
+          <div class="footer-description">
+            Built for speed, freedom, and fun. Open-source. Community-driven. Always improving.
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Explore</h4>
+          <div class="footer-links">
+            <a href="#">Games</a>
+            <a href="#">Movies</a>
+            <a href="#">TV Shows</a>
+            <a href="#">Tools</a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Resources</h4>
+          <div class="footer-links">
+            <a href="#">Proxy Guide</a>
+            <a href="#">Safety Tips</a>
+            <a href="#">Status</a>
+            <a href="#">GitHub Repo</a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Community</h4>
+          <div class="footer-links">
+            <a href="#">Discord</a>
+            <a href="#">Feedback</a>
+            <a href="#">Contributors</a>
+            <a href="#">Changelog</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <div>© 2025 Desritory • Open-source project</div>
+        <div>Made with ❤️ for students everywhere</div>
+        <div>Privacy • Terms • Report Issue</div>
+      </div>
+    </div>
   </footer>
 
+  <script>
+    // Simple keyboard shortcut to open search
+    document.addEventListener('keydown', function(e) {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        document.querySelector('.search-bar input').focus();
+      }
+    });
+
+    // Fake search suggestions on focus
+    const searchInput = document.querySelector('.search-bar input');
+    searchInput.addEventListener('focus', function() {
+      this.placeholder = "Try: slope, netflix, calculator…";
+    });
+    
+    searchInput.addEventListener('blur', function() {
+      this.placeholder = "Search games, movies, sites…";
+    });
+  </script>
 </body>
 </html>
