@@ -697,7 +697,7 @@
 
             <div class="setting-group">
                 <div class="setting-label">Cloak Page Icon URL</div>
-                <input type="text" class="setting-input-field" id="cloakIcon" placeholder="e.g. https://..." value="">
+                <input type="text" class="setting-input-field" id="cloakIcon" placeholder="e.g. https://www.google.com/favicon.ico" value="">
             </div>
         </div>
     </div>
@@ -871,16 +871,35 @@
             });
         });
 
-        // Toggle switch
+        // Helper function to update favicon
+        function updateFavicon(iconUrl) {
+            // Remove existing favicons
+            const existingIcons = document.querySelectorAll("link[rel*='icon']");
+            existingIcons.forEach(icon => icon.remove());
+            
+            // Add new favicon
+            const link = document.createElement('link');
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.href = iconUrl;
+            document.head.appendChild(link);
+        }
+
+        // Toggle switch with improved favicon handling
         function toggleSwitch(el) {
             el.classList.toggle('active');
 
             // Tab cloaking
             if (el.id === 'tabCloak' && el.classList.contains('active')) {
                 const title = document.getElementById('cloakTitle').value || 'Google Classroom';
+                const iconUrl = document.getElementById('cloakIcon').value.trim();
                 document.title = title;
+                if (iconUrl) {
+                    updateFavicon(iconUrl);
+                }
             } else if (el.id === 'tabCloak') {
                 document.title = 'Desritory';
+                // Optionally reset to default icon or remove it
             }
         }
 
@@ -891,20 +910,18 @@
             }
         });
 
-        // Tab cloak listener
+        // Tab cloak title listener
         document.getElementById('cloakTitle').addEventListener('input', function() {
             if (document.getElementById('tabCloak').classList.contains('active')) {
                 document.title = this.value || 'Google Classroom';
             }
         });
 
+        // Tab cloak icon listener - FIXED VERSION
         document.getElementById('cloakIcon').addEventListener('input', function() {
-            if (this.value && document.getElementById('tabCloak').classList.contains('active')) {
-                let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-                link.type = 'image/x-icon';
-                link.rel = 'shortcut icon';
-                link.href = this.value;
-                document.getElementsByTagName('head')[0].appendChild(link);
+            const iconUrl = this.value.trim();
+            if (iconUrl) {
+                updateFavicon(iconUrl);
             }
         });
 
