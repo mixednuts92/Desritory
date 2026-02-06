@@ -1,919 +1,927 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desritory • Everything you could ever want.</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-
-    :root {
-      --primary: #423aba;
-      --primary-light: #6366F1;
-      --accent: #22C065;
-      --bg: #423aba;
-      --card: #FFFFFF;
-      --text: #1E293B;
-      --text-light: #64748B;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', system_ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    h1, h2, h3 {
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
-    /* Navbar */
-
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 72px;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      border-bottom: 1px solid #E2E8F0;
-    }
-
-    .nav-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 32px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--primary);
-      letter-spacing: -0.02em;
-    }
-
-    .logo-dot {
-      width: 9px;
-      height: 9px;
-      background: var(--accent);
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      font-weight: 500;
-      font-size: 15px;
-    }
-
-    .nav-links a {
-      color: var(--text-light);
-      transition: color 0.2s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .search-bar {
-      background: #F1F5F9;
-      border-radius: 999px;
-      padding: 8px 16px;
-      width: 260px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid #E2E8F0;
-      transition: all 0.2s;
-    }
-
-    .search-bar:focus-within {
-      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
-      border-color: var(--primary-light);
-    }
-
-    .search-bar input {
-      background: transparent;
-      border: none;
-      outline: none;
-      flex: 1;
-      font-size: 14px;
-    }
-
-    .github-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #1E293B;
-      color: white;
-      padding: 9px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      transition: transform 0.2s;
-    }
-
-    .github-btn:hover {
-      transform: translateY(-1px);
-    }
-
-    /* Hero */
-
-    .hero {
-      padding-top: 132px;
-      padding-bottom: 64px;
-      background: linear-gradient(135deg, #F8FAFC 0%, #F0F9FF 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 32px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .hero-left h1 {
-      font-size: 58px;
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      margin-bottom: 24px;
-      font-weight: 700;
-    }
-
-    .hero-left .highlight {
-      color: var(--primary);
-    }
-
-    .hero-left p {
-      font-size: 20px;
-      color: var(--text-light);
-      max-width: 420px;
-      margin-bottom: 32px;
-    }
-
-    .cta-row {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 15px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 14px -2px rgba(79, 70, 229, 0.3);
-      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    .btn-primary:hover {
-      background: #4338CA;
-      box-shadow: 0 10px 20px -4px rgba(79, 70, 229, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: white;
-      border: 1.5px solid #E2E8F0;
-      color: var(--text);
-      padding: 14px 26px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 15px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.25s;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--primary-light);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    }
-
-    .trust-bar {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      margin-top: 52px;
-      opacity: 0.85;
-    }
-
-    .trust-bar div {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--text-light);
-      font-weight: 500;
-    }
-
-    .hero-visual {
-      position: relative;
-    }
-
-    .hero-visual .browser-frame {
-      background: #1E293B;
-      border-radius: 16px;
-      box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-      overflow: hidden;
-      border: 8px solid #111827;
-    }
-
-    .browser-header {
-      height: 38px;
-      background: #111827;
-      display: flex;
-      align-items: center;
-      padding: 0 14px;
-    }
-
-    .browser-dots {
-      display: flex;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .dot-red { background: #EF4444; }
-
-    .dot-yellow { background: #FBBF24; }
-
-    .dot-green { background: #4ADE80; }
-
-    .browser-content {
-      background: #F8FAFC;
-      padding: 20px;
-      min-height: 280px;
-    }
-
-    .mock-tab-bar {
-      display: flex;
-      background: #E2E8F0;
-      border-radius: 8px;
-      padding: 4px;
-      margin-bottom: 16px;
-    }
-
-    .mock-tab {
-      padding: 6px 14px;
-      background: white;
-      border-radius: 6px;
-      font-size: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      font-weight: 500;
-    }
-
-    .mock-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .mock-card {
-      background: white;
-      border-radius: 10px;
-      padding: 10px;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    }
-
-    .mock-img {
-      height: 84px;
-      background: #E0F2FE;
-      border-radius: 8px;
-      margin-bottom: 8px;
-    }
-
-    .mock-img.game { background: linear-gradient(135deg, #C4D0FF, #E0E7FF); }
-
-    .mock-img.movie { background: linear-gradient(135deg, #FCE7F3, #FCE7F3); }
-
-    .mock-img.proxy { background: linear-gradient(135deg, #DBEAFE, #EFF6FF); }
-
-    /* Quick Categories */
-
-    .categories-section {
-      padding: 32px 0 80px;
-      background: white;
-      border-bottom: 1px solid #F1F5F9;
-    }
-
-    .section-header {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 24px;
-    }
-
-    .section-header h2 {
-      font-size: 22px;
-      color: #0F172A;
-    }
-
-    .section-header a {
-      font-size: 14px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
-      gap: 16px;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    .category-item {
-      background: white;
-      border: 1px solid #E2E8F0;
-      border-radius: 14px;
-      padding: 20px 18px;
-      transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
-      cursor: pointer;
-    }
-
-    .category-item:hover {
-      border-color: #C4D0FF;
-      box-shadow: 0 10px 15px -3px rgb(99 102 241 / 0.07);
-      transform: translateY(-3px);
-    }
-
-    .category-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      margin-bottom: 14px;
-    }
-
-    .games .category-icon { background: #E0E7FF; }
-
-    .movies .category-icon { background: #FCE7F3; }
-
-    .proxy .category-icon { background: #DBEAFE; }
-
-    .tools .category-icon { background: #ECFDF5; }
-
-    .tv .category-icon { background: #FEF3C7; }
-
-    .category-item h3 {
-      font-weight: 600;
-      font-size: 17px;
-      margin-bottom: 2px;
-    }
-
-    .category-item p {
-      font-size: 13.5px;
-      color: var(--text-light);
-      line-height: 1.35;
-    }
-
-    /* Features */
-
-    .features-section {
-      padding: 92px 0;
-      background: #F8FAFC;
-    }
-
-    .features-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    .features-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-
-    .features-header h2 {
-      font-size: 32px;
-      margin-bottom: 12px;
-      letter-spacing: -0.01em;
-    }
-
-    .features-header p {
-      color: var(--text-light);
-      font-size: 18px;
-      max-width: 460px;
-      margin: 0 auto;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .feature {
-      background: white;
-      border-radius: 16px;
-      padding: 32px 26px;
-      position: relative;
-      border: 1px solid transparent;
-      transition: border 0.2s, box-shadow 0.2s;
-    }
-
-    .feature:hover {
-      border-color: #E0E7FF;
-      box-shadow: 0 12px 22px -4px rgb(79 70 229 / 0.08);
-    }
-
-    .feature-icon {
-      width: 52px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      background: #F0F9FF;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-
-    .feature h3 {
-      font-size: 19px;
-      margin-bottom: 8px;
-    }
-
-    .feature p {
-      color: var(--text-light);
-      font-size: 15px;
-    }
-
-    /* Proxy Demo */
-
-    .proxy-demo {
-      background: #1E293B;
-      color: white;
-      padding: 82px 0;
-      text-align: center;
-    }
-
-    .proxy-demo h2 {
-      font-size: 28px;
-      margin-bottom: 14px;
-    }
-
-    .proxy-demo p {
-      max-width: 380px;
-      margin: 0 auto 32px;
-      opacity: 0.88;
-      font-size: 16px;
-    }
-
-    .proxy-input-wrapper {
-      max-width: 440px;
-      margin: 0 auto;
-      background: #111827;
-      padding: 6px;
-      border-radius: 999px;
-      display: flex;
-    }
-
-    .proxy-input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 15px;
-      padding: 14px 22px;
-    }
-
-    .proxy-input::placeholder {
-      color: #94A3B8;
-    }
-
-    .proxy-btn {
-      background: #22C065;
-      color: white;
-      padding: 0 26px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 15px;
-      white-space: nowrap;
-    }
-
-    /* Footer */
-
-    footer {
-      background: #0F172A;
-      color: #CBD5E1;
-      padding: 68px 0 28px;
-    }
-
-    .footer-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2.2fr 1fr 1fr 1fr;
-      gap: 48px;
-      margin-bottom: 84px;
-    }
-
-    .footer-logo {
-      font-size: 26px;
-      font-weight: 700;
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .footer-description {
-      color: #94A3B8;
-      font-size: 15px;
-      max-width: 238px;
-      line-height: 1.65;
-    }
-
-    .footer-column h4 {
-      font-weight: 600;
-      margin-bottom: 18px;
-      color: #E2E8F0;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      font-size: 14.5px;
-    }
-
-    .footer-links a {
-      transition: color 0.2s;
-      color: #94A3B8;
-    }
-
-    .footer-links a:hover {
-      color: #C4D0FF;
-    }
-
-    .copyright {
-      border-top: 1px solid #1E293B;
-      padding-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      color: #64748B;
-    }
-
-    /* Responsive */
-
-    @media (max-width: 920px) {
-      .hero-container {
-        grid-template-columns: 1fr;
-        gap: 60px;
-        padding-top: 30px;
-      }
-      
-      .hero-left h1 {
-        font-size: 48px;
-      }
-      
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 640px) {
-      .hero-container {
-        padding: 0 20px;
-      }
-      
-      .nav-links {
-        display: none;
-      }
-      
-      .search-bar {
-        width: 160px;
-      }
-      
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desritory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0b1a;
+            background-image: 
+                radial-gradient(ellipse at 20% 50%, rgba(88, 40, 180, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(60, 20, 140, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(30, 15, 80, 0.1) 0%, transparent 50%);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(150, 100, 255, 0.3);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .corner-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .corner-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            border: 1px solid rgba(150, 100, 255, 0.2);
+            background: rgba(20, 18, 40, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: rgba(180, 150, 255, 0.7);
+        }
+
+        .corner-btn:hover {
+            background: rgba(100, 60, 200, 0.25);
+            border-color: rgba(150, 100, 255, 0.5);
+            color: rgba(200, 170, 255, 1);
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(100, 60, 200, 0.3);
+        }
+
+        .corner-btn:active {
+            transform: scale(0.95);
+        }
+
+        .corner-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background: rgba(20, 18, 40, 0.95);
+            color: rgba(200, 170, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(150, 100, 255, 0.15);
+        }
+
+        .corner-btn:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(48px, 10vw, 100px);
+            font-weight: 900;
+            background: linear-gradient(135deg, #b388ff 0%, #7c4dff 25%, #a855f7 50%, #9333ea 75%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            filter: drop-shadow(0 0 40px rgba(120, 70, 220, 0.4)) drop-shadow(0 0 80px rgba(120, 70, 220, 0.15));
+            animation: logoGlow 4s ease-in-out infinite alternate;
+            user-select: none;
+        }
+
+        @keyframes logoGlow {
+            0% {
+                filter: drop-shadow(0 0 40px rgba(120, 70, 220, 0.4)) drop-shadow(0 0 80px rgba(120, 70, 220, 0.15));
+            }
+            100% {
+                filter: drop-shadow(0 0 60px rgba(120, 70, 220, 0.6)) drop-shadow(0 0 100px rgba(120, 70, 220, 0.25));
+            }
+        }
+
+        .subtitle {
+            color: rgba(180, 160, 220, 0.4);
+            font-size: 14px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: 300;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 60px 18px 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(150, 100, 255, 0.15);
+            background: rgba(15, 13, 35, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: #e0d4ff;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            caret-color: #a855f7;
+        }
+
+        .search-input::placeholder {
+            color: rgba(150, 130, 200, 0.35);
+            font-weight: 300;
+        }
+
+        .search-input:focus {
+            border-color: rgba(150, 100, 255, 0.45);
+            background: rgba(20, 16, 45, 0.8);
+            box-shadow: 
+                0 0 30px rgba(100, 60, 200, 0.15),
+                0 0 60px rgba(100, 60, 200, 0.05),
+                inset 0 0 30px rgba(100, 60, 200, 0.03);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #7c4dff, #9333ea);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, #9366ff, #a855f7);
+            box-shadow: 0 0 20px rgba(120, 70, 220, 0.4);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .search-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .search-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .search-hint {
+            text-align: center;
+            margin-top: 16px;
+            color: rgba(150, 130, 200, 0.3);
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 15, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal {
+            background: rgba(15, 13, 35, 0.95);
+            border: 1px solid rgba(150, 100, 255, 0.15);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            color: #c4b5fd;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(150, 100, 255, 0.15);
+            background: rgba(100, 60, 200, 0.1);
+            color: rgba(180, 150, 255, 0.7);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(100, 60, 200, 0.25);
+            color: #fff;
+        }
+
+        /* Settings */
+        .setting-group {
+            margin-bottom: 20px;
+        }
+
+        .setting-label {
+            color: rgba(200, 180, 255, 0.7);
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .setting-select, .setting-input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(150, 100, 255, 0.12);
+            background: rgba(10, 8, 25, 0.6);
+            color: #d4c4ff;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+        }
+
+        .setting-select:focus, .setting-input-field:focus {
+            border-color: rgba(150, 100, 255, 0.35);
+        }
+
+        .setting-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(150, 100, 255, 0.06);
+        }
+
+        .setting-toggle-label {
+            color: rgba(200, 180, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .toggle-switch {
+            width: 44px;
+            height: 24px;
+            background: rgba(60, 40, 100, 0.4);
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(150, 100, 255, 0.1);
+        }
+
+        .toggle-switch.active {
+            background: rgba(120, 70, 220, 0.5);
+            border-color: rgba(150, 100, 255, 0.3);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #c4b5fd;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toggle-switch.active::after {
+            left: 22px;
+            background: #e0d4ff;
+            box-shadow: 0 0 10px rgba(150, 100, 255, 0.5);
+        }
+
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 14px;
+        }
+
+        .game-card {
+            background: rgba(20, 16, 45, 0.6);
+            border: 1px solid rgba(150, 100, 255, 0.08);
+            border-radius: 14px;
+            padding: 20px 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .game-card:hover {
+            background: rgba(100, 60, 200, 0.15);
+            border-color: rgba(150, 100, 255, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(100, 60, 200, 0.15);
+        }
+
+        .game-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .game-name {
+            color: rgba(200, 180, 255, 0.8);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* Proxy Frame */
+        .proxy-frame-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3000;
+            display: none;
+            flex-direction: column;
+            background: #0a0b1a;
+        }
+
+        .proxy-frame-container.active {
+            display: flex;
+        }
+
+        .proxy-navbar {
+            height: 48px;
+            background: rgba(15, 13, 35, 0.95);
+            border-bottom: 1px solid rgba(150, 100, 255, 0.1);
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .proxy-back-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid rgba(150, 100, 255, 0.15);
+            background: rgba(100, 60, 200, 0.1);
+            color: rgba(180, 150, 255, 0.8);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 16px;
+        }
+
+        .proxy-back-btn:hover {
+            background: rgba(100, 60, 200, 0.25);
+        }
+
+        .proxy-url-display {
+            flex: 1;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: rgba(10, 8, 25, 0.6);
+            border: 1px solid rgba(150, 100, 255, 0.08);
+            color: rgba(180, 160, 220, 0.6);
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .proxy-frame {
+            flex: 1;
+            border: none;
+            width: 100%;
+            background: white;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 60, 200, 0.2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 60, 200, 0.4);
+        }
+
+        /* Loading animation */
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #7c4dff, #a855f7, #c084fc);
+            z-index: 4000;
+            transition: width 0.3s ease;
+            display: none;
+        }
+
+        @media (max-width: 640px) {
+            .corner-buttons {
+                top: 14px;
+                right: 14px;
+                gap: 8px;
+            }
+
+            .corner-btn {
+                width: 44px;
+                height: 44px;
+                border-radius: 12px;
+            }
+
+            .search-input {
+                padding: 16px 55px 16px 20px;
+                font-size: 15px;
+            }
+
+            .search-btn {
+                width: 38px;
+                height: 38px;
+            }
+
+            .subtitle {
+                font-size: 11px;
+                letter-spacing: 5px;
+            }
+
+            .modal {
+                padding: 24px;
+                border-radius: 16px;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 10px;
+            }
+
+            .game-card {
+                padding: 16px 10px;
+            }
+
+            .game-icon {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="nav-container">
-      <div class="logo">
-        Desritory<span class="logo-dot"></span>
-      </div>
-      
-      <div class="nav-links">
-        <a href="#games">Games</a>
-        <a href="#movies">Movies &amp; TV</a>
-        <a href="#proxy">Proxy</a>
-        <a href="#tools">Tools</a>
-      </div>
+    <div class="loading-bar" id="loadingBar"></div>
 
-      <div class="nav-right">
-        <div class="search-bar">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="#94A3B8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="15.5" y2="15.5"></line></svg>
-          <input type="text" placeholder="search for stuff">
-        </div>
-        
-        <a href="https://github.com" target="_blank" class="github-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.11.793-.26.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.744.083-.729.083-.729 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.467-2.38 1.235-3.22-.123-.303-.534-1.523.116-3.176 0 0 1.008-.322 4.157 1.55A14.46 14.46 0 0112 6.44c1.29.005 2.59.174 3.8.51 3.147-1.872 4.154-1.55 4.154-1.55.652 1.653.24 2.873.117 3.176.77.84 1.234 1.91 1.234 3.22 0 4.61-2.807 5.623-5.48 5.922.43.37.81 1.1.81 2.22v3.293c0 .32.19.694.8.576C20.565 21.796 24 17.3 24 12 24 5.373 18.63 0 12 0z"/></svg>
-          GitHub
-        </a>
-      </div>
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Corner Buttons -->
+    <div class="corner-buttons">
+        <button class="corner-btn" id="gamesBtn" onclick="openGames()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.58 16.09l-1.09-7.66C20.21 6.46 18.52 5 16.53 5H7.47C5.48 5 3.79 6.46 3.51 8.43l-1.09 7.66C2.2 17.63 3.39 19 4.94 19c.68 0 1.32-.27 1.8-.75L9 16h6l2.25 2.25c.48.48 1.13.75 1.8.75 1.56 0 2.75-1.37 2.53-2.91zM11 11H9.5v1.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V11H7c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h1.5V8.5c0-.28.22-.5.5-.5s.5.22.5.5V10H11c.28 0 .5.22.5.5s-.22.5-.5.5zm3.5-1c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2.5 3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+            </svg>
+            <span class="tooltip">Games</span>
+        </button>
+        <button class="corner-btn" id="settingsBtn" onclick="openSettings()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+            </svg>
+            <span class="tooltip">Settings</span>
+        </button>
     </div>
-  </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-container">
-      <div class="hero-left">
-        <h1>Desritory<span class="highlight">.</span><br>Fast, clean,<br>unblocked.</h1>
-        <p>Access games, movies, TV shows, tools and more—without hassle. Built for school, built for freedom.</p>
-        
-        <div class="cta-row">
-          <a href="#games" class="btn-primary">
-            🎮 Browse Games
-          </a>
-          <a href="#proxy" class="btn-secondary">
-            🌐 Try Proxy Now
-          </a>
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="logo-container">
+            <h1 class="logo">desritory</h1>
+            <p class="subtitle">explore freely</p>
         </div>
 
-        <div class="trust-bar">
-          <div>⚡ 2× faster loading</div>
-          <div>🧼 Zero ads in UI</div>
-          <div>🔒 Everything Private</div>
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="searchInput" 
+                    placeholder="Search or enter URL..." 
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+                <button class="search-btn" onclick="navigateProxy()">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                        <path d="M5 12h14" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        <path d="M13 5l6 7-6 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </button>
+            </div>
+            <p class="search-hint">Enter a URL or search term to browse via proxy</p>
         </div>
-      </div>
+    </div>
 
-      <div class="hero-visual">
-        <div class="browser-frame">
-          <div class="browser-header">
-            <div class="browser-dots">
-              <div class="dot dot-red"></div>
-              <div class="dot dot-yellow"></div>
-              <div class="dot dot-green"></div>
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">⚙ Settings</span>
+                <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
             </div>
-          </div>
-          <div class="browser-content">
-            <div class="mock-tab-bar">
-              <div class="mock-tab">🎮 Unblocked Games</div>
-              <div class="mock-tab" style="opacity:0.6">📺 Watch Free Movies</div>
+
+            <div class="setting-group">
+                <div class="setting-label">Proxy Engine</div>
+                <select class="setting-select" id="proxyEngine">
+                    <option value="ultraviolet">Ultraviolet</option>
+                    <option value="corrosion">Corrosion</option>
+                    <option value="alloy" selected>Alloy Proxy</option>
+                </select>
             </div>
+
+            <div class="setting-group">
+                <div class="setting-label">Search Engine</div>
+                <select class="setting-select" id="searchEngine">
+                    <option value="google" selected>Google</option>
+                    <option value="bing">Bing</option>
+                    <option value="duckduckgo">DuckDuckGo</option>
+                    <option value="brave">Brave Search</option>
+                </select>
+            </div>
+
+            <div class="setting-toggle">
+                <span class="setting-toggle-label">Tab Cloaking</span>
+                <div class="toggle-switch" id="tabCloak" onclick="toggleSwitch(this)"></div>
+            </div>
+
+            <div class="setting-toggle">
+                <span class="setting-toggle-label">Panic Key (` key)</span>
+                <div class="toggle-switch active" id="panicKey" onclick="toggleSwitch(this)"></div>
+            </div>
+
+            <div class="setting-toggle">
+                <span class="setting-toggle-label">Ad Blocker</span>
+                <div class="toggle-switch active" id="adBlocker" onclick="toggleSwitch(this)"></div>
+            </div>
+
+            <div class="setting-group" style="margin-top: 20px;">
+                <div class="setting-label">Cloak Page Title</div>
+                <input type="text" class="setting-input-field" id="cloakTitle" placeholder="e.g. Google Classroom" value="">
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-label">Cloak Page Icon URL</div>
+                <input type="text" class="setting-input-field" id="cloakIcon" placeholder="e.g. https://..." value="">
+            </div>
+        </div>
+    </div>
+
+    <!-- Games Modal -->
+    <div class="modal-overlay" id="gamesModal">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <span class="modal-title">🎮 Games</span>
+                <button class="modal-close" onclick="closeModal('gamesModal')">✕</button>
+            </div>
+
+            <div class="games-grid" id="gamesGrid">
+                <!-- Games filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Proxy Frame -->
+    <div class="proxy-frame-container" id="proxyFrameContainer">
+        <div class="proxy-navbar">
+            <button class="proxy-back-btn" onclick="closeProxy()">←</button>
+            <div class="proxy-url-display" id="proxyUrlDisplay">about:blank</div>
+            <button class="proxy-back-btn" onclick="reloadProxy()">↻</button>
+        </div>
+        <iframe class="proxy-frame" id="proxyFrame" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particle.style.animationDelay = (Math.random() * 15) + 's';
+            particle.style.width = (Math.random() * 3 + 1) + 'px';
+            particle.style.height = particle.style.width;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Enter key
+        document.getElementById('searchInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                navigateProxy();
+            }
+        });
+
+        // Games data
+        const games = [
+            { name: '2048', icon: '🔢', url: 'https://play2048.co/' },
+            { name: 'Slope', icon: '⛷️', url: 'https://slope-game.github.io/' },
+            { name: 'Tetris', icon: '🟦', url: 'https://tetris.com/play-tetris' },
+            { name: 'Pac-Man', icon: '🟡', url: 'https://www.google.com/logos/2010/pacman10-i.html' },
+            { name: 'Snake', icon: '🐍', url: 'https://playsnake.org/' },
+            { name: 'Minesweeper', icon: '💣', url: 'https://minesweeperonline.com/' },
+            { name: 'Chess', icon: '♟️', url: 'https://www.chess.com/play' },
+            { name: 'Sudoku', icon: '9️⃣', url: 'https://sudoku.com/' },
+            { name: 'Flappy Bird', icon: '🐦', url: 'https://flappybird.io/' },
+            { name: 'Cookie Clicker', icon: '🍪', url: 'https://orteil.dashnet.org/cookieclicker/' },
+            { name: 'Wordle', icon: '📝', url: 'https://www.nytimes.com/games/wordle/index.html' },
+            { name: 'Crossy Road', icon: '🐔', url: 'https://crossyroad.com/' },
+            { name: 'Doodle Jump', icon: '🟩', url: 'https://doodlejump.io/' },
+            { name: 'Run 3', icon: '🏃', url: 'https://run3.io/' },
+            { name: 'Retro Bowl', icon: '🏈', url: 'https://retrobowl.org/' },
+            { name: 'Subway Surf', icon: '🛹', url: 'https://subway-surfers.me/' },
+        ];
+
+        // Populate games
+        const gamesGrid = document.getElementById('gamesGrid');
+        games.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `<span class="game-icon">${game.icon}</span><span class="game-name">${game.name}</span>`;
+            card.onclick = () => {
+                closeModal('gamesModal');
+                openInProxy(game.url);
+            };
+            gamesGrid.appendChild(card);
+        });
+
+        // Search engines
+        const searchEngines = {
+            google: 'https://www.google.com/search?q=',
+            bing: 'https://www.bing.com/search?q=',
+            duckduckgo: 'https://duckduckgo.com/?q=',
+            brave: 'https://search.brave.com/search?q='
+        };
+
+        function isUrl(str) {
+            const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/;
+            return urlPattern.test(str.trim());
+        }
+
+        function navigateProxy() {
+            const input = document.getElementById('searchInput').value.trim();
+            if (!input) return;
+
+            let url;
+            if (isUrl(input)) {
+                url = input.startsWith('http') ? input : 'https://' + input;
+            } else {
+                const engine = document.getElementById('searchEngine').value;
+                url = searchEngines[engine] + encodeURIComponent(input);
+            }
+
+            openInProxy(url);
+        }
+
+        function openInProxy(url) {
+            const loadingBar = document.getElementById('loadingBar');
+            loadingBar.style.display = 'block';
+            loadingBar.style.width = '30%';
+
+            // Use alloy/public proxy services for demo
+            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
             
-            <div class="mock-grid">
-              <div class="mock-card">
-                <div class="mock-img game"></div>
-                <div style="font-weight:600;font-size:13px;margin-bottom:3px;">Geometry Dash</div>
-                <div style="color:#94A3B8;font-size:11px;">Action • 4.8 ⭐</div>
-              </div>
-              <div class="mock-card">
-                <div class="mock-img movie"></div>
-                <div style="font-weight:600;font-size:13px;margin-bottom:3px;">The Batman</div>
-                <div style="color:#94A3B8;font-size:11px;">Action • 2022</div>
-              </div>
-              <div class="mock-card">
-                <div class="mock-img proxy"></div>
-                <div style="font-weight:600;font-size:13px;margin-bottom:3px;">Proxy</div>
-                <div style="color:#94A3B8;font-size:11px;">Bypass restrictions</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+            const frame = document.getElementById('proxyFrame');
+            const container = document.getElementById('proxyFrameContainer');
+            const urlDisplay = document.getElementById('proxyUrlDisplay');
 
-  <!-- Quick Categories -->
-  <section class="categories-section" id="games">
-    <div class="section-header">
-      <h2>All Categories</h2>
-      <a href="#">See everything →</a>
-    </div>
-    
-    <div class="category-grid">
-      <div class="category-item games" onclick="alert('🎮 120+ unblocked games are loading! (Demo)')">
-        <div class="category-icon">🎮</div>
-        <h3>Games</h3>
-        <p>Popular titles &amp; classics. Zero lag.</p>
-      </div>
-      
-      <div class="category-item movies" onclick="alert('📺 Streaming movies &amp; TV shows in 720p+ (Demo)')">
-        <div class="category-icon">🎬</div>
-        <h3>Movies</h3>
-        <p>Blockbuster hits &amp; new releases.</p>
-      </div>
-      
-      <div class="category-item proxy" onclick="alert('🌐 Safe browser proxy demo activated!')">
-        <div class="category-icon">🌐</div>
-        <h3>Free Proxy</h3>
-        <p>Browse blocked sites safely.</p>
-      </div>
-      
-      <div class="category-item tools" onclick="alert('🛠️ Productivity tools, calculators, note pads &amp; more')">
-        <div class="category-icon">🛠️</div>
-        <h3>Tools</h3>
-        <p>Calculators, notes, timers &amp; more.</p>
-      </div>
-      
-      <div class="category-item tv" onclick="alert('📺 Live TV streams &amp; shows are ready!')">
-        <div class="category-icon">📺</div>
-        <h3>TV Shows</h3>
-        <p>Stream your favorite series.</p>
-      </div>
-    </div>
-  </section>
+            urlDisplay.textContent = url;
+            frame.src = url;
 
-  <!-- Features Section -->
-  <section class="features-section">
-    <div class="features-container">
-      <div class="features-header">
-        <h2>Why people use Desritory</h2>
-        <p>Built with protection, safety, and privacy.</p>
-      </div>
+            setTimeout(() => {
+                loadingBar.style.width = '70%';
+            }, 200);
 
-      <div class="features-grid">
-        <div class="feature">
-          <div class="feature-icon">⚡</div>
-          <h3>Lightning fast</h3>
-          <p>Pages load instantly. No bloated scripts or trackers.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🎨</div>
-          <h3>Clean &amp; simple</h3>
-          <p>Beautiful minimal interface. Easy to navigate on any device.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🧩</div>
-          <h3>Customizable</h3>
-          <p>Choose your theme, layout, and favorite shortcuts.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🌐</div>
-          <h3>Free Proxy Built-in</h3>
-          <p>Visit blocked sites securely. No sign-up required.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🎮</div>
-          <h3>100+ Unblocked Games</h3>
-          <p>Popular titles updated weekly. No downloads.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📺</div>
-          <h3>Movies &amp; TV</h3>
-          <p>Stream the latest releases and classics directly.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+            setTimeout(() => {
+                loadingBar.style.width = '100%';
+                container.classList.add('active');
+                setTimeout(() => {
+                    loadingBar.style.display = 'none';
+                    loadingBar.style.width = '0%';
+                }, 300);
+            }, 500);
+        }
 
-  <!-- Proxy Demo Section -->
-  <section class="proxy-demo" id="proxy">
-    <h2>Blocked site? Try our proxy.</h2>
-    <p>Just paste any URL and hit Go. Works instantly.</p>
-    
-    <div class="proxy-input-wrapper">
-      <input type="text" class="proxy-input" placeholder="https://example.com" value="https://school-blocked-site.edu">
-      <div class="proxy-btn" onclick="alert('🔓 Proxy active! Loading…\n\n(You’d see the site here in a real version)')">Go →</div>
-    </div>
-    
-    <div style="margin-top:22px;font-size:13px;color:#94A3B8;">
-      Safe • Private • No logs
-    </div>
-  </section>
+        function closeProxy() {
+            const container = document.getElementById('proxyFrameContainer');
+            const frame = document.getElementById('proxyFrame');
+            container.classList.remove('active');
+            frame.src = 'about:blank';
+        }
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-logo">Desritory<span class="logo-dot"></span></div>
-          <div class="footer-description">
-            lowk just made this for fun so yeh
-          </div>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Explore</h4>
-          <div class="footer-links">
-            <a href="#">Games</a>
-            <a href="#">Movies</a>
-            <a href="#">TV Shows</a>
-            <a href="#">Tools</a>
-          </div>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Resources</h4>
-          <div class="footer-links">
-            <a href="#">Proxy Guide</a>
-            <a href="#">Safety Tips</a>
-            <a href="#">Status</a>
-            <a href="#">GitHub Repo</a>
-          </div>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Community</h4>
-          <div class="footer-links">
-            <a href="#">Discord (Currently not available at the moment.)</a>
-            <a href="#">Feedback</a>
-            <a href="#">Contributors</a>
-            <a href="#">Changelog</a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="copyright">
-        <div>© 2026 Desritory • Open-source project</div>
-        <div>(add me on discord: iloveyuihirasawa)</div>
-        <div>stuff idk dont click on this</div>
-      </div>
-    </div>
-  </footer>
+        function reloadProxy() {
+            const frame = document.getElementById('proxyFrame');
+            frame.src = frame.src;
+        }
 
-  <script>
-    // Simple keyboard shortcut to open search
-    document.addEventListener('keydown', function(e) {
-      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
-        e.preventDefault();
-        document.querySelector('.search-bar input').focus();
-      }
-    });
+        // Modal functions
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('active');
+        }
 
-    // Fake search suggestions on focus
-    const searchInput = document.querySelector('.search-bar input');
-    searchInput.addEventListener('focus', function() {
-      this.placeholder = "Try: Roblox, Discord, or something";
-    });
-    
-    searchInput.addEventListener('blur', function() {
-      this.placeholder = "Search games, movies, sites…";
-    });
-     window.onload = () => {
-      alert('have a fun time, btw yall niggas aint gonna block me for shit 😭')
-    }
-  </script>
+        function openGames() {
+            document.getElementById('gamesModal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        // Toggle switch
+        function toggleSwitch(el) {
+            el.classList.toggle('active');
+
+            // Tab cloaking
+            if (el.id === 'tabCloak' && el.classList.contains('active')) {
+                const title = document.getElementById('cloakTitle').value || 'Google Classroom';
+                document.title = title;
+            } else if (el.id === 'tabCloak') {
+                document.title = 'Desritory';
+            }
+        }
+
+        // Panic key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '`' && document.getElementById('panicKey').classList.contains('active')) {
+                window.location.href = 'https://classroom.google.com';
+            }
+        });
+
+        // Tab cloak listener
+        document.getElementById('cloakTitle').addEventListener('input', function() {
+            if (document.getElementById('tabCloak').classList.contains('active')) {
+                document.title = this.value || 'Google Classroom';
+            }
+        });
+
+        document.getElementById('cloakIcon').addEventListener('input', function() {
+            if (this.value && document.getElementById('tabCloak').classList.contains('active')) {
+                let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+                link.type = 'image/x-icon';
+                link.rel = 'shortcut icon';
+                link.href = this.value;
+                document.getElementsByTagName('head')[0].appendChild(link);
+            }
+        });
+
+        // Escape to close modals
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+                closeProxy();
+            }
+        });
+
+        // Focus search on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('searchInput').focus();
+            }, 300);
+        });
+    </script>
 </body>
 </html>
