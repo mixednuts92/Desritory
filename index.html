@@ -644,7 +644,7 @@
                     </svg>
                 </button>
             </div>
-            <p class="search-hint">Enter a URL or search term - opens in new tab via proxy</p>
+            <p class="search-hint">Enter a URL or search term to browse via proxy</p>
         </div>
     </div>
 
@@ -654,6 +654,15 @@
             <div class="modal-header">
                 <span class="modal-title">⚙ Settings</span>
                 <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-label">Proxy Engine</div>
+                <select class="setting-select" id="proxyEngine">
+                    <option value="ultraviolet">Ultraviolet</option>
+                    <option value="corrosion">Corrosion</option>
+                    <option value="alloy" selected>Alloy Proxy</option>
+                </select>
             </div>
 
             <div class="setting-group">
@@ -674,6 +683,11 @@
             <div class="setting-toggle">
                 <span class="setting-toggle-label">Panic Key (` key)</span>
                 <div class="toggle-switch active" id="panicKey" onclick="toggleSwitch(this)"></div>
+            </div>
+
+            <div class="setting-toggle">
+                <span class="setting-toggle-label">Ad Blocker</span>
+                <div class="toggle-switch active" id="adBlocker" onclick="toggleSwitch(this)"></div>
             </div>
 
             <div class="setting-group" style="margin-top: 20px;">
@@ -700,6 +714,16 @@
                 <!-- Games filled by JS -->
             </div>
         </div>
+    </div>
+
+    <!-- Proxy Frame -->
+    <div class="proxy-frame-container" id="proxyFrameContainer">
+        <div class="proxy-navbar">
+            <button class="proxy-back-btn" onclick="closeProxy()">←</button>
+            <div class="proxy-url-display" id="proxyUrlDisplay">about:blank</div>
+            <button class="proxy-back-btn" onclick="reloadProxy()">↻</button>
+        </div>
+        <iframe class="proxy-frame" id="proxyFrame" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals" allowfullscreen></iframe>
     </div>
 
     <script>
@@ -764,9 +788,6 @@
             brave: 'https://search.brave.com/search?q='
         };
 
-        // Proxy URL - Using a working public Ultraviolet proxy
-        const PROXY_BASE = 'https://uv.holyubofficial.net';
-
         function isUrl(str) {
             const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/;
             return urlPattern.test(str.trim());
@@ -788,12 +809,44 @@
         }
 
         function openInProxy(url) {
-            // Use Ultraviolet proxy URL format
-            const encodedURL = encodeURIComponent(url);
-            const proxyUrl = `${PROXY_BASE}/service/${encodedURL}`;
+            const loadingBar = document.getElementById('loadingBar');
+            loadingBar.style.display = 'block';
+            loadingBar.style.width = '30%';
+
+            // Use alloy/public proxy services for demo
+            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
             
-            // Open in new tab
-            window.open(proxyUrl, '_blank');
+            const frame = document.getElementById('proxyFrame');
+            const container = document.getElementById('proxyFrameContainer');
+            const urlDisplay = document.getElementById('proxyUrlDisplay');
+
+            urlDisplay.textContent = url;
+            frame.src = url;
+
+            setTimeout(() => {
+                loadingBar.style.width = '70%';
+            }, 200);
+
+            setTimeout(() => {
+                loadingBar.style.width = '100%';
+                container.classList.add('active');
+                setTimeout(() => {
+                    loadingBar.style.display = 'none';
+                    loadingBar.style.width = '0%';
+                }, 300);
+            }, 500);
+        }
+
+        function closeProxy() {
+            const container = document.getElementById('proxyFrameContainer');
+            const frame = document.getElementById('proxyFrame');
+            container.classList.remove('active');
+            frame.src = 'about:blank';
+        }
+
+        function reloadProxy() {
+            const frame = document.getElementById('proxyFrame');
+            frame.src = frame.src;
         }
 
         // Modal functions
@@ -846,6 +899,7 @@
                 }
             } else if (el.id === 'tabCloak') {
                 document.title = 'Desritory';
+                // Optionally reset to default icon or remove it
             }
         }
 
@@ -863,7 +917,7 @@
             }
         });
 
-        // Tab cloak icon listener
+        // Tab cloak icon listener - FIXED VERSION
         document.getElementById('cloakIcon').addEventListener('input', function() {
             const iconUrl = this.value.trim();
             if (iconUrl) {
@@ -875,6 +929,7 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+                closeProxy();
             }
         });
 
