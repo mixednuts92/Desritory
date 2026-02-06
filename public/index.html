@@ -927,6 +927,18 @@
                 document.getElementById('searchInput').focus();
             }, 300);
         });
+
+        // Pointer Lock for games
+document.getElementById('proxyFrame').addEventListener('click', function() {
+    this.requestPointerLock();
+});
+
+// Exit pointer lock with ESC key
+document.addEventListener('pointerlockchange', function() {
+    if (!document.pointerLockElement) {
+        console.log('Pointer lock released');
+    }
+});
     </script>
 </body>
 </html>
