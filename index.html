@@ -727,186 +727,201 @@
     </div>
 
     <script>
-       <script>
-    /* =========================
-       PARTICLES (unchanged)
-       ========================= */
-    const particlesContainer = document.getElementById('particles');
-    for (let i = 0; i < 40; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-        particle.style.animationDelay = (Math.random() * 15) + 's';
-        particle.style.width = (Math.random() * 3 + 1) + 'px';
-        particle.style.height = particle.style.width;
-        particlesContainer.appendChild(particle);
-    }
-
-    /* =========================
-       FAVICON BASE (REQUIRED)
-       ========================= */
-    let favicon = document.querySelector("link[rel='icon']");
-    if (!favicon) {
-        favicon = document.createElement('link');
-        favicon.rel = 'icon';
-        favicon.type = 'image/png';
-        favicon.href = 'data:image/png;base64,iVBORw0KGgo='; // harmless placeholder
-        document.head.appendChild(favicon);
-    }
-
-    const originalTitle = document.title;
-    const originalFavicon = favicon.href;
-
-    /* =========================
-       SEARCH + PROXY
-       ========================= */
-    const searchEngines = {
-        google: 'https://www.google.com/search?q=',
-        bing: 'https://www.bing.com/search?q=',
-        duckduckgo: 'https://duckduckgo.com/?q=',
-        brave: 'https://search.brave.com/search?q='
-    };
-
-    function isUrl(str) {
-        return /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}/.test(str);
-    }
-
-    function navigateProxy() {
-        const input = document.getElementById('searchInput').value.trim();
-        if (!input) return;
-
-        let target;
-        if (isUrl(input)) {
-            target = input.startsWith('http') ? input : 'https://' + input;
-        } else {
-            const engine = document.getElementById('searchEngine').value;
-            target = searchEngines[engine] + encodeURIComponent(input);
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particle.style.animationDelay = (Math.random() * 15) + 's';
+            particle.style.width = (Math.random() * 3 + 1) + 'px';
+            particle.style.height = particle.style.width;
+            particlesContainer.appendChild(particle);
         }
 
-        openInProxy(target);
-    }
-
-    function openInProxy(url) {
-        const frame = document.getElementById('proxyFrame');
-        const container = document.getElementById('proxyFrameContainer');
-        const display = document.getElementById('proxyUrlDisplay');
-        const bar = document.getElementById('loadingBar');
-
-        bar.style.display = 'block';
-        bar.style.width = '30%';
-
-        display.textContent = url;
-
-        // ACTUAL proxy usage
-        frame.src = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-
-        setTimeout(() => bar.style.width = '70%', 200);
-        setTimeout(() => {
-            bar.style.width = '100%';
-            container.classList.add('active');
-            setTimeout(() => {
-                bar.style.display = 'none';
-                bar.style.width = '0%';
-            }, 300);
-        }, 500);
-    }
-
-    function closeProxy() {
-        document.getElementById('proxyFrameContainer').classList.remove('active');
-        document.getElementById('proxyFrame').src = 'about:blank';
-    }
-
-    function reloadProxy() {
-        const frame = document.getElementById('proxyFrame');
-        frame.src = frame.src;
-    }
-
-    /* =========================
-       MODALS
-       ========================= */
-    function openSettings() {
-        document.getElementById('settingsModal').classList.add('active');
-    }
-
-    function openGames() {
-        document.getElementById('gamesModal').classList.add('active');
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).classList.remove('active');
-    }
-
-    document.querySelectorAll('.modal-overlay').forEach(o => {
-        o.addEventListener('click', e => {
-            if (e.target === o) o.classList.remove('active');
+        // Enter key
+        document.getElementById('searchInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                navigateProxy();
+            }
         });
-    });
 
-    /* =========================
-       TOGGLES
-       ========================= */
-    function toggleSwitch(el) {
-        el.classList.toggle('active');
+        // Games data
+        const games = [
+            { name: '2048', icon: '🔢', url: 'https://play2048.co/' },
+            { name: 'Slope', icon: '⛷️', url: 'https://slope-game.github.io/' },
+            { name: 'Tetris', icon: '🟦', url: 'https://tetris.com/play-tetris' },
+            { name: 'Pac-Man', icon: '🟡', url: 'https://www.google.com/logos/2010/pacman10-i.html' },
+            { name: 'Snake', icon: '🐍', url: 'https://playsnake.org/' },
+            { name: 'Minesweeper', icon: '💣', url: 'https://minesweeperonline.com/' },
+            { name: 'Chess', icon: '♟️', url: 'https://www.chess.com/play' },
+            { name: 'Sudoku', icon: '9️⃣', url: 'https://sudoku.com/' },
+            { name: 'Flappy Bird', icon: '🐦', url: 'https://flappybird.io/' },
+            { name: 'Cookie Clicker', icon: '🍪', url: 'https://orteil.dashnet.org/cookieclicker/' },
+            { name: 'Wordle', icon: '📝', url: 'https://www.nytimes.com/games/wordle/index.html' },
+            { name: 'Crossy Road', icon: '🐔', url: 'https://crossyroad.com/' },
+            { name: 'Doodle Jump', icon: '🟩', url: 'https://doodlejump.io/' },
+            { name: 'Run 3', icon: '🏃', url: 'https://run3.io/' },
+            { name: 'Retro Bowl', icon: '🏈', url: 'https://retrobowl.org/' },
+            { name: 'Subway Surf', icon: '🛹', url: 'https://subway-surfers.me/' },
+        ];
 
-        if (el.id === 'tabCloak') {
-            if (el.classList.contains('active')) {
-                applyCloak();
+        // Populate games
+        const gamesGrid = document.getElementById('gamesGrid');
+        games.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `<span class="game-icon">${game.icon}</span><span class="game-name">${game.name}</span>`;
+            card.onclick = () => {
+                closeModal('gamesModal');
+                openInProxy(game.url);
+            };
+            gamesGrid.appendChild(card);
+        });
+
+        // Search engines
+        const searchEngines = {
+            google: 'https://www.google.com/search?q=',
+            bing: 'https://www.bing.com/search?q=',
+            duckduckgo: 'https://duckduckgo.com/?q=',
+            brave: 'https://search.brave.com/search?q='
+        };
+
+        function isUrl(str) {
+            const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/;
+            return urlPattern.test(str.trim());
+        }
+
+        function navigateProxy() {
+            const input = document.getElementById('searchInput').value.trim();
+            if (!input) return;
+
+            let url;
+            if (isUrl(input)) {
+                url = input.startsWith('http') ? input : 'https://' + input;
             } else {
-                document.title = originalTitle;
-                favicon.href = originalFavicon;
+                const engine = document.getElementById('searchEngine').value;
+                url = searchEngines[engine] + encodeURIComponent(input);
+            }
+
+            openInProxy(url);
+        }
+
+        function openInProxy(url) {
+            const loadingBar = document.getElementById('loadingBar');
+            loadingBar.style.display = 'block';
+            loadingBar.style.width = '30%';
+
+            // Use alloy/public proxy services for demo
+            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+            
+            const frame = document.getElementById('proxyFrame');
+            const container = document.getElementById('proxyFrameContainer');
+            const urlDisplay = document.getElementById('proxyUrlDisplay');
+
+            urlDisplay.textContent = url;
+            frame.src = url;
+
+            setTimeout(() => {
+                loadingBar.style.width = '70%';
+            }, 200);
+
+            setTimeout(() => {
+                loadingBar.style.width = '100%';
+                container.classList.add('active');
+                setTimeout(() => {
+                    loadingBar.style.display = 'none';
+                    loadingBar.style.width = '0%';
+                }, 300);
+            }, 500);
+        }
+
+        function closeProxy() {
+            const container = document.getElementById('proxyFrameContainer');
+            const frame = document.getElementById('proxyFrame');
+            container.classList.remove('active');
+            frame.src = 'about:blank';
+        }
+
+        function reloadProxy() {
+            const frame = document.getElementById('proxyFrame');
+            frame.src = frame.src;
+        }
+
+        // Modal functions
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function openGames() {
+            document.getElementById('gamesModal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        // Toggle switch
+        function toggleSwitch(el) {
+            el.classList.toggle('active');
+
+            // Tab cloaking
+            if (el.id === 'tabCloak' && el.classList.contains('active')) {
+                const title = document.getElementById('cloakTitle').value || 'Google Classroom';
+                document.title = title;
+            } else if (el.id === 'tabCloak') {
+                document.title = 'Desritory';
             }
         }
-    }
 
-    function applyCloak() {
-        const title = document.getElementById('cloakTitle').value || 'Google Classroom';
-        const icon = document.getElementById('cloakIcon').value;
+        // Panic key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '`' && document.getElementById('panicKey').classList.contains('active')) {
+                window.location.href = 'https://classroom.google.com';
+            }
+        });
 
-        document.title = title;
+        // Tab cloak listener
+        document.getElementById('cloakTitle').addEventListener('input', function() {
+            if (document.getElementById('tabCloak').classList.contains('active')) {
+                document.title = this.value || 'Google Classroom';
+            }
+        });
 
-        if (icon && /\.(ico|png|svg)$/.test(icon)) {
-            favicon.href = icon + '?v=' + Date.now();
-        }
-    }
+        document.getElementById('cloakIcon').addEventListener('input', function() {
+            if (this.value && document.getElementById('tabCloak').classList.contains('active')) {
+                let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+                link.type = 'image/x-icon';
+                link.rel = 'shortcut icon';
+                link.href = this.value;
+                document.getElementsByTagName('head')[0].appendChild(link);
+            }
+        });
 
-    document.getElementById('cloakTitle').addEventListener('input', () => {
-        if (document.getElementById('tabCloak').classList.contains('active')) {
-            applyCloak();
-        }
-    });
+        // Escape to close modals
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+                closeProxy();
+            }
+        });
 
-    document.getElementById('cloakIcon').addEventListener('input', () => {
-        if (document.getElementById('tabCloak').classList.contains('active')) {
-            applyCloak();
-        }
-    });
-
-    /* =========================
-       PANIC KEY
-       ========================= */
-    document.addEventListener('keydown', e => {
-        if (e.key === '`' && document.getElementById('panicKey').classList.contains('active')) {
-            window.location.replace('https://classroom.google.com');
-        }
-    });
-
-    /* =========================
-       ESC KEY
-       ========================= */
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
-            closeProxy();
-        }
-    });
-
-    /* =========================
-       ENTER KEY
-       ========================= */
-    document.getElementById('searchInput').addEventListener('keydown', e => {
-        if (e.key === 'Enter') navigateProxy();
-    });
+        // Focus search on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('searchInput').focus();
+            }, 300);
+        });
     </script>
 </body>
 </html>
