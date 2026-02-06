@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desritory</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="/uv/uv.bundle.js"></script>
+    <script src="/uv/uv.config.js"></script>
+    <script src="/baremux/bare.cjs"></script>
     <style>
         * {
             margin: 0;
@@ -83,6 +86,7 @@
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             color: rgba(180, 150, 255, 0.7);
+            position: relative;
         }
 
         .corner-btn:hover {
@@ -548,6 +552,30 @@
             display: none;
         }
 
+        /* Color customization buttons */
+        .color-btn {
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .color-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .color-btn:active {
+            transform: translateY(0);
+        }
+
         @media (max-width: 640px) {
             .corner-buttons {
                 top: 14px;
@@ -644,7 +672,7 @@
                     </svg>
                 </button>
             </div>
-            <p class="search-hint">Enter a URL or search term to browse via proxy</p>
+            <p class="search-hint">Enter a URL or search term to browse</p>
         </div>
     </div>
 
@@ -685,6 +713,20 @@
                 <div class="setting-label">Cloak Page Icon URL</div>
                 <input type="text" class="setting-input-field" id="cloakIcon" placeholder="e.g. https://www.google.com/favicon.ico" value="">
             </div>
+
+            <div class="setting-group" style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(150, 100, 255, 0.08);">
+                <div class="setting-label">🎨 Theme Customization</div>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px;">
+                    <button class="color-btn" data-color="purple" style="background: linear-gradient(135deg, #7c4dff, #9333ea);" onclick="changeTheme('purple')">Purple</button>
+                    <button class="color-btn" data-color="green" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="changeTheme('green')">Green</button>
+                    <button class="color-btn" data-color="blue" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);" onclick="changeTheme('blue')">Blue</button>
+                    <button class="color-btn" data-color="red" style="background: linear-gradient(135deg, #ef4444, #dc2626);" onclick="changeTheme('red')">Red</button>
+                    <button class="color-btn" data-color="pink" style="background: linear-gradient(135deg, #ec4899, #db2777);" onclick="changeTheme('pink')">Pink</button>
+                    <button class="color-btn" data-color="orange" style="background: linear-gradient(135deg, #f59e0b, #d97706);" onclick="changeTheme('orange')">Orange</button>
+                    <button class="color-btn" data-color="cyan" style="background: linear-gradient(135deg, #06b6d4, #0891b2);" onclick="changeTheme('cyan')">Cyan</button>
+                    <button class="color-btn" data-color="yellow" style="background: linear-gradient(135deg, #eab308, #ca8a04);" onclick="changeTheme('yellow')">Yellow</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -709,10 +751,21 @@
             <div class="proxy-url-display" id="proxyUrlDisplay">about:blank</div>
             <button class="proxy-back-btn" onclick="reloadProxy()">↻</button>
         </div>
-        <iframe class="proxy-frame" id="proxyFrame" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals" allowfullscreen></iframe>
+        <iframe class="proxy-frame" id="proxyFrame" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" allowfullscreen></iframe>
     </div>
 
     <script>
+        // Register Ultraviolet Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/uv/uv.sw.js', {
+                scope: '/service/'
+            }).then(() => {
+                console.log('✅ Ultraviolet Service Worker registered');
+            }).catch(err => {
+                console.error('❌ Service Worker registration failed:', err);
+            });
+        }
+
         // Particles
         const particlesContainer = document.getElementById('particles');
         for (let i = 0; i < 40; i++) {
@@ -751,7 +804,6 @@
             { name: 'Run 3', icon: '🏃', url: 'https://run3.io/' },
             { name: 'Retro Bowl', icon: '🏈', url: 'https://retrobowl.org/' },
             { name: 'Subway Surf', icon: '🛹', url: 'https://subway-surfers.me/' },
-            { name: 'Nazi Zombies', icon: '🧟', url: 'https://nzp.gay/' },
         ];
 
         // Populate games
@@ -796,21 +848,25 @@
         }
 
         function openInProxy(url) {
+            const loadingBar = document.getElementById('loadingBar');
+            loadingBar.style.display = 'block';
+            loadingBar.style.width = '30%';
+
             // Make sure URL has protocol
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
                 url = 'https://' + url;
             }
-            
-            const loadingBar = document.getElementById('loadingBar');
-            loadingBar.style.display = 'block';
-            loadingBar.style.width = '30%';
+
+            // Encode URL for Ultraviolet
+            const encodedUrl = __uv$config.encodeUrl(url);
+            const proxyUrl = '/service/' + encodedUrl;
             
             const frame = document.getElementById('proxyFrame');
             const container = document.getElementById('proxyFrameContainer');
             const urlDisplay = document.getElementById('proxyUrlDisplay');
 
             urlDisplay.textContent = url;
-            frame.src = url; // Load directly without proxy
+            frame.src = proxyUrl;
 
             setTimeout(() => {
                 loadingBar.style.width = '70%';
@@ -862,11 +918,9 @@
 
         // Helper function to update favicon
         function updateFavicon(iconUrl) {
-            // Remove existing favicons
             const existingIcons = document.querySelectorAll("link[rel*='icon']");
             existingIcons.forEach(icon => icon.remove());
             
-            // Add new favicon
             const link = document.createElement('link');
             link.type = 'image/x-icon';
             link.rel = 'shortcut icon';
@@ -874,11 +928,10 @@
             document.head.appendChild(link);
         }
 
-        // Toggle switch with improved favicon handling
+        // Toggle switch with favicon handling
         function toggleSwitch(el) {
             el.classList.toggle('active');
 
-            // Tab cloaking
             if (el.id === 'tabCloak' && el.classList.contains('active')) {
                 const title = document.getElementById('cloakTitle').value || 'Google Classroom';
                 const iconUrl = document.getElementById('cloakIcon').value.trim();
@@ -926,19 +979,109 @@
             setTimeout(() => {
                 document.getElementById('searchInput').focus();
             }, 300);
+            
+            // Load saved theme
+            const savedTheme = localStorage.getItem('desritory-theme') || 'purple';
+            changeTheme(savedTheme);
         });
 
-        // Pointer Lock for games
-document.getElementById('proxyFrame').addEventListener('click', function() {
-    this.requestPointerLock();
-});
+        // Color themes
+        const themes = {
+            purple: {
+                primary: '#7c4dff',
+                secondary: '#9333ea',
+                accent: '#a855f7',
+                light: '#c084fc',
+                glow: 'rgba(120, 70, 220, 0.4)'
+            },
+            green: {
+                primary: '#10b981',
+                secondary: '#059669',
+                accent: '#34d399',
+                light: '#6ee7b7',
+                glow: 'rgba(16, 185, 129, 0.4)'
+            },
+            blue: {
+                primary: '#3b82f6',
+                secondary: '#1d4ed8',
+                accent: '#60a5fa',
+                light: '#93c5fd',
+                glow: 'rgba(59, 130, 246, 0.4)'
+            },
+            red: {
+                primary: '#ef4444',
+                secondary: '#dc2626',
+                accent: '#f87171',
+                light: '#fca5a5',
+                glow: 'rgba(239, 68, 68, 0.4)'
+            },
+            pink: {
+                primary: '#ec4899',
+                secondary: '#db2777',
+                accent: '#f472b6',
+                light: '#f9a8d4',
+                glow: 'rgba(236, 72, 153, 0.4)'
+            },
+            orange: {
+                primary: '#f59e0b',
+                secondary: '#d97706',
+                accent: '#fbbf24',
+                light: '#fcd34d',
+                glow: 'rgba(245, 158, 11, 0.4)'
+            },
+            cyan: {
+                primary: '#06b6d4',
+                secondary: '#0891b2',
+                accent: '#22d3ee',
+                light: '#67e8f9',
+                glow: 'rgba(6, 182, 212, 0.4)'
+            },
+            yellow: {
+                primary: '#eab308',
+                secondary: '#ca8a04',
+                accent: '#facc15',
+                light: '#fde047',
+                glow: 'rgba(234, 179, 8, 0.4)'
+            }
+        };
 
-// Exit pointer lock with ESC key
-document.addEventListener('pointerlockchange', function() {
-    if (!document.pointerLockElement) {
-        console.log('Pointer lock released');
-    }
-});
+        function changeTheme(colorName) {
+            const theme = themes[colorName];
+            if (!theme) return;
+
+            // Save preference
+            localStorage.setItem('desritory-theme', colorName);
+
+            // Update CSS variables
+            document.documentElement.style.setProperty('--primary', theme.primary);
+            document.documentElement.style.setProperty('--secondary', theme.secondary);
+            document.documentElement.style.setProperty('--accent', theme.accent);
+            document.documentElement.style.setProperty('--light', theme.light);
+            document.documentElement.style.setProperty('--glow', theme.glow);
+
+            // Update logo gradient
+            const logo = document.querySelector('.logo');
+            logo.style.background = `linear-gradient(135deg, ${theme.light} 0%, ${theme.primary} 25%, ${theme.accent} 50%, ${theme.secondary} 75%, ${theme.light} 100%)`;
+            logo.style.webkitBackgroundClip = 'text';
+            logo.style.webkitTextFillColor = 'transparent';
+            logo.style.backgroundClip = 'text';
+
+            // Update search button
+            const searchBtn = document.querySelector('.search-btn');
+            searchBtn.style.background = `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`;
+
+            // Update loading bar
+            const loadingBar = document.querySelector('.loading-bar');
+            loadingBar.style.background = `linear-gradient(90deg, ${theme.primary}, ${theme.accent}, ${theme.light})`;
+
+            // Update all buttons and interactive elements
+            document.querySelectorAll('.corner-btn:hover, .game-card:hover').forEach(el => {
+                el.style.boxShadow = `0 0 25px ${theme.glow}`;
+            });
+        }
+
+        // Focus search on load (kept for backward compatibility)
+        
     </script>
 </body>
 </html>
