@@ -1,0 +1,18 @@
+{
+  "name": "desritory-with-ultraviolet",
+  "version": "1.0.0",
+  "description": "Desritory with integrated Ultraviolet proxy",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@titaniumnetwork-dev/ultraviolet": "^3.2.7",
+    "@mercuryworkshop/bare-mux": "^2.0.5",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
