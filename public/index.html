@@ -1067,13 +1067,14 @@
             </div>
 
             <div class="changelog-content" id="changelogContent">
+                <!-- Updated: Feb 7, 2026 v3 -->
                 <div class="changelog-entry">
                     <div class="changelog-version">v0.5.0</div>
                     <div class="changelog-date">February 7, 2026</div>
                     <div class="changelog-items">
                         <div class="changelog-item">will add more soon dw</div>
                         <div class="changelog-item">currently working on improving proxy</div>
-                        <div class="changelog-item">added B&W theme option </div>
+                        <div class="changelog-item">added B&W theme option</div>
                         <div class="changelog-item">attempting to add LOTS of games</div>
                         <div class="changelog-item">added a transition to make it look cool</div>
                         <div class="changelog-item">added a hopefully better tab cloaking</div>
@@ -1685,7 +1686,18 @@
                 url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
             }
 
-            loadProxiedContent(url);
+            // Get active tab or create new one if on home page
+            const activeTab = getActiveTab();
+            if (activeTab && !activeTab.url) {
+                // Current tab is empty, use it
+                loadProxiedContent(url);
+            } else {
+                // Create new tab for search
+                const newTabId = createNewTab('Searching...', url);
+                switchToTab(newTabId);
+                loadProxiedContent(url);
+            }
+            
             input.value = '';
         }
 
@@ -1702,6 +1714,7 @@
                 url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
             }
 
+            // Always load in current active tab
             loadProxiedContent(url);
         }
 
