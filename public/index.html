@@ -1686,16 +1686,23 @@
                 url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
             }
 
-            // Get active tab or create new one if on home page
+            // Get active tab
             const activeTab = getActiveTab();
-            if (activeTab && !activeTab.url) {
+            
+            if (!activeTab) {
+                console.error('No active tab found!');
+                // Create a new tab if somehow there isn't one
+                const newTabId = createNewTab('Searching...', url);
+                switchToTab(newTabId);
+                setTimeout(() => loadProxiedContent(url), 100);
+            } else if (!activeTab.url) {
                 // Current tab is empty, use it
                 loadProxiedContent(url);
             } else {
-                // Create new tab for search
+                // Current tab has content, create new tab
                 const newTabId = createNewTab('Searching...', url);
                 switchToTab(newTabId);
-                loadProxiedContent(url);
+                setTimeout(() => loadProxiedContent(url), 100);
             }
             
             input.value = '';
