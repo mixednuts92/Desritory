@@ -12,19 +12,302 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #7c4dff;
+            --secondary: #9333ea;
+            --accent: #a855f7;
+            --light: #c084fc;
+            --glow: rgba(120, 70, 220, 0.4);
+            --tab-bg: #2d2e30;
+            --tab-bg-hover: #46474a;
+            --tab-bg-active: #202124;
+            --nav-bg: #202124;
+            --tab-text: #e8eaed;
+        }
+
         body {
-            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
             background: #0a0b1a;
             background-image: 
                 radial-gradient(ellipse at 20% 50%, rgba(88, 40, 180, 0.08) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 20%, rgba(60, 20, 140, 0.06) 0%, transparent 50%),
                 radial-gradient(ellipse at 50% 80%, rgba(30, 15, 80, 0.1) 0%, transparent 50%);
-            font-family: 'Inter', sans-serif;
+            color: white;
             overflow-x: hidden;
-            position: relative;
-            transition: background 0.5s ease, background-image 0.5s ease;
+            min-height: 100vh;
+            transition: background 0.5s ease;
         }
 
+        /* Browser Tab Bar */
+        .tab-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 36px;
+            background: var(--tab-bg);
+            display: flex;
+            align-items: center;
+            padding: 0;
+            z-index: 10000;
+            gap: 0;
+            transition: background 0.3s ease;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--tab-bg);
+            font-size: 13px;
+            max-width: 200px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-right: 1px solid var(--nav-bg);
+            height: 100%;
+            transform-origin: center;
+            animation: slideInTab 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--tab-text);
+        }
+
+        @keyframes slideInTab {
+            from {
+                opacity: 0;
+                transform: translateX(-20px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .tab:hover {
+            background: var(--tab-bg-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab.active {
+            background: var(--tab-bg-active);
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab.closing {
+            animation: slideOutTab 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slideOutTab {
+            from {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+                max-width: 200px;
+                padding: 8px 12px;
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-20px) scale(0.8);
+                max-width: 0;
+                padding: 8px 0;
+            }
+        }
+
+        .tab-icon {
+            font-size: 16px;
+        }
+
+        .tab-title {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+            color: var(--tab-text);
+        }
+
+        .tab-close {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 16px;
+            opacity: 0.6;
+            transition: all 0.2s;
+            color: var(--tab-text);
+        }
+
+        .tab-close:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .new-tab-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 18px;
+            color: var(--tab-text);
+        }
+
+        .new-tab-btn:hover {
+            background: var(--tab-bg-hover);
+            transform: scale(1.1);
+        }
+
+        .new-tab-btn:active {
+            transform: scale(0.95);
+        }
+
+        .new-tab-btn.clicked {
+            animation: pulseNewTab 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes pulseNewTab {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                background: var(--tab-bg-hover);
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+            }
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed;
+            top: 36px;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: var(--nav-bg);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 8px;
+            z-index: 9999;
+            transition: background 0.3s ease;
+        }
+
+        .nav-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 18px;
+            color: var(--tab-text);
+            opacity: 0.7;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--tab-text);
+            opacity: 1;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .address-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--tab-bg);
+            border-radius: 20px;
+            padding: 8px 15px;
+            transition: all 0.2s;
+        }
+
+        .address-bar:hover {
+            background: var(--tab-bg-hover);
+        }
+
+        .address-bar:focus-within {
+            background: var(--tab-bg);
+            outline: 2px solid var(--primary);
+        }
+
+        .address-icon {
+            font-size: 18px;
+            color: var(--tab-text);
+            opacity: 0.6;
+        }
+
+        .address-input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--tab-text);
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .address-input::placeholder {
+            color: var(--tab-text);
+            opacity: 0.5;
+        }
+
+        .menu-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 20px;
+            color: var(--tab-text);
+            opacity: 0.7;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--tab-text);
+            opacity: 1;
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 90px 20px 20px;
+            position: relative;
+            z-index: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .container.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Particles */
         .particles {
             position: fixed;
             top: 0;
@@ -37,773 +320,553 @@
 
         .particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(150, 100, 255, 0.3);
+            width: 3px;
+            height: 3px;
+            background: var(--glow);
             border-radius: 50%;
-            animation: float linear infinite;
+            opacity: 0.3;
+            animation: float 15s infinite;
         }
 
         @keyframes float {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1);
-                opacity: 0;
-            }
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(100px, -100px); }
+            50% { transform: translate(-50px, -200px); }
+            75% { transform: translate(-150px, -100px); }
         }
 
+        /* Logo */
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 72px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            background: linear-gradient(135deg, var(--light) 0%, var(--primary) 25%, var(--accent) 50%, var(--secondary) 75%, var(--light) 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
+            text-shadow: 0 0 80px var(--glow);
+            margin-bottom: 15px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 15px 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px var(--glow);
+        }
+
+        .search-input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 18px;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        /* Shortcuts */
+        .shortcuts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .shortcut {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: white;
+        }
+
+        .shortcut:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--glow);
+        }
+
+        .shortcut img {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+        }
+
+        .shortcut-name {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* Browse Games Button */
+        .games-btn {
+            padding: 18px 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .games-btn:hover {
+            background: rgba(124, 77, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px var(--glow);
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+        }
+
+        /* Corner Buttons */
         .corner-buttons {
             position: fixed;
-            top: 20px;
+            top: 90px;
             right: 20px;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             z-index: 1000;
         }
 
         .corner-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            border: 1px solid rgba(150, 100, 255, 0.2);
-            background: rgba(20, 18, 40, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: rgba(180, 150, 255, 0.7);
-            position: relative;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            font-size: 20px;
         }
 
         .corner-btn:hover {
-            background: rgba(100, 60, 200, 0.25);
-            border-color: rgba(150, 100, 255, 0.5);
-            color: rgba(200, 170, 255, 1);
-            transform: scale(1.08);
-            box-shadow: 0 0 25px rgba(100, 60, 200, 0.3);
-        }
-
-        .corner-btn:active {
-            transform: scale(0.95);
-        }
-
-        .corner-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-        }
-
-        .tooltip {
-            position: absolute;
-            bottom: -35px;
-            left: 50%;
-            transform: translateX(-50%) translateY(5px);
-            background: rgba(20, 18, 40, 0.95);
-            color: rgba(200, 170, 255, 0.9);
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(150, 100, 255, 0.15);
-        }
-
-        .corner-btn:hover .tooltip {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .main-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo-container {
-            text-align: center;
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(48px, 10vw, 100px);
-            font-weight: 900;
-            background: linear-gradient(135deg, #b388ff 0%, #7c4dff 25%, #a855f7 50%, #9333ea 75%, #c084fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            filter: drop-shadow(0 0 40px rgba(120, 70, 220, 0.4)) drop-shadow(0 0 80px rgba(120, 70, 220, 0.15));
-            animation: logoGlow 4s ease-in-out infinite alternate;
-            user-select: none;
-        }
-
-        @keyframes logoGlow {
-            0% {
-                filter: drop-shadow(0 0 40px rgba(120, 70, 220, 0.4)) drop-shadow(0 0 80px rgba(120, 70, 220, 0.15));
-            }
-            100% {
-                filter: drop-shadow(0 0 60px rgba(120, 70, 220, 0.6)) drop-shadow(0 0 100px rgba(120, 70, 220, 0.25));
-            }
-        }
-
-        .subtitle {
-            color: rgba(180, 160, 220, 0.4);
-            font-size: 14px;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            margin-top: 10px;
-            font-weight: 300;
-        }
-
-        .browser-search-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin: 40px auto 0;
-        }
-
-        .browser-search-input {
-            width: 100%;
-            padding: 18px 60px 18px 24px;
-            border-radius: 16px;
-            border: 1px solid rgba(150, 100, 255, 0.15);
-            background: rgba(15, 13, 35, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            color: #e0d4ff;
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            caret-color: #a855f7;
-        }
-
-        .browser-search-input::placeholder {
-            color: rgba(150, 130, 200, 0.35);
-            font-weight: 300;
-        }
-
-        .browser-search-input:focus {
-            border-color: rgba(150, 100, 255, 0.45);
-            background: rgba(20, 16, 45, 0.8);
-            box-shadow: 
-                0 0 30px rgba(100, 60, 200, 0.15),
-                0 0 60px rgba(100, 60, 200, 0.05),
-                inset 0 0 30px rgba(100, 60, 200, 0.03);
-        }
-
-        .browser-search-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            border: none;
-            background: linear-gradient(135deg, #7c4dff, #9333ea);
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .browser-search-btn:hover {
-            background: linear-gradient(135deg, #9366ff, #a855f7);
-            box-shadow: 0 0 20px rgba(120, 70, 220, 0.4);
-            transform: translateY(-50%) scale(1.05);
-        }
-
-        .browser-search-btn:active {
-            transform: translateY(-50%) scale(0.95);
-        }
-
-        .browser-search-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: white;
-        }
-
-        .games-main-btn {
-            margin-top: 40px;
-            padding: 16px 40px;
-            border-radius: 16px;
-            border: 1px solid rgba(150, 100, 255, 0.3);
-            background: rgba(100, 60, 200, 0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            color: rgba(200, 170, 255, 0.9);
-            font-size: 16px;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 1px;
-        }
-
-        .games-main-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .games-main-btn:hover {
-            background: rgba(100, 60, 200, 0.3);
-            border-color: rgba(150, 100, 255, 0.5);
-            color: rgba(220, 190, 255, 1);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(100, 60, 200, 0.25);
+            box-shadow: 0 5px 20px var(--glow);
         }
 
-        .games-main-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
+        /* Settings Modal */
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 5, 15, 0.85);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 2000;
-            display: none;
+            z-index: 10001;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
-        .modal-overlay.active {
+        .modal.active {
             display: flex;
-            opacity: 1;
         }
 
-        .modal {
-            background: rgba(15, 13, 35, 0.95);
-            border: 1px solid rgba(150, 100, 255, 0.15);
+        .modal-content {
+            background: rgba(20, 20, 40, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            width: 100%;
+            padding: 30px;
             max-width: 500px;
+            width: 100%;
             max-height: 80vh;
             overflow-y: auto;
-            padding: 30px;
-            transform: scale(0.9) translateY(20px);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-overlay.active .modal {
-            transform: scale(1) translateY(0);
         }
 
         .modal-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
         }
 
         .modal-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
-            color: #c4b5fd;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        .modal-close {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            border: 1px solid rgba(150, 100, 255, 0.15);
-            background: rgba(100, 60, 200, 0.1);
-            color: rgba(180, 150, 255, 0.7);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: all 0.2s ease;
-        }
-
-        .modal-close:hover {
-            background: rgba(100, 60, 200, 0.25);
-            color: #fff;
-        }
-
-        /* Settings */
-        .setting-group {
-            margin-bottom: 20px;
-        }
-
-        .setting-label {
-            color: rgba(200, 180, 255, 0.7);
-            font-size: 13px;
-            margin-bottom: 8px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .setting-input-field {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1px solid rgba(150, 100, 255, 0.12);
-            background: rgba(10, 8, 25, 0.6);
-            color: #d4c4ff;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .setting-input-field:focus {
-            border-color: rgba(150, 100, 255, 0.35);
-        }
-
-        .setting-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 0;
-            border-bottom: 1px solid rgba(150, 100, 255, 0.06);
-        }
-
-        .setting-toggle-label {
-            color: rgba(200, 180, 255, 0.7);
-            font-size: 14px;
-        }
-
-        .toggle-switch {
-            width: 44px;
-            height: 24px;
-            background: rgba(60, 40, 100, 0.4);
-            border-radius: 12px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(150, 100, 255, 0.1);
-        }
-
-        .toggle-switch.active {
-            background: rgba(120, 70, 220, 0.5);
-            border-color: rgba(150, 100, 255, 0.3);
-        }
-
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            background: #c4b5fd;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .toggle-switch.active::after {
-            left: 22px;
-            background: #e0d4ff;
-            box-shadow: 0 0 10px rgba(150, 100, 255, 0.5);
-        }
-
-        /* Games Grid */
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 14px;
-        }
-
-        .game-card {
-            background: rgba(20, 16, 45, 0.6);
-            border: 1px solid rgba(150, 100, 255, 0.08);
-            border-radius: 14px;
-            padding: 20px 14px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .game-card:hover {
-            background: rgba(100, 60, 200, 0.15);
-            border-color: rgba(150, 100, 255, 0.25);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(100, 60, 200, 0.15);
-        }
-
-        .game-icon {
-            font-size: 36px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .game-name {
-            color: rgba(200, 180, 255, 0.8);
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-
-        /* Full Page Games View */
-        .games-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0b1a;
-            z-index: 1500;
-            display: none;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .games-page.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .games-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 30px;
-            background: rgba(15, 13, 35, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(150, 100, 255, 0.1);
-            gap: 20px;
-        }
-
-        .games-search-container {
-            position: relative;
-            flex: 1;
-            max-width: 400px;
-        }
-
-        .games-search-input {
-            width: 100%;
-            padding: 12px 20px 12px 44px;
-            border-radius: 12px;
-            border: 1px solid rgba(150, 100, 255, 0.15);
-            background: rgba(10, 8, 25, 0.6);
-            color: #e0d4ff;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .games-search-input::placeholder {
-            color: rgba(150, 130, 200, 0.35);
-        }
-
-        .games-search-input:focus {
-            border-color: rgba(150, 100, 255, 0.4);
-            background: rgba(15, 12, 30, 0.8);
-            box-shadow: 0 0 20px rgba(100, 60, 200, 0.1);
-        }
-
-        .games-search-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            fill: rgba(150, 130, 200, 0.4);
-            pointer-events: none;
-        }
-
-        .games-title {
-            font-family: 'Orbitron', sans-serif;
             font-size: 24px;
             font-weight: 700;
-            background: linear-gradient(135deg, #b388ff 0%, #7c4dff 50%, #a855f7 100%);
+            background: linear-gradient(135deg, var(--light), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 3px;
         }
 
-        .games-header-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: 1px solid rgba(150, 100, 255, 0.2);
-            background: rgba(20, 18, 40, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: rgba(180, 150, 255, 0.7);
+            opacity: 0.6;
+            transition: opacity 0.3s;
         }
 
-        .games-header-btn:hover {
-            background: rgba(100, 60, 200, 0.25);
-            border-color: rgba(150, 100, 255, 0.5);
-            color: rgba(200, 170, 255, 1);
-            transform: scale(1.08);
-            box-shadow: 0 0 25px rgba(100, 60, 200, 0.3);
-        }
-
-        .games-header-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .games-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 40px 30px;
-        }
-
-        .games-list {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .game-item {
-            background: rgba(20, 16, 45, 0.6);
-            border: 1px solid rgba(150, 100, 255, 0.08);
-            border-radius: 16px;
-            padding: 24px 28px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .game-item:hover {
-            background: rgba(100, 60, 200, 0.15);
-            border-color: rgba(150, 100, 255, 0.25);
-            transform: translateX(8px);
-            box-shadow: 0 8px 30px rgba(100, 60, 200, 0.15);
-        }
-
-        .game-item-icon {
-            font-size: 48px;
-            flex-shrink: 0;
-        }
-
-        .game-item-name {
-            color: rgba(220, 200, 255, 0.9);
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        /* Game Player */
-        .game-player {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2500;
-            display: none;
-            flex-direction: column;
-            background: #0a0b1a;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .game-player.active {
-            display: flex;
+        .close-btn:hover {
             opacity: 1;
         }
 
-        .game-player-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 24px;
-            background: rgba(15, 13, 35, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(150, 100, 255, 0.1);
+        .settings-section {
+            margin-bottom: 25px;
         }
 
-        .browser-tabs {
-            display: flex;
-            gap: 8px;
-            padding: 8px 24px;
-            background: rgba(10, 8, 25, 0.8);
-            border-bottom: 1px solid rgba(150, 100, 255, 0.1);
-            overflow-x: auto;
-            flex-wrap: nowrap;
-        }
-
-        .browser-tab {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(20, 16, 45, 0.6);
-            border: 1px solid rgba(150, 100, 255, 0.15);
-            border-radius: 8px;
-            color: rgba(200, 180, 255, 0.7);
-            font-size: 13px;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            min-width: 150px;
-            max-width: 200px;
-        }
-
-        .browser-tab.active {
-            background: rgba(100, 60, 200, 0.25);
-            border-color: rgba(150, 100, 255, 0.4);
-            color: rgba(220, 200, 255, 0.95);
-        }
-
-        .browser-tab:hover {
-            background: rgba(100, 60, 200, 0.2);
-            border-color: rgba(150, 100, 255, 0.3);
-        }
-
-        .tab-title {
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .tab-close {
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            color: rgba(200, 180, 255, 0.5);
+        .settings-label {
             font-size: 14px;
-            transition: all 0.2s ease;
-        }
-
-        .tab-close:hover {
-            background: rgba(150, 100, 255, 0.2);
-            color: rgba(220, 200, 255, 0.9);
-        }
-
-        .new-tab-btn {
-            padding: 8px 12px;
-            background: rgba(100, 60, 200, 0.15);
-            border: 1px solid rgba(150, 100, 255, 0.2);
-            border-radius: 8px;
-            color: rgba(200, 180, 255, 0.8);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 18px;
-            line-height: 1;
-        }
-
-        .new-tab-btn:hover {
-            background: rgba(100, 60, 200, 0.3);
-            border-color: rgba(150, 100, 255, 0.4);
-        }
-
-        .game-player-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
             font-weight: 600;
-            background: linear-gradient(135deg, #b388ff 0%, #7c4dff 50%, #a855f7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
+            margin-bottom: 12px;
+            opacity: 0.9;
         }
 
-        .game-player-controls {
-            display: flex;
-            gap: 12px;
+        .theme-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
-        .game-player-btn {
-            width: 40px;
-            height: 40px;
+        .theme-btn {
+            padding: 12px;
             border-radius: 10px;
-            border: 1px solid rgba(150, 100, 255, 0.2);
-            background: rgba(20, 18, 40, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: rgba(180, 150, 255, 0.7);
+            transition: all 0.3s;
+            font-size: 14px;
         }
 
-        .game-player-btn:hover {
-            background: rgba(100, 60, 200, 0.25);
-            border-color: rgba(150, 100, 255, 0.5);
-            color: rgba(200, 170, 255, 1);
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
             transform: scale(1.05);
         }
 
-        .game-player-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
+        .toggle-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 10px;
         }
 
-        .game-player-iframe {
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--primary);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(24px);
+        }
+
+        /* Changelog Content */
+        .changelog-content {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .changelog-entry {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .changelog-entry:last-child {
+            border-bottom: none;
+        }
+
+        .changelog-version {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .changelog-date {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .changelog-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .changelog-item {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            padding-left: 5px;
+        }
+
+        /* Games Page */
+        .games-page {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #0a0b1a;
+            z-index: 9999;
+            overflow-y: auto;
+        }
+
+        .games-page.active {
+            display: block;
+        }
+
+        .games-header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 11, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .games-title {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .games-search {
             flex: 1;
-            border: none;
+            max-width: 400px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .games-search:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .games-search::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .games-list {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .game-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .game-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateX(10px);
+            box-shadow: 0 5px 30px var(--glow);
+        }
+
+        .game-icon {
+            font-size: 40px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .game-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Browser Content */
+        .browser-content {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: 9998;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .browser-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .browser-frame {
             width: 100%;
-            background: #fff;
+            height: 100%;
+            border: none;
+            background: white;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .browser-frame.active {
+            opacity: 1;
         }
 
         /* Loading Screen */
         .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0b1a;
-            z-index: 3000;
             display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 11, 26, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 10002;
             align-items: center;
             justify-content: center;
             flex-direction: column;
@@ -814,901 +877,427 @@
             display: flex;
         }
 
-        .loading-spinner {
+        .loader {
             width: 60px;
             height: 60px;
-            border: 4px solid rgba(150, 100, 255, 0.1);
-            border-top: 4px solid #a855f7;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
 
         .loading-text {
-            font-family: 'Orbitron', sans-serif;
             font-size: 24px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #b388ff 0%, #7c4dff 50%, #a855f7 100%);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--light), var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 3px;
             animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        .loading-subtext {
-            color: rgba(180, 160, 220, 0.5);
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .skip-loading {
-            margin-top: 20px;
-            padding: 12px 28px;
-            border-radius: 10px;
-            border: 1px solid rgba(150, 100, 255, 0.3);
-            background: rgba(100, 60, 200, 0.15);
-            color: rgba(200, 170, 255, 0.9);
-            font-size: 14px;
-            font-weight: 600;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--primary);
+            border-radius: 25px;
+            color: white;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+            font-size: 14px;
         }
 
         .skip-loading:hover {
-            background: rgba(100, 60, 200, 0.3);
-            border-color: rgba(150, 100, 255, 0.5);
-            transform: translateY(-2px);
+            background: rgba(124, 77, 255, 0.2);
+            transform: scale(1.05);
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(100, 60, 200, 0.2);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(100, 60, 200, 0.4);
-        }
-
-        /* Color customization buttons */
-        .color-btn {
-            padding: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            color: white;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .color-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .color-btn:active {
-            transform: translateY(0);
-        }
-
-        @media (max-width: 640px) {
-            .corner-buttons {
-                top: 14px;
-                right: 14px;
-                gap: 8px;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 48px;
             }
 
-            .corner-btn {
-                width: 44px;
-                height: 44px;
-                border-radius: 12px;
+            .shortcuts {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .subtitle {
-                font-size: 11px;
-                letter-spacing: 5px;
-            }
-
-            .browser-search-wrapper {
-                max-width: 100%;
-                margin: 30px 0 0;
-            }
-
-            .browser-search-input {
-                padding: 16px 55px 16px 20px;
-                font-size: 15px;
-            }
-
-            .browser-search-btn {
-                width: 38px;
-                height: 38px;
-            }
-
-            .games-main-btn {
-                padding: 14px 32px;
-                font-size: 14px;
-                margin-top: 30px;
-            }
-
-            .games-main-btn svg {
-                width: 18px;
-                height: 18px;
-            }
-
-            .modal {
-                padding: 24px;
-                border-radius: 16px;
-            }
-
-            .games-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 10px;
-            }
-
-            .game-card {
-                padding: 16px 10px;
-            }
-
-            .game-icon {
-                font-size: 28px;
+            .theme-buttons {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .games-header {
-                padding: 16px 20px;
                 flex-wrap: wrap;
             }
 
-            .games-search-container {
-                order: 3;
+            .games-search {
                 width: 100%;
-                max-width: 100%;
-                margin-top: 12px;
-            }
-
-            .games-search-input {
-                padding: 10px 16px 10px 40px;
-                font-size: 13px;
-            }
-
-            .games-title {
-                font-size: 20px;
-            }
-
-            .games-content {
-                padding: 24px 20px;
-            }
-
-            .game-item {
-                padding: 18px 20px;
-                gap: 16px;
-            }
-
-            .game-item-icon {
-                font-size: 36px;
-            }
-
-            .game-item-name {
-                font-size: 16px;
+                max-width: none;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Particles Background -->
+    <div class="particles"></div>
 
-    <!-- Particles -->
-    <div class="particles" id="particles"></div>
+    <!-- Browser Tab Bar -->
+    <div class="tab-bar">
+        <div class="new-tab-btn">+</div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <button class="nav-btn" onclick="goBack()" title="Back">←</button>
+        <button class="nav-btn" onclick="goForward()" title="Forward">→</button>
+        <button class="nav-btn" onclick="reloadPage()" title="Reload">↻</button>
+        <div class="address-bar">
+            <span class="address-icon">🔒</span>
+            <input type="text" class="address-input" placeholder="Search Google or type a URL" id="addressBar">
+        </div>
+        <button class="menu-btn" onclick="openSettings()">⋮</button>
+    </div>
 
     <!-- Corner Buttons -->
     <div class="corner-buttons">
-        <button class="corner-btn" id="settingsBtn" onclick="openSettings()">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-            </svg>
-            <span class="tooltip">Settings</span>
-        </button>
+        <button class="corner-btn" onclick="openChangelog()">📋</button>
+        <button class="corner-btn" onclick="openSettings()">⚙️</button>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-container">
-        <div class="logo-container">
-            <h1 class="logo">desritory</h1>
-            <p class="subtitle">Browse Privately, Freely, and Anonymously</p>
-            
-            <!-- Browser Search Bar -->
-            <div class="browser-search-wrapper">
-                <input 
-                    type="text" 
-                    class="browser-search-input" 
-                    id="browserSearchInput" 
-                    placeholder="Enter URL or search term..." 
-                    autocomplete="off"
-                    spellcheck="false"
-                >
-                <button class="browser-search-btn" onclick="navigateBrowser()">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                        <path d="M5 12h14" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
-                        <path d="M13 5l6 7-6 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    </svg>
-                </button>
+    <!-- Main Container -->
+    <div class="container">
+        <h1 class="logo">DESRITORY</h1>
+        <p class="subtitle">Browse Privately, Freely, and Anonymously</p>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search or enter URL..." id="browserSearch">
+                <button class="search-btn" onclick="searchBrowser()">→</button>
             </div>
-            
-            <button class="games-main-btn" onclick="openGames()">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21.58 16.09l-1.09-7.66C20.21 6.46 18.52 5 16.53 5H7.47C5.48 5 3.79 6.46 3.51 8.43l-1.09 7.66C2.2 17.63 3.39 19 4.94 19c.68 0 1.32-.27 1.8-.75L9 16h6l2.25 2.25c.48.48 1.13.75 1.8.75 1.56 0 2.75-1.37 2.53-2.91zM11 11H9.5v1.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V11H7c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h1.5V8.5c0-.28.22-.5.5-.5s.5.22.5.5V10H11c.28 0 .5.22.5.5s-.22.5-.5.5zm3.5-1c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2.5 3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
-                </svg>
-                Browse Games
-            </button>
         </div>
+
+        <!-- Shortcuts -->
+        <div class="shortcuts">
+            <div class="shortcut" onclick="openSite('https://youtube.com')">
+                <img src="https://www.youtube.com/s/desktop/6e27c0b1/img/favicon_144x144.png" alt="YouTube">
+                <span class="shortcut-name">YouTube</span>
+            </div>
+            <div class="shortcut" onclick="openSite('https://reddit.com')">
+                <img src="https://www.redditstatic.com/desktop2x/img/favicon/apple-icon-180x180.png" alt="Reddit">
+                <span class="shortcut-name">Reddit</span>
+            </div>
+            <div class="shortcut" onclick="openSite('https://twitter.com')">
+                <img src="https://abs.twimg.com/responsive-web/client-web/icon-ios.77d25eba.png" alt="Twitter">
+                <span class="shortcut-name">Twitter</span>
+            </div>
+            <div class="shortcut" onclick="openSite('https://discord.com')">
+                <img src="https://discord.com/assets/f9bb9c4af2b9c32a2c5ee0014661546d.png" alt="Discord">
+                <span class="shortcut-name">Discord</span>
+            </div>
+        </div>
+
+        <!-- Browse Games Button -->
+        <button class="games-btn" onclick="showGamesPage()">Browse Games</button>
+
+        <!-- Footer -->
+        <div class="footer">©2025 Desritory</div>
     </div>
 
     <!-- Settings Modal -->
-    <div class="modal-overlay" id="settingsModal">
-        <div class="modal">
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title">⚙ Settings</span>
-                <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+                <h2 class="modal-title">Settings</h2>
+                <button class="close-btn" onclick="closeSettings()">×</button>
             </div>
 
-            <div class="setting-toggle">
-                <span class="setting-toggle-label">Tab Cloaking</span>
-                <div class="toggle-switch" id="tabCloak" onclick="toggleSwitch(this)"></div>
+            <div class="settings-section">
+                <div class="settings-label">Theme</div>
+                <div class="theme-buttons">
+                    <button class="theme-btn" onclick="changeTheme('purple')" style="background: linear-gradient(135deg, #7c4dff, #9333ea);">Purple</button>
+                    <button class="theme-btn" onclick="changeTheme('green')" style="background: linear-gradient(135deg, #10b981, #059669);">Green</button>
+                    <button class="theme-btn" onclick="changeTheme('blue')" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">Blue</button>
+                    <button class="theme-btn" onclick="changeTheme('red')" style="background: linear-gradient(135deg, #ef4444, #dc2626);">Red</button>
+                    <button class="theme-btn" onclick="changeTheme('pink')" style="background: linear-gradient(135deg, #ec4899, #db2777);">Pink</button>
+                    <button class="theme-btn" onclick="changeTheme('orange')" style="background: linear-gradient(135deg, #f59e0b, #d97706);">Orange</button>
+                    <button class="theme-btn" onclick="changeTheme('cyan')" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">Cyan</button>
+                    <button class="theme-btn" onclick="changeTheme('yellow')" style="background: linear-gradient(135deg, #eab308, #ca8a04);">Yellow</button>
+                    <button class="theme-btn" onclick="changeTheme('blackwhite')" style="background: linear-gradient(135deg, #666, #222);">B&W</button>
+                </div>
             </div>
 
-            <div class="setting-toggle">
-                <span class="setting-toggle-label">Panic Key (' key)</span>
-                <div class="toggle-switch active" id="panicKey" onclick="toggleSwitch(this)"></div>
+            <div class="settings-section">
+                <div class="settings-label">Tab Cloaking</div>
+                <div class="toggle-option">
+                    <span>Enable Tab Cloaking</span>
+                    <div class="toggle-switch" id="cloakToggle" onclick="toggleCloak()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
             </div>
 
-            <div class="setting-group" style="margin-top: 20px;">
-                <div class="setting-label">Cloak Page Title</div>
-                <input type="text" class="setting-input-field" id="cloakTitle" placeholder="e.g. Google Classroom" value="">
-            </div>
-
-            <div class="setting-group">
-                <div class="setting-label">Cloak Page Icon URL</div>
-                <input type="text" class="setting-input-field" id="cloakIcon" placeholder="e.g. https://www.google.com/favicon.ico" value="">
-            </div>
-
-            <div class="setting-group" style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(150, 100, 255, 0.08);">
-                <div class="setting-label">🎨 Theme Customization</div>
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px;">
-                    <button class="color-btn" data-color="purple" style="background: linear-gradient(135deg, #7c4dff, #9333ea);" onclick="changeTheme('purple')">Purple</button>
-                    <button class="color-btn" data-color="green" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="changeTheme('green')">Green</button>
-                    <button class="color-btn" data-color="blue" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);" onclick="changeTheme('blue')">Blue</button>
-                    <button class="color-btn" data-color="red" style="background: linear-gradient(135deg, #ef4444, #dc2626);" onclick="changeTheme('red')">Red</button>
-                    <button class="color-btn" data-color="pink" style="background: linear-gradient(135deg, #ec4899, #db2777);" onclick="changeTheme('pink')">Pink</button>
-                    <button class="color-btn" data-color="orange" style="background: linear-gradient(135deg, #f59e0b, #d97706);" onclick="changeTheme('orange')">Orange</button>
-                    <button class="color-btn" data-color="cyan" style="background: linear-gradient(135deg, #06b6d4, #0891b2);" onclick="changeTheme('cyan')">Cyan</button>
-                    <button class="color-btn" data-color="yellow" style="background: linear-gradient(135deg, #eab308, #ca8a04);" onclick="changeTheme('yellow')">Yellow</button>
-                    <button class="color-btn" data-color="blackwhite" style="background: linear-gradient(135deg, #1a1a1a, #4a4a4a);" onclick="changeTheme('blackwhite')">B&W</button>
+            <div class="settings-section">
+                <div class="settings-label">Panic Key (' key)</div>
+                <div class="toggle-option">
+                    <span>Enable Panic Key</span>
+                    <div class="toggle-switch" id="panicToggle" onclick="togglePanic()">
+                        <div class="toggle-slider"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Games Modal -->
-    <div class="modal-overlay" id="gamesModal">
-        <div class="modal" style="max-width: 600px;">
+    <!-- Changelog Modal -->
+    <div class="modal" id="changelogModal">
+        <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title">🎮 Games</span>
-                <button class="modal-close" onclick="closeModal('gamesModal')">✕</button>
+                <h2 class="modal-title">Updates & Changelog</h2>
+                <button class="close-btn" onclick="closeChangelog()">×</button>
             </div>
 
-            <div class="games-grid" id="gamesGrid">
-                <!-- Games filled by JS -->
+            <div class="changelog-content" id="changelogContent">
+                <div class="changelog-entry">
+                    <div class="changelog-version">v1.0.0</div>
+                    <div class="changelog-date">February 7, 2026</div>
+                    <div class="changelog-items">
+                        <div class="changelog-item">✨ Initial release</div>
+                        <div class="changelog-item">🌐 Multi-tab browser with proxy support</div>
+                        <div class="changelog-item">🎨 9 theme options (default: Black & White)</div>
+                        <div class="changelog-item">🎮 Games library with search</div>
+                        <div class="changelog-item">⚡ Smooth animations and transitions</div>
+                        <div class="changelog-item">🔒 Tab cloaking feature</div>
+                        <div class="changelog-item">🚨 Panic key support</div>
+                        <div class="changelog-item">📱 Fully responsive design</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Full Page Games View -->
+    <!-- Games Page -->
     <div class="games-page" id="gamesPage">
         <div class="games-header">
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <button class="games-header-btn" onclick="closeGamesPage()" style="width: auto; padding: 0 16px; gap: 8px;">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 18px; height: 18px;">
-                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                    </svg>
-                    <span style="font-size: 14px; font-weight: 600;">Back</span>
-                </button>
-                <h2 class="games-title">GAMES</h2>
-            </div>
-            <div class="games-search-container">
-                <input 
-                    type="text" 
-                    class="games-search-input" 
-                    id="gamesSearchInput"
-                    placeholder="Search games..."
-                    autocomplete="off"
-                    spellcheck="false"
-                >
-                <svg class="games-search-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                </svg>
-            </div>
-            <button class="games-header-btn" onclick="openSettings()">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-                </svg>
-            </button>
+            <button class="back-btn" onclick="closeGames()">← Back</button>
+            <h2 class="games-title">GAMES</h2>
+            <input type="text" class="games-search" id="gamesSearch" placeholder="🔍 Search games...">
+            <button class="corner-btn" onclick="openSettings()">⚙️</button>
         </div>
-        <div class="games-content">
-            <div class="games-list" id="gamesList">
-                <!-- Games filled by JS -->
-            </div>
-        </div>
+        <div class="games-list" id="gamesList"></div>
     </div>
 
-    <!-- Game Player -->
-    <div class="game-player" id="gamePlayer">
-        <div class="browser-tabs" id="browserTabs">
-            <!-- Tabs will be added here by JavaScript -->
-        </div>
-        <div class="game-player-header">
-            <h3 class="game-player-title" id="gamePlayerTitle">Browser</h3>
-            <div class="game-player-controls">
-                <button class="game-player-btn" onclick="reloadCurrentTab()" title="Reload">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
-                    </svg>
-                </button>
-                <button class="game-player-btn" onclick="openGameNewTab()" title="Open in New Tab">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
-                    </svg>
-                </button>
-                <button class="game-player-btn" onclick="closeGamePlayer()" title="Close">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <iframe class="game-player-iframe" id="gamePlayerIframe" allowfullscreen></iframe>
+    <!-- Browser Content (Hidden initially, shows when loading a site) -->
+    <div class="browser-content" id="browserContent">
+        <iframe class="browser-frame" id="browserFrame" style="display: none;"></iframe>
     </div>
 
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">LOADING GAME...</div>
-        <div class="loading-subtext" id="loadingGameName">Please wait</div>
+        <div class="loader"></div>
+        <div class="loading-text" id="loadingText">LOADING...</div>
         <button class="skip-loading" onclick="skipLoading()">Skip Loading</button>
     </div>
 
     <script>
-        // Particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 40; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            particle.style.animationDelay = (Math.random() * 15) + 's';
-            particle.style.width = (Math.random() * 3 + 1) + 'px';
-            particle.style.height = particle.style.width;
-            particlesContainer.appendChild(particle);
-        }
-
-        // Games data - these will open in a new tab
-        const games = [
-            { name: '2048', icon: '🔢', url: 'https://play2048.co/' },
-            { name: 'Slope', icon: '⛷️', url: 'https://slope-game.github.io/' },
-            { name: 'Tetris', icon: '🟦', url: 'https://tetris.com/play-tetris' },
-            { name: 'Pac-Man', icon: '🟡', url: 'https://www.google.com/logos/2010/pacman10-i.html' },
-            { name: 'Snake', icon: '🐍', url: 'https://playsnake.org/' },
-            { name: 'Minesweeper', icon: '💣', url: 'https://minesweeperonline.com/' },
-            { name: 'Chess', icon: '♟️', url: 'https://www.chess.com/play' },
-            { name: 'Sudoku', icon: '9️⃣', url: 'https://sudoku.com/' },
-            { name: 'Flappy Bird', icon: '🐦', url: 'https://flappybird.io/' },
-            { name: 'Cookie Clicker', icon: '🍪', url: 'https://orteil.dashnet.org/cookieclicker/' },
-            { name: 'Wordle', icon: '📝', url: 'https://www.nytimes.com/games/wordle/index.html' },
-            { name: 'Crossy Road', icon: '🐔', url: 'https://crossyroad.com/' },
-            { name: 'Doodle Jump', icon: '🟩', url: 'https://doodlejump.io/' },
-            { name: 'Run 3', icon: '🏃', url: 'https://run3.io/' },
-            { name: 'Retro Bowl', icon: '🏈', url: 'https://retrobowl.org/' },
-            { name: 'Subway Surf', icon: '🛹', url: 'https://subway-surfers.me/' },
-        ];
-
-        // Populate games grid (for modal - keeping for backward compatibility)
-        const gamesGrid = document.getElementById('gamesGrid');
-        games.forEach(game => {
-            const card = document.createElement('div');
-            card.className = 'game-card';
-            card.innerHTML = `<span class="game-icon">${game.icon}</span><span class="game-name">${game.name}</span>`;
-            card.onclick = () => {
-                window.open(game.url, '_blank');
-            };
-            gamesGrid.appendChild(card);
-        });
-
-        // Populate games list (for full page view)
-        const gamesList = document.getElementById('gamesList');
-        games.forEach(game => {
-            const item = document.createElement('div');
-            item.className = 'game-item';
-            item.setAttribute('data-game-name', game.name.toLowerCase());
-            item.innerHTML = `
-                <span class="game-item-icon">${game.icon}</span>
-                <span class="game-item-name">${game.name}</span>
-            `;
-            item.onclick = () => {
-                openGamePlayer(game.name, game.url);
-            };
-            gamesList.appendChild(item);
-        });
-
-        // Game player functions
-        let currentGameUrl = '';
-        let currentGameName = '';
-
-        // Browser tabs system
-        let browserTabs = [];
-        let activeTabId = null;
-        let tabIdCounter = 0;
-
-        function createTab(url, title) {
-            const tabId = tabIdCounter++;
-            const tab = {
-                id: tabId,
-                url: url,
-                title: title || 'New Tab'
-            };
-            browserTabs.push(tab);
-            renderTabs();
-            switchToTab(tabId);
-            return tabId;
-        }
-
-        function renderTabs() {
-            const tabsContainer = document.getElementById('browserTabs');
-            tabsContainer.innerHTML = '';
-            
-            browserTabs.forEach(tab => {
-                const tabEl = document.createElement('div');
-                tabEl.className = 'browser-tab' + (tab.id === activeTabId ? ' active' : '');
-                tabEl.innerHTML = `
-                    <span class="tab-title">${tab.title}</span>
-                    <span class="tab-close" onclick="closeTab(${tab.id}, event)">✕</span>
-                `;
-                tabEl.onclick = (e) => {
-                    if (!e.target.classList.contains('tab-close')) {
-                        switchToTab(tab.id);
-                    }
-                };
-                tabsContainer.appendChild(tabEl);
-            });
-            
-            // Add new tab button
-            const newTabBtn = document.createElement('button');
-            newTabBtn.className = 'new-tab-btn';
-            newTabBtn.innerHTML = '+';
-            newTabBtn.onclick = () => createNewTab();
-            tabsContainer.appendChild(newTabBtn);
-        }
-
-        function switchToTab(tabId) {
-            activeTabId = tabId;
-            const tab = browserTabs.find(t => t.id === tabId);
-            if (!tab) return;
-            
-            const iframe = document.getElementById('gamePlayerIframe');
-            const title = document.getElementById('gamePlayerTitle');
-            
-            title.textContent = tab.title;
-            currentGameUrl = tab.url;
-            currentGameName = tab.title;
-            
-            // Load URL in iframe
-            currentProxyIndex = 0;
-            const proxiedUrl = PROXY_SERVICES[currentProxyIndex](tab.url);
-            iframe.src = proxiedUrl;
-            
-            renderTabs();
-        }
-
-        function closeTab(tabId, event) {
-            event.stopPropagation();
-            const index = browserTabs.findIndex(t => t.id === tabId);
-            if (index === -1) return;
-            
-            browserTabs.splice(index, 1);
-            
-            if (browserTabs.length === 0) {
-                closeGamePlayer();
-                return;
-            }
-            
-            if (activeTabId === tabId) {
-                const newActiveTab = browserTabs[Math.max(0, index - 1)];
-                switchToTab(newActiveTab.id);
-            } else {
-                renderTabs();
-            }
-        }
-
-        function createNewTab() {
-            createTab('https://www.google.com', 'Google');
-        }
-
-        function reloadCurrentTab() {
-            if (activeTabId !== null) {
-                switchToTab(activeTabId);
-            }
-        }
-
-        function reloadGame() {
-            // For games (non-browser) - try next proxy
-            const iframe = document.getElementById('gamePlayerIframe');
-            currentProxyIndex = (currentProxyIndex + 1) % PROXY_SERVICES.length;
-            const proxiedUrl = PROXY_SERVICES[currentProxyIndex](currentGameUrl);
-            iframe.src = proxiedUrl;
-        }
-
-        // Multiple proxy options to try
+        // Proxy configuration - YOUR WORKING PROXY!
         const PROXY_SERVICES = [
-            // Replace this URL with YOUR deployed proxy
-            url => `https://your-proxy-name.vercel.app/service/hvtr%3A/${btoa(url)}`,
-            // Backup options
-            url => `https://shimmer.rubynetwork.co/service/gateway?url=${encodeURIComponent(url)}`,
-            url => `https://holyubofficial.net/?url=${encodeURIComponent(url)}`,
-            // Direct bypass attempt
+            // Your Holy Unblocker proxy on Vercel
+            url => `https://website-legacy-ashy.vercel.app/service/hvtrs8%2F-${btoa(url).replace(/=/g, '%3D')}`,
+            // Backup: Try direct iframe (will fail for most sites due to X-Frame-Options)
             url => url
         ];
 
-        let currentProxyIndex = 0;
+        let currentProxyUrl = '';
+        let currentGameName = '';
+        let loadingTimeout;
+        
+        // Tab management
+        let tabs = [];
+        let activeTabId = null;
+        let nextTabId = 1;
 
-        function openGamePlayer(gameName, gameUrl) {
-            currentGameUrl = gameUrl;
-            currentGameName = gameName;
+        // Initialize with first tab
+        function initializeTabs() {
+            createNewTab('New Tab', '', true);
+        }
+
+        function createNewTab(title = 'New Tab', url = '', isInitial = false) {
+            const tabId = nextTabId++;
             
-            // Show loading screen
-            const loadingScreen = document.getElementById('loadingScreen');
-            const loadingGameName = document.getElementById('loadingGameName');
-            const loadingText = document.querySelector('.loading-text');
-            const loadingSpinner = document.querySelector('.loading-spinner');
+            const tab = {
+                id: tabId,
+                title: title,
+                url: url,
+                element: null,
+                iframeElement: null
+            };
             
-            loadingScreen.classList.add('active');
-            loadingGameName.textContent = `Loading ${gameName}...`;
+            tabs.push(tab);
+            renderTab(tab);
             
-            // Apply theme to loading screen
-            const currentTheme = localStorage.getItem('desritory-theme') || 'purple';
-            const theme = themes[currentTheme];
-            if (theme) {
-                loadingScreen.style.background = theme.bgBase;
-                loadingScreen.style.backgroundImage = `
-                    radial-gradient(ellipse at 20% 50%, ${theme.bgGradient1} 0%, transparent 50%),
-                    radial-gradient(ellipse at 80% 20%, ${theme.bgGradient2} 0%, transparent 50%),
-                    radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)
-                `;
-                
-                // Update loading text gradient
-                loadingText.style.background = `linear-gradient(135deg, ${theme.light} 0%, ${theme.primary} 50%, ${theme.accent} 100%)`;
-                loadingText.style.webkitBackgroundClip = 'text';
-                loadingText.style.webkitTextFillColor = 'transparent';
-                loadingText.style.backgroundClip = 'text';
-                
-                // Update spinner color
-                loadingSpinner.style.borderTopColor = theme.primary;
+            if (!isInitial) {
+                switchToTab(tabId);
             }
             
-            // Wait 2 seconds then show game
-            setTimeout(() => {
-                const player = document.getElementById('gamePlayer');
-                const iframe = document.getElementById('gamePlayerIframe');
-                const title = document.getElementById('gamePlayerTitle');
-                
-                title.textContent = gameName;
-                
-                // Try first proxy method
-                currentProxyIndex = 0;
-                const proxiedUrl = PROXY_SERVICES[currentProxyIndex](gameUrl);
-                iframe.src = proxiedUrl;
-                
-                loadingScreen.classList.remove('active');
-                player.classList.add('active');
-            }, 2000);
+            return tabId;
         }
 
-        function closeGamePlayer() {
-            const player = document.getElementById('gamePlayer');
-            const iframe = document.getElementById('gamePlayerIframe');
+        function renderTab(tab) {
+            const tabBar = document.querySelector('.tab-bar');
+            const newTabBtn = document.querySelector('.new-tab-btn');
             
-            player.classList.remove('active');
-            iframe.src = '';
-            currentGameUrl = '';
-            currentGameName = '';
+            const tabElement = document.createElement('div');
+            tabElement.className = 'tab';
+            tabElement.setAttribute('data-tab-id', tab.id);
             
-            // Clear all tabs
-            browserTabs = [];
-            activeTabId = null;
-            renderTabs();
-        }
-
-        function reloadGame() {
-            const iframe = document.getElementById('gamePlayerIframe');
-            // Try next proxy service on reload
-            currentProxyIndex = (currentProxyIndex + 1) % PROXY_SERVICES.length;
-            const proxiedUrl = PROXY_SERVICES[currentProxyIndex](currentGameUrl);
-            iframe.src = proxiedUrl;
-        }
-
-        function openGameNewTab() {
-            if (currentGameUrl) {
-                // Open through current proxy in new tab
-                const proxiedUrl = PROXY_SERVICES[currentProxyIndex](currentGameUrl);
-                window.open(proxiedUrl, '_blank');
-            }
-        }
-
-        // Search functionality
-        const gamesSearchInput = document.getElementById('gamesSearchInput');
-        gamesSearchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase().trim();
-            const gameItems = document.querySelectorAll('.game-item');
+            tabElement.innerHTML = `
+                <span class="tab-icon">🌐</span>
+                <span class="tab-title">${tab.title}</span>
+                <span class="tab-close">×</span>
+            `;
             
-            gameItems.forEach(item => {
-                const gameName = item.getAttribute('data-game-name');
-                if (gameName.includes(searchTerm)) {
-                    item.style.display = 'flex';
+            // Click to switch tab
+            tabElement.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('tab-close')) {
+                    switchToTab(tab.id);
+                }
+            });
+            
+            // Close button
+            tabElement.querySelector('.tab-close').addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeTab(tab.id);
+            });
+            
+            tab.element = tabElement;
+            tabBar.insertBefore(tabElement, newTabBtn);
+        }
+
+        function switchToTab(tabId) {
+            // Deactivate all tabs
+            tabs.forEach(tab => {
+                if (tab.element) {
+                    tab.element.classList.remove('active');
+                }
+                if (tab.iframeElement) {
+                    tab.iframeElement.style.display = 'none';
+                    tab.iframeElement.classList.remove('active');
+                }
+            });
+            
+            // Activate selected tab
+            const tab = tabs.find(t => t.id === tabId);
+            if (tab) {
+                activeTabId = tabId;
+                if (tab.element) {
+                    tab.element.classList.add('active');
+                }
+                
+                // Show appropriate view
+                if (tab.url) {
+                    // Show browser content with this tab's iframe
+                    if (tab.iframeElement) {
+                        tab.iframeElement.style.display = 'block';
+                        // Trigger fade in animation
+                        setTimeout(() => {
+                            tab.iframeElement.classList.add('active');
+                        }, 10);
+                    }
+                    document.querySelector('.container').style.display = 'none';
+                    document.getElementById('gamesPage').classList.remove('active');
+                    document.getElementById('browserContent').classList.add('active');
+                    document.getElementById('addressBar').value = tab.url;
                 } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-
-        // Browser navigation
-        const browserSearchInput = document.getElementById('browserSearchInput');
-        browserSearchInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                navigateBrowser();
-            }
-        });
-
-        function navigateBrowser() {
-            const input = browserSearchInput.value.trim();
-            if (!input) return;
-
-            let url;
-            // Check if it's a URL or search term
-            if (input.includes('.') && !input.includes(' ')) {
-                // Likely a URL
-                url = input.startsWith('http') ? input : 'https://' + input;
-            } else {
-                // Search term - use Google
-                url = 'https://www.google.com/search?q=' + encodeURIComponent(input);
-            }
-
-            // Open in browser player
-            openBrowserPlayer(url);
-        }
-
-        function openBrowserPlayer(url) {
-            const player = document.getElementById('gamePlayer');
-            
-            // Create a new tab or switch to existing
-            createTab(url, 'Loading...');
-            
-            player.classList.add('active');
-        }
-
-        // Modal functions
-        function openSettings() {
-            document.getElementById('settingsModal').classList.add('active');
-        }
-
-        function openGames() {
-            // Show loading screen first
-            const loadingScreen = document.getElementById('loadingScreen');
-            const loadingGameName = document.getElementById('loadingGameName');
-            const loadingText = document.querySelector('.loading-text');
-            const loadingSpinner = document.querySelector('.loading-spinner');
-            
-            loadingScreen.classList.add('active');
-            loadingGameName.textContent = 'Loading games library...';
-            
-            // Apply theme to loading screen
-            const currentTheme = localStorage.getItem('desritory-theme') || 'purple';
-            const theme = themes[currentTheme];
-            if (theme) {
-                loadingScreen.style.background = theme.bgBase;
-                loadingScreen.style.backgroundImage = `
-                    radial-gradient(ellipse at 20% 50%, ${theme.bgGradient1} 0%, transparent 50%),
-                    radial-gradient(ellipse at 80% 20%, ${theme.bgGradient2} 0%, transparent 50%),
-                    radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)
-                `;
-                
-                // Update loading text gradient
-                loadingText.style.background = `linear-gradient(135deg, ${theme.light} 0%, ${theme.primary} 50%, ${theme.accent} 100%)`;
-                loadingText.style.webkitBackgroundClip = 'text';
-                loadingText.style.webkitTextFillColor = 'transparent';
-                loadingText.style.backgroundClip = 'text';
-                
-                // Update spinner color
-                loadingSpinner.style.borderTopColor = theme.primary;
-            }
-            
-            // Wait 2 seconds then show games page
-            setTimeout(() => {
-                const gamesPage = document.getElementById('gamesPage');
-                gamesPage.classList.add('active');
-                
-                // Clear search and show all games
-                const searchInput = document.getElementById('gamesSearchInput');
-                searchInput.value = '';
-                document.querySelectorAll('.game-item').forEach(item => {
-                    item.style.display = 'flex';
-                });
-                
-                // Apply current theme to games page background
-                if (theme) {
-                    gamesPage.style.background = theme.bgBase;
-                    gamesPage.style.backgroundImage = `
-                        radial-gradient(ellipse at 20% 50%, ${theme.bgGradient1} 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 20%, ${theme.bgGradient2} 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)
-                    `;
-                }
-                
-                loadingScreen.classList.remove('active');
-            }, 2000);
-        }
-
-        function skipLoading() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            
-            // Check if we're loading games page or a game
-            if (currentGameUrl) {
-                // Loading a game
-                const player = document.getElementById('gamePlayer');
-                const iframe = document.getElementById('gamePlayerIframe');
-                const title = document.getElementById('gamePlayerTitle');
-                
-                title.textContent = currentGameName;
-                
-                // Try first proxy method
-                currentProxyIndex = 0;
-                const proxiedUrl = PROXY_SERVICES[currentProxyIndex](currentGameUrl);
-                iframe.src = proxiedUrl;
-                
-                loadingScreen.classList.remove('active');
-                player.classList.add('active');
-            } else {
-                // Loading games page
-                const gamesPage = document.getElementById('gamesPage');
-                gamesPage.classList.add('active');
-                
-                // Clear search and show all games
-                const searchInput = document.getElementById('gamesSearchInput');
-                searchInput.value = '';
-                document.querySelectorAll('.game-item').forEach(item => {
-                    item.style.display = 'flex';
-                });
-                
-                // Apply current theme to games page background
-                const currentTheme = localStorage.getItem('desritory-theme') || 'purple';
-                const theme = themes[currentTheme];
-                if (theme) {
-                    gamesPage.style.background = theme.bgBase;
-                    gamesPage.style.backgroundImage = `
-                        radial-gradient(ellipse at 20% 50%, ${theme.bgGradient1} 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 20%, ${theme.bgGradient2} 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)
-                    `;
-                }
-                
-                loadingScreen.classList.remove('active');
-            }
-        }
-
-        function closeGamesPage() {
-            document.getElementById('gamesPage').classList.remove('active');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
-        // Close modal on overlay click
-        document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                }
-            });
-        });
-
-        // Helper function to update favicon
-        function updateFavicon(iconUrl) {
-            const existingIcons = document.querySelectorAll("link[rel*='icon']");
-            existingIcons.forEach(icon => icon.remove());
-            
-            const link = document.createElement('link');
-            link.type = 'image/x-icon';
-            link.rel = 'shortcut icon';
-            link.href = iconUrl;
-            document.head.appendChild(link);
-        }
-
-        // Toggle switch with favicon handling
-        function toggleSwitch(el) {
-            el.classList.toggle('active');
-
-            if (el.id === 'tabCloak' && el.classList.contains('active')) {
-                const title = document.getElementById('cloakTitle').value || 'Google Classroom';
-                const iconUrl = document.getElementById('cloakIcon').value.trim();
-                document.title = title;
-                if (iconUrl) {
-                    updateFavicon(iconUrl);
-                }
-            } else if (el.id === 'tabCloak') {
-                document.title = 'Desritory';
-            }
-        }
-
-        // Panic key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "'" && document.getElementById('panicKey').classList.contains('active')) {
-                window.location.href = 'https://google.com';
-            }
-        });
-
-        // Tab cloak title listener
-        document.getElementById('cloakTitle').addEventListener('input', function() {
-            if (document.getElementById('tabCloak').classList.contains('active')) {
-                document.title = this.value || 'Google Classroom';
-            }
-        });
-
-        // Tab cloak icon listener
-        document.getElementById('cloakIcon').addEventListener('input', function() {
-            const iconUrl = this.value.trim();
-            if (iconUrl) {
-                updateFavicon(iconUrl);
-            }
-        });
-
-        // Escape to close modals, games page, and game player
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
-                closeGamePlayer();
-                // Don't close games page if game player is open
-                if (!document.getElementById('gamePlayer').classList.contains('active')) {
-                    closeGamesPage();
+                    // Show home page
+                    document.getElementById('browserContent').classList.remove('active');
+                    document.getElementById('gamesPage').classList.remove('active');
+                    document.querySelector('.container').style.display = 'flex';
+                    document.getElementById('addressBar').value = '';
                 }
             }
-        });
+        }
 
-        // Load saved theme on page load
-        window.addEventListener('load', () => {
-            const savedTheme = localStorage.getItem('desritory-theme') || 'purple';
-            changeTheme(savedTheme);
-        });
+        function closeTab(tabId) {
+            const tabIndex = tabs.findIndex(t => t.id === tabId);
+            if (tabIndex === -1) return;
+            
+            const tab = tabs[tabIndex];
+            
+            // Add closing animation
+            if (tab.element) {
+                tab.element.classList.add('closing');
+                
+                // Wait for animation to complete before removing
+                setTimeout(() => {
+                    if (tab.element) {
+                        tab.element.remove();
+                    }
+                    
+                    // Remove iframe
+                    if (tab.iframeElement) {
+                        tab.iframeElement.remove();
+                    }
+                    
+                    // Remove from array
+                    tabs.splice(tabIndex, 1);
+                    
+                    // If this was the active tab, switch to another
+                    if (activeTabId === tabId) {
+                        if (tabs.length > 0) {
+                            // Switch to the tab that's now at this index, or the previous one
+                            const newActiveTab = tabs[Math.max(0, tabIndex - 1)];
+                            switchToTab(newActiveTab.id);
+                        } else {
+                            // No tabs left, create a new one
+                            createNewTab();
+                        }
+                    }
+                }, 300); // Match animation duration
+            }
+        }
 
-        // Color themes with backgrounds
+        function updateTabTitle(tabId, title) {
+            const tab = tabs.find(t => t.id === tabId);
+            if (tab && tab.element) {
+                tab.title = title;
+                const titleElement = tab.element.querySelector('.tab-title');
+                if (titleElement) {
+                    titleElement.textContent = title;
+                }
+            }
+        }
+
+        function getActiveTab() {
+            return tabs.find(t => t.id === activeTabId);
+        }
+
+        // Games list
+        const games = [
+            { name: '2048', icon: '🔢', url: 'https://play2048.co/' },
+            { name: 'Snake', icon: '🐍', url: 'https://www.google.com/fbx?fbx=snake_arcade' },
+            { name: 'Tetris', icon: '🟦', url: 'https://tetris.com/play-tetris' },
+            { name: 'Pac-Man', icon: '👾', url: 'https://www.google.com/logos/2010/pacman10-i.html' },
+            { name: 'Slope', icon: '⛷️', url: 'https://slope-game.github.io/rbrush/slope/' },
+            { name: 'Run 3', icon: '🏃', url: 'https://www.coolmathgames.com/0-run-3' },
+            { name: 'Minesweeper', icon: '💣', url: 'https://minesweeperonline.com/' },
+            { name: 'Chess', icon: '♟️', url: 'https://www.chess.com/play/computer' },
+            { name: 'Wordle', icon: '📝', url: 'https://www.nytimes.com/games/wordle/index.html' },
+            { name: 'Cookie Clicker', icon: '🍪', url: 'https://orteil.dashnet.org/cookieclicker/' },
+            { name: 'Flappy Bird', icon: '🐦', url: 'https://flappybird.io/' },
+            { name: 'Agar.io', icon: '⚪', url: 'https://agar.io/' }
+        ];
+
+        // Theme data
         const themes = {
             purple: {
                 primary: '#7c4dff',
@@ -1719,7 +1308,12 @@
                 bgBase: '#0a0b1a',
                 bgGradient1: 'rgba(88, 40, 180, 0.08)',
                 bgGradient2: 'rgba(60, 20, 140, 0.06)',
-                bgGradient3: 'rgba(30, 15, 80, 0.1)'
+                bgGradient3: 'rgba(30, 15, 80, 0.1)',
+                tabBg: '#2d1b4e',
+                tabBgHover: '#3d2b5e',
+                tabBgActive: '#1a0f2e',
+                navBg: '#1a0f2e',
+                tabText: '#e8eaed'
             },
             green: {
                 primary: '#10b981',
@@ -1730,7 +1324,12 @@
                 bgBase: '#0a1a14',
                 bgGradient1: 'rgba(16, 185, 129, 0.08)',
                 bgGradient2: 'rgba(5, 150, 105, 0.06)',
-                bgGradient3: 'rgba(4, 120, 87, 0.1)'
+                bgGradient3: 'rgba(4, 120, 87, 0.1)',
+                tabBg: '#1a3d2e',
+                tabBgHover: '#2a4d3e',
+                tabBgActive: '#0f2a1e',
+                navBg: '#0f2a1e',
+                tabText: '#e8eaed'
             },
             blue: {
                 primary: '#3b82f6',
@@ -1741,7 +1340,12 @@
                 bgBase: '#0a0f1a',
                 bgGradient1: 'rgba(59, 130, 246, 0.08)',
                 bgGradient2: 'rgba(29, 78, 216, 0.06)',
-                bgGradient3: 'rgba(30, 58, 138, 0.1)'
+                bgGradient3: 'rgba(30, 58, 138, 0.1)',
+                tabBg: '#1a2d4e',
+                tabBgHover: '#2a3d5e',
+                tabBgActive: '#0f1a2e',
+                navBg: '#0f1a2e',
+                tabText: '#e8eaed'
             },
             red: {
                 primary: '#ef4444',
@@ -1752,7 +1356,12 @@
                 bgBase: '#1a0a0a',
                 bgGradient1: 'rgba(239, 68, 68, 0.08)',
                 bgGradient2: 'rgba(220, 38, 38, 0.06)',
-                bgGradient3: 'rgba(185, 28, 28, 0.1)'
+                bgGradient3: 'rgba(185, 28, 28, 0.1)',
+                tabBg: '#3d1a1a',
+                tabBgHover: '#4d2a2a',
+                tabBgActive: '#2a0f0f',
+                navBg: '#2a0f0f',
+                tabText: '#e8eaed'
             },
             pink: {
                 primary: '#ec4899',
@@ -1763,7 +1372,12 @@
                 bgBase: '#1a0a14',
                 bgGradient1: 'rgba(236, 72, 153, 0.08)',
                 bgGradient2: 'rgba(219, 39, 119, 0.06)',
-                bgGradient3: 'rgba(190, 24, 93, 0.1)'
+                bgGradient3: 'rgba(190, 24, 93, 0.1)',
+                tabBg: '#3d1a2e',
+                tabBgHover: '#4d2a3e',
+                tabBgActive: '#2a0f1e',
+                navBg: '#2a0f1e',
+                tabText: '#e8eaed'
             },
             orange: {
                 primary: '#f59e0b',
@@ -1774,7 +1388,12 @@
                 bgBase: '#1a140a',
                 bgGradient1: 'rgba(245, 158, 11, 0.08)',
                 bgGradient2: 'rgba(217, 119, 6, 0.06)',
-                bgGradient3: 'rgba(180, 83, 9, 0.1)'
+                bgGradient3: 'rgba(180, 83, 9, 0.1)',
+                tabBg: '#3d2a1a',
+                tabBgHover: '#4d3a2a',
+                tabBgActive: '#2a1a0f',
+                navBg: '#2a1a0f',
+                tabText: '#e8eaed'
             },
             cyan: {
                 primary: '#06b6d4',
@@ -1785,7 +1404,12 @@
                 bgBase: '#0a1419',
                 bgGradient1: 'rgba(6, 182, 212, 0.08)',
                 bgGradient2: 'rgba(8, 145, 178, 0.06)',
-                bgGradient3: 'rgba(14, 116, 144, 0.1)'
+                bgGradient3: 'rgba(14, 116, 144, 0.1)',
+                tabBg: '#1a3d4e',
+                tabBgHover: '#2a4d5e',
+                tabBgActive: '#0f2a3e',
+                navBg: '#0f2a3e',
+                tabText: '#e8eaed'
             },
             yellow: {
                 primary: '#eab308',
@@ -1796,26 +1420,50 @@
                 bgBase: '#1a1a0a',
                 bgGradient1: 'rgba(234, 179, 8, 0.08)',
                 bgGradient2: 'rgba(202, 138, 4, 0.06)',
-                bgGradient3: 'rgba(161, 98, 7, 0.1)'
+                bgGradient3: 'rgba(161, 98, 7, 0.1)',
+                tabBg: '#3d3d1a',
+                tabBgHover: '#4d4d2a',
+                tabBgActive: '#2a2a0f',
+                navBg: '#2a2a0f',
+                tabText: '#e8eaed'
             },
             blackwhite: {
                 primary: '#888888',
-                secondary: '#555555',
+                secondary: '#666666',
                 accent: '#aaaaaa',
                 light: '#cccccc',
-                glow: 'rgba(150, 150, 150, 0.4)',
+                glow: 'rgba(136, 136, 136, 0.4)',
                 bgBase: '#0a0a0a',
-                bgGradient1: 'rgba(100, 100, 100, 0.08)',
-                bgGradient2: 'rgba(70, 70, 70, 0.06)',
-                bgGradient3: 'rgba(50, 50, 50, 0.1)'
+                bgGradient1: 'rgba(80, 80, 80, 0.08)',
+                bgGradient2: 'rgba(60, 60, 60, 0.06)',
+                bgGradient3: 'rgba(40, 40, 40, 0.1)',
+                tabBg: '#2d2e30',
+                tabBgHover: '#46474a',
+                tabBgActive: '#202124',
+                navBg: '#202124',
+                tabText: '#e8eaed'
             }
         };
 
+        // Initialize particles
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Change theme
         function changeTheme(colorName) {
             const theme = themes[colorName];
             if (!theme) return;
 
-            // Save preference
             localStorage.setItem('desritory-theme', colorName);
 
             // Update body background
@@ -1826,14 +1474,19 @@
                 radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)
             `;
 
-            // Update games page background
-            const gamesPage = document.getElementById('gamesPage');
-            gamesPage.style.background = theme.bgBase;
-            gamesPage.style.backgroundImage = `
-                radial-gradient(ellipse at 20% 50%, ${theme.bgGradient1} 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, ${theme.bgGradient2} 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)
-            `;
+            // Update CSS variables
+            document.documentElement.style.setProperty('--primary', theme.primary);
+            document.documentElement.style.setProperty('--secondary', theme.secondary);
+            document.documentElement.style.setProperty('--accent', theme.accent);
+            document.documentElement.style.setProperty('--light', theme.light);
+            document.documentElement.style.setProperty('--glow', theme.glow);
+            
+            // Update tab bar colors
+            document.documentElement.style.setProperty('--tab-bg', theme.tabBg);
+            document.documentElement.style.setProperty('--tab-bg-hover', theme.tabBgHover);
+            document.documentElement.style.setProperty('--tab-bg-active', theme.tabBgActive);
+            document.documentElement.style.setProperty('--nav-bg', theme.navBg);
+            document.documentElement.style.setProperty('--tab-text', theme.tabText);
 
             // Update logo gradient
             const logo = document.querySelector('.logo');
@@ -1842,78 +1495,406 @@
             logo.style.webkitTextFillColor = 'transparent';
             logo.style.backgroundClip = 'text';
 
-            // Update games title gradient
+            // Update games title
             const gamesTitle = document.querySelector('.games-title');
-            gamesTitle.style.background = `linear-gradient(135deg, ${theme.light} 0%, ${theme.primary} 50%, ${theme.accent} 100%)`;
-            gamesTitle.style.webkitBackgroundClip = 'text';
-            gamesTitle.style.webkitTextFillColor = 'transparent';
-            gamesTitle.style.backgroundClip = 'text';
+            if (gamesTitle) {
+                gamesTitle.style.background = `linear-gradient(135deg, ${theme.light}, ${theme.primary})`;
+                gamesTitle.style.webkitBackgroundClip = 'text';
+                gamesTitle.style.webkitTextFillColor = 'transparent';
+                gamesTitle.style.backgroundClip = 'text';
+            }
 
-            // Update Browse Games button
-            const gamesMainBtn = document.querySelector('.games-main-btn');
-            gamesMainBtn.style.borderColor = theme.primary + '80';
-            gamesMainBtn.style.background = theme.glow.replace('0.4', '0.15');
+            // Update search button
+            const searchBtn = document.querySelector('.search-btn');
+            searchBtn.style.background = `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`;
 
-            // Update browser search button
-            const browserSearchBtn = document.querySelector('.browser-search-btn');
-            browserSearchBtn.style.background = `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`;
-
-            // Update corner buttons
-            document.querySelectorAll('.corner-btn').forEach(btn => {
-                btn.style.borderColor = theme.primary + '33';
-                btn.style.color = theme.light;
-            });
-
-            // Update games header button
-            document.querySelectorAll('.games-header-btn').forEach(btn => {
-                btn.style.borderColor = theme.primary + '33';
-                btn.style.color = theme.light;
-            });
-
-            // Update game player buttons
-            document.querySelectorAll('.game-player-btn').forEach(btn => {
-                btn.style.borderColor = theme.primary + '33';
-                btn.style.color = theme.light;
+            // Update all buttons
+            document.querySelectorAll('.corner-btn, .back-btn').forEach(btn => {
+                btn.style.borderColor = `rgba(255, 255, 255, 0.2)`;
             });
 
             // Update search inputs
-            document.querySelectorAll('.browser-search-input, .games-search-input').forEach(input => {
-                input.style.borderColor = theme.primary + '26';
-                input.style.caretColor = theme.accent;
+            document.querySelectorAll('.search-input, .games-search').forEach(input => {
+                input.style.caretColor = theme.primary;
             });
 
-            // Update modal backgrounds
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.style.borderColor = theme.primary + '26';
-            });
-
-            // Update modal titles
-            document.querySelectorAll('.modal-title').forEach(title => {
-                title.style.color = theme.light;
-            });
-
-            // Update game cards
-            document.querySelectorAll('.game-card, .game-item').forEach(card => {
-                card.style.borderColor = theme.primary + '14';
-            });
-
-            // Update toggle switches (active state)
-            document.querySelectorAll('.toggle-switch.active').forEach(toggle => {
-                toggle.style.background = theme.glow.replace('0.4', '0.5');
-                toggle.style.borderColor = theme.primary + '4D';
-            });
-
-            // Update skip loading button
-            const skipBtn = document.querySelector('.skip-loading');
-            if (skipBtn) {
-                skipBtn.style.borderColor = theme.primary + '4D';
-                skipBtn.style.background = theme.glow.replace('0.4', '0.15');
+            // Update modal title
+            const modalTitle = document.querySelector('.modal-title');
+            if (modalTitle) {
+                modalTitle.style.background = `linear-gradient(135deg, ${theme.light}, ${theme.primary})`;
+                modalTitle.style.webkitBackgroundClip = 'text';
+                modalTitle.style.webkitTextFillColor = 'transparent';
+                modalTitle.style.backgroundClip = 'text';
             }
 
-            // Update particle colors
+            // Update game items
+            document.querySelectorAll('.game-item').forEach(item => {
+                item.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            });
+
+            // Update toggles
+            document.querySelectorAll('.toggle-switch.active').forEach(toggle => {
+                toggle.style.background = theme.primary;
+            });
+
+            // Update loading screen
+            const loader = document.querySelector('.loader');
+            if (loader) {
+                loader.style.borderTopColor = theme.primary;
+            }
+
+            const loadingText = document.querySelector('.loading-text');
+            if (loadingText) {
+                loadingText.style.background = `linear-gradient(135deg, ${theme.light}, ${theme.primary}, ${theme.accent})`;
+                loadingText.style.webkitBackgroundClip = 'text';
+                loadingText.style.webkitTextFillColor = 'transparent';
+                loadingText.style.backgroundClip = 'text';
+            }
+
+            const skipBtn = document.querySelector('.skip-loading');
+            if (skipBtn) {
+                skipBtn.style.borderColor = theme.primary;
+            }
+
+            // Update particles
             document.querySelectorAll('.particle').forEach(particle => {
                 particle.style.background = theme.glow.replace('0.4', '0.3');
             });
+        }
+
+        // Settings functions
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        function openChangelog() {
+            document.getElementById('changelogModal').classList.add('active');
+        }
+
+        function closeChangelog() {
+            document.getElementById('changelogModal').classList.remove('active');
+        }
+
+        function toggleCloak() {
+            const toggle = document.getElementById('cloakToggle');
+            toggle.classList.toggle('active');
+            const enabled = toggle.classList.contains('active');
+            localStorage.setItem('desritory-cloak', enabled);
+            
+            if (enabled) {
+                document.title = 'Google';
+                const favicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
+                favicon.type = 'image/x-icon';
+                favicon.rel = 'shortcut icon';
+                favicon.href = 'https://www.google.com/favicon.ico';
+                document.getElementsByTagName('head')[0].appendChild(favicon);
+            } else {
+                document.title = 'Desritory';
+            }
+        }
+
+        function togglePanic() {
+            const toggle = document.getElementById('panicToggle');
+            toggle.classList.toggle('active');
+            localStorage.setItem('desritory-panic', toggle.classList.contains('active'));
+        }
+
+        // Games functions
+        function showGamesPage() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingText = document.getElementById('loadingText');
+            const gamesPage = document.getElementById('gamesPage');
+
+            loadingText.textContent = 'Loading games library...';
+            loadingScreen.classList.add('active');
+
+            loadingTimeout = setTimeout(() => {
+                loadingScreen.classList.remove('active');
+                gamesPage.classList.add('active');
+            }, 2000);
+        }
+
+        function closeGames() {
+            document.getElementById('gamesPage').classList.remove('active');
+            document.getElementById('gamesSearch').value = '';
+            renderGames();
+        }
+
+        function renderGames(filter = '') {
+            const gamesList = document.getElementById('gamesList');
+            gamesList.innerHTML = '';
+
+            const filteredGames = games.filter(game => 
+                game.name.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            filteredGames.forEach(game => {
+                const gameItem = document.createElement('div');
+                gameItem.className = 'game-item';
+                gameItem.innerHTML = `
+                    <div class="game-icon">${game.icon}</div>
+                    <div class="game-name">${game.name}</div>
+                `;
+                gameItem.onclick = () => openGame(game.name, game.url);
+                gamesList.appendChild(gameItem);
+            });
+        }
+
+        function openGame(name, url) {
+            currentGameName = name;
+            currentProxyUrl = url;
+            
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingText = document.getElementById('loadingText');
+
+            loadingText.textContent = `Loading ${name}...`;
+            loadingScreen.classList.add('active');
+
+            loadingTimeout = setTimeout(() => {
+                loadingScreen.classList.remove('active');
+                loadProxiedContent(url);
+            }, 2000);
+        }
+
+        function skipLoading() {
+            clearTimeout(loadingTimeout);
+            document.getElementById('loadingScreen').classList.remove('active');
+            
+            if (currentGameName) {
+                loadProxiedContent(currentProxyUrl);
+            } else {
+                document.getElementById('gamesPage').classList.add('active');
+            }
+        }
+
+        // Browser functions
+        function searchBrowser() {
+            const input = document.getElementById('browserSearch');
+            const query = input.value.trim();
+            
+            if (!query) return;
+
+            let url;
+            if (query.includes('.') && !query.includes(' ')) {
+                url = query.startsWith('http') ? query : 'https://' + query;
+            } else {
+                url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+            }
+
+            loadProxiedContent(url);
+            input.value = '';
+        }
+
+        function searchFromAddressBar() {
+            const input = document.getElementById('addressBar');
+            const query = input.value.trim();
+            
+            if (!query) return;
+
+            let url;
+            if (query.includes('.') && !query.includes(' ')) {
+                url = query.startsWith('http') ? query : 'https://' + query;
+            } else {
+                url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+            }
+
+            loadProxiedContent(url);
+        }
+
+        function goBack() {
+            const activeTab = getActiveTab();
+            if (activeTab && activeTab.iframeElement && activeTab.iframeElement.contentWindow) {
+                try {
+                    activeTab.iframeElement.contentWindow.history.back();
+                } catch(e) {
+                    console.log('Cannot go back');
+                }
+            }
+        }
+
+        function goForward() {
+            const activeTab = getActiveTab();
+            if (activeTab && activeTab.iframeElement && activeTab.iframeElement.contentWindow) {
+                try {
+                    activeTab.iframeElement.contentWindow.history.forward();
+                } catch(e) {
+                    console.log('Cannot go forward');
+                }
+            }
+        }
+
+        function reloadPage() {
+            const activeTab = getActiveTab();
+            if (activeTab && activeTab.iframeElement && activeTab.iframeElement.src) {
+                activeTab.iframeElement.src = activeTab.iframeElement.src;
+            }
+        }
+
+        function openSite(url) {
+            loadProxiedContent(url);
+        }
+
+        function loadProxiedContent(url) {
+            const activeTab = getActiveTab();
+            if (!activeTab) return;
+            
+            const browserContent = document.getElementById('browserContent');
+            const container = document.querySelector('.container');
+            const addressBar = document.getElementById('addressBar');
+            const browserFrame = document.getElementById('browserFrame');
+            
+            // Update tab
+            activeTab.url = url;
+            currentProxyUrl = url;
+            
+            // Get domain for title
+            let domain = url;
+            try {
+                const urlObj = new URL(url);
+                domain = urlObj.hostname.replace('www.', '');
+            } catch(e) {
+                domain = url.substring(0, 20);
+            }
+            updateTabTitle(activeTab.id, domain);
+
+            // Update address bar
+            addressBar.value = url;
+
+            // Create or update iframe for this tab
+            if (!activeTab.iframeElement) {
+                const iframe = document.createElement('iframe');
+                iframe.className = 'browser-frame';
+                iframe.setAttribute('data-tab-id', activeTab.id);
+                activeTab.iframeElement = iframe;
+                browserFrame.parentNode.insertBefore(iframe, browserFrame.nextSibling);
+            }
+
+            // Hide all iframes
+            document.querySelectorAll('.browser-frame').forEach(frame => {
+                frame.style.display = 'none';
+                frame.classList.remove('active');
+            });
+
+            // Show this tab's iframe
+            activeTab.iframeElement.style.display = 'block';
+            
+            // Trigger fade in animation
+            setTimeout(() => {
+                activeTab.iframeElement.classList.add('active');
+            }, 10);
+
+            // Try proxy method
+            const proxyUrl = PROXY_SERVICES[0](url);
+            activeTab.iframeElement.src = proxyUrl;
+
+            // Hide main page, show browser
+            container.style.display = 'none';
+            document.getElementById('gamesPage').classList.remove('active');
+            browserContent.classList.add('active');
+        }
+
+        function goHome() {
+            const activeTab = getActiveTab();
+            if (!activeTab) return;
+            
+            const browserContent = document.getElementById('browserContent');
+            const container = document.querySelector('.container');
+            const addressBar = document.getElementById('addressBar');
+            
+            // Clear tab URL and update title
+            activeTab.url = '';
+            updateTabTitle(activeTab.id, 'New Tab');
+            
+            // Hide iframe
+            if (activeTab.iframeElement) {
+                activeTab.iframeElement.style.display = 'none';
+            }
+            
+            // Clear address bar
+            addressBar.value = '';
+            
+            // Hide browser, show main page
+            browserContent.classList.remove('active');
+            container.style.display = 'flex';
+        }
+
+        function reloadBrowser() {
+            reloadPage();
+        }
+
+        function openInNewTab() {
+            window.open(currentProxyUrl, '_blank');
+        }
+
+        function closeBrowser() {
+            goHome();
+        }
+
+        // Search games
+        document.getElementById('gamesSearch').addEventListener('input', (e) => {
+            renderGames(e.target.value);
+        });
+
+        // Browser search on Enter
+        document.getElementById('browserSearch').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchBrowser();
+        });
+
+        // Address bar on Enter
+        document.getElementById('addressBar').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchFromAddressBar();
+        });
+
+        // ESC key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeSettings();
+                closeChangelog();
+                if (document.getElementById('browserContent').classList.contains('active')) {
+                    goHome();
+                } else if (document.getElementById('gamesPage').classList.contains('active')) {
+                    closeGames();
+                }
+            }
+
+            // Panic key
+            if (e.key === "'" && localStorage.getItem('desritory-panic') === 'true') {
+                window.location.href = 'https://google.com';
+            }
+        });
+
+        // Tab functionality
+        const newTabBtn = document.querySelector('.new-tab-btn');
+        newTabBtn.addEventListener('click', () => {
+            // Add click animation
+            newTabBtn.classList.add('clicked');
+            setTimeout(() => {
+                newTabBtn.classList.remove('clicked');
+            }, 400);
+            
+            createNewTab();
+        });
+
+        // Initialize
+        createParticles();
+        renderGames();
+        initializeTabs();
+
+        // Load saved settings
+        const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite'; // Default to B&W
+        changeTheme(savedTheme);
+
+        if (localStorage.getItem('desritory-cloak') === 'true') {
+            document.getElementById('cloakToggle').classList.add('active');
+            toggleCloak();
+        }
+
+        if (localStorage.getItem('desritory-panic') === 'true') {
+            document.getElementById('panicToggle').classList.add('active');
         }
     </script>
 </body>
