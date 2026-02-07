@@ -1110,11 +1110,9 @@
     </div>
 
     <script>
-        // Proxy configuration - YOUR WORKING PROXY!
+        // Proxy configuration
         const PROXY_SERVICES = [
-            // Your Holy Unblocker proxy on Vercel
             url => `https://website-legacy-ashy.vercel.app/service/hvtrs8%2F-${btoa(url).replace(/=/g, '%3D')}`,
-            // Backup: Try direct iframe (will fail for most sites due to X-Frame-Options)
             url => url
         ];
 
@@ -1167,14 +1165,12 @@
                 <span class="tab-close">×</span>
             `;
             
-            // Click to switch tab
             tabElement.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('tab-close')) {
                     switchToTab(tab.id);
                 }
             });
             
-            // Close button
             tabElement.querySelector('.tab-close').addEventListener('click', (e) => {
                 e.stopPropagation();
                 closeTab(tab.id);
@@ -1185,7 +1181,6 @@
         }
 
         function switchToTab(tabId) {
-            // Deactivate all tabs
             tabs.forEach(tab => {
                 if (tab.element) {
                     tab.element.classList.remove('active');
@@ -1196,7 +1191,6 @@
                 }
             });
             
-            // Activate selected tab
             const tab = tabs.find(t => t.id === tabId);
             if (tab) {
                 activeTabId = tabId;
@@ -1204,12 +1198,9 @@
                     tab.element.classList.add('active');
                 }
                 
-                // Show appropriate view
                 if (tab.url) {
-                    // Show browser content with this tab's iframe
                     if (tab.iframeElement) {
                         tab.iframeElement.style.display = 'block';
-                        // Trigger fade in animation
                         setTimeout(() => {
                             tab.iframeElement.classList.add('active');
                         }, 10);
@@ -1219,7 +1210,6 @@
                     document.getElementById('browserContent').classList.add('active');
                     document.getElementById('addressBar').value = tab.url;
                 } else {
-                    // Show home page
                     document.getElementById('browserContent').classList.remove('active');
                     document.getElementById('gamesPage').classList.remove('active');
                     document.querySelector('.container').style.display = 'flex';
@@ -1234,36 +1224,29 @@
             
             const tab = tabs[tabIndex];
             
-            // Add closing animation
             if (tab.element) {
                 tab.element.classList.add('closing');
                 
-                // Wait for animation to complete before removing
                 setTimeout(() => {
                     if (tab.element) {
                         tab.element.remove();
                     }
                     
-                    // Remove iframe
                     if (tab.iframeElement) {
                         tab.iframeElement.remove();
                     }
                     
-                    // Remove from array
                     tabs.splice(tabIndex, 1);
                     
-                    // If this was the active tab, switch to another
                     if (activeTabId === tabId) {
                         if (tabs.length > 0) {
-                            // Switch to the tab that's now at this index, or the previous one
                             const newActiveTab = tabs[Math.max(0, tabIndex - 1)];
                             switchToTab(newActiveTab.id);
                         } else {
-                            // No tabs left, create a new one
                             createNewTab();
                         }
                     }
-                }, 300); // Match animation duration
+                }, 300);
             }
         }
 
@@ -1467,7 +1450,6 @@
 
             localStorage.setItem('desritory-theme', colorName);
 
-            // Update body background
             document.body.style.background = theme.bgBase;
             document.body.style.backgroundImage = `
                 radial-gradient(ellipse at 20% 50%, ${theme.bgGradient1} 0%, transparent 50%),
@@ -1475,28 +1457,24 @@
                 radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)
             `;
 
-            // Update CSS variables
             document.documentElement.style.setProperty('--primary', theme.primary);
             document.documentElement.style.setProperty('--secondary', theme.secondary);
             document.documentElement.style.setProperty('--accent', theme.accent);
             document.documentElement.style.setProperty('--light', theme.light);
             document.documentElement.style.setProperty('--glow', theme.glow);
             
-            // Update tab bar colors
             document.documentElement.style.setProperty('--tab-bg', theme.tabBg);
             document.documentElement.style.setProperty('--tab-bg-hover', theme.tabBgHover);
             document.documentElement.style.setProperty('--tab-bg-active', theme.tabBgActive);
             document.documentElement.style.setProperty('--nav-bg', theme.navBg);
             document.documentElement.style.setProperty('--tab-text', theme.tabText);
 
-            // Update logo gradient
             const logo = document.querySelector('.logo');
             logo.style.background = `linear-gradient(135deg, ${theme.light} 0%, ${theme.primary} 25%, ${theme.accent} 50%, ${theme.secondary} 75%, ${theme.light} 100%)`;
             logo.style.webkitBackgroundClip = 'text';
             logo.style.webkitTextFillColor = 'transparent';
             logo.style.backgroundClip = 'text';
 
-            // Update games title
             const gamesTitle = document.querySelector('.games-title');
             if (gamesTitle) {
                 gamesTitle.style.background = `linear-gradient(135deg, ${theme.light}, ${theme.primary})`;
@@ -1505,21 +1483,17 @@
                 gamesTitle.style.backgroundClip = 'text';
             }
 
-            // Update search button
             const searchBtn = document.querySelector('.search-btn');
             searchBtn.style.background = `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`;
 
-            // Update all buttons
             document.querySelectorAll('.corner-btn, .back-btn').forEach(btn => {
                 btn.style.borderColor = `rgba(255, 255, 255, 0.2)`;
             });
 
-            // Update search inputs
             document.querySelectorAll('.search-input, .games-search').forEach(input => {
                 input.style.caretColor = theme.primary;
             });
 
-            // Update modal title
             const modalTitle = document.querySelector('.modal-title');
             if (modalTitle) {
                 modalTitle.style.background = `linear-gradient(135deg, ${theme.light}, ${theme.primary})`;
@@ -1528,17 +1502,14 @@
                 modalTitle.style.backgroundClip = 'text';
             }
 
-            // Update game items
             document.querySelectorAll('.game-item').forEach(item => {
                 item.style.borderColor = 'rgba(255, 255, 255, 0.1)';
             });
 
-            // Update toggles
             document.querySelectorAll('.toggle-switch.active').forEach(toggle => {
                 toggle.style.background = theme.primary;
             });
 
-            // Update loading screen
             const loader = document.querySelector('.loader');
             if (loader) {
                 loader.style.borderTopColor = theme.primary;
@@ -1557,7 +1528,6 @@
                 skipBtn.style.borderColor = theme.primary;
             }
 
-            // Update particles
             document.querySelectorAll('.particle').forEach(particle => {
                 particle.style.background = theme.glow.replace('0.4', '0.3');
             });
@@ -1672,13 +1642,14 @@
             }
         }
 
-        // Browser functions
+        // Browser functions - FIXED VERSION
         function searchBrowser() {
             const input = document.getElementById('browserSearch');
             const query = input.value.trim();
             
             if (!query) return;
 
+            // Process URL first, BEFORE clearing input
             let url;
             if (query.includes('.') && !query.includes(' ')) {
                 url = query.startsWith('http') ? query : 'https://' + query;
@@ -1686,26 +1657,34 @@
                 url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
             }
 
-            // Get active tab
-            const activeTab = getActiveTab();
+            console.log('Search triggered with URL:', url);
+
+            // Get or create active tab
+            let activeTab = getActiveTab();
             
             if (!activeTab) {
-                console.error('No active tab found!');
-                // Create a new tab if somehow there isn't one
-                const newTabId = createNewTab('Searching...', url);
-                switchToTab(newTabId);
-                setTimeout(() => loadProxiedContent(url), 100);
+                console.log('No active tab, creating new one');
+                const newTabId = createNewTab('Loading...', url);
+                activeTab = getActiveTab();
             } else if (!activeTab.url) {
-                // Current tab is empty, use it
-                loadProxiedContent(url);
+                console.log('Using existing empty tab');
+                // Current tab is empty, just update its URL
+                activeTab.url = url;
             } else {
+                console.log('Creating new tab for search');
                 // Current tab has content, create new tab
-                const newTabId = createNewTab('Searching...', url);
+                const newTabId = createNewTab('Loading...', url);
                 switchToTab(newTabId);
-                setTimeout(() => loadProxiedContent(url), 100);
+                activeTab = getActiveTab();
             }
             
+            // Clear input AFTER processing
             input.value = '';
+            
+            // Load the content
+            setTimeout(() => {
+                loadProxiedContent(url);
+            }, 100);
         }
 
         function searchFromAddressBar() {
@@ -1721,7 +1700,7 @@
                 url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
             }
 
-            // Always load in current active tab
+            console.log('Address bar search:', url);
             loadProxiedContent(url);
         }
 
@@ -1755,17 +1734,32 @@
         }
 
         function openSite(url) {
+            console.log('Opening site:', url);
+            
+            // Create new tab or use empty one
+            let activeTab = getActiveTab();
+            
+            if (!activeTab || activeTab.url) {
+                // No tab or current tab has content, create new one
+                const newTabId = createNewTab('Loading...', url);
+                switchToTab(newTabId);
+            }
+            
             loadProxiedContent(url);
         }
 
         function loadProxiedContent(url) {
+            console.log('Loading proxied content:', url);
+            
             const activeTab = getActiveTab();
-            if (!activeTab) return;
+            if (!activeTab) {
+                console.error('No active tab!');
+                return;
+            }
             
             const browserContent = document.getElementById('browserContent');
             const container = document.querySelector('.container');
             const addressBar = document.getElementById('addressBar');
-            const browserFrame = document.getElementById('browserFrame');
             
             // Update tab
             activeTab.url = url;
@@ -1786,11 +1780,12 @@
 
             // Create or update iframe for this tab
             if (!activeTab.iframeElement) {
+                console.log('Creating new iframe for tab', activeTab.id);
                 const iframe = document.createElement('iframe');
                 iframe.className = 'browser-frame';
                 iframe.setAttribute('data-tab-id', activeTab.id);
                 activeTab.iframeElement = iframe;
-                browserFrame.parentNode.insertBefore(iframe, browserFrame.nextSibling);
+                document.getElementById('browserContent').appendChild(iframe);
             }
 
             // Hide all iframes
@@ -1802,16 +1797,16 @@
             // Show this tab's iframe
             activeTab.iframeElement.style.display = 'block';
             
-            // Trigger fade in animation
             setTimeout(() => {
                 activeTab.iframeElement.classList.add('active');
             }, 10);
 
-            // Try proxy method
+            // Load URL in iframe
             const proxyUrl = PROXY_SERVICES[0](url);
+            console.log('Loading proxy URL:', proxyUrl);
             activeTab.iframeElement.src = proxyUrl;
 
-            // Hide main page, show browser
+            // Show browser view
             container.style.display = 'none';
             document.getElementById('gamesPage').classList.remove('active');
             browserContent.classList.add('active');
@@ -1825,33 +1820,16 @@
             const container = document.querySelector('.container');
             const addressBar = document.getElementById('addressBar');
             
-            // Clear tab URL and update title
             activeTab.url = '';
             updateTabTitle(activeTab.id, 'New Tab');
             
-            // Hide iframe
             if (activeTab.iframeElement) {
                 activeTab.iframeElement.style.display = 'none';
             }
             
-            // Clear address bar
             addressBar.value = '';
-            
-            // Hide browser, show main page
             browserContent.classList.remove('active');
             container.style.display = 'flex';
-        }
-
-        function reloadBrowser() {
-            reloadPage();
-        }
-
-        function openInNewTab() {
-            window.open(currentProxyUrl, '_blank');
-        }
-
-        function closeBrowser() {
-            goHome();
         }
 
         // Search games
@@ -1861,12 +1839,18 @@
 
         // Browser search on Enter
         document.getElementById('browserSearch').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') searchBrowser();
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchBrowser();
+            }
         });
 
         // Address bar on Enter
         document.getElementById('addressBar').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') searchFromAddressBar();
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchFromAddressBar();
+            }
         });
 
         // ESC key to close
@@ -1890,7 +1874,6 @@
         // Tab functionality
         const newTabBtn = document.querySelector('.new-tab-btn');
         newTabBtn.addEventListener('click', () => {
-            // Add click animation
             newTabBtn.classList.add('clicked');
             setTimeout(() => {
                 newTabBtn.classList.remove('clicked');
@@ -1905,7 +1888,7 @@
         initializeTabs();
 
         // Load saved settings
-        const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite'; // Default to B&W
+        const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite';
         changeTheme(savedTheme);
 
         if (localStorage.getItem('desritory-cloak') === 'true') {
