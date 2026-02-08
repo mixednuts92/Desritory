@@ -18,11 +18,6 @@
             --accent: #a855f7;
             --light: #c084fc;
             --glow: rgba(120, 70, 220, 0.4);
-            --tab-bg: #2d2e30;
-            --tab-bg-hover: #46474a;
-            --tab-bg-active: #202124;
-            --nav-bg: #202124;
-            --tab-text: #e8eaed;
         }
 
         body {
@@ -38,257 +33,6 @@
             transition: background 0.5s ease;
         }
 
-        /* Browser Tab Bar */
-        .tab-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 36px;
-            background: var(--tab-bg);
-            display: flex;
-            align-items: center;
-            padding: 0;
-            z-index: 10000;
-            gap: 0;
-            transition: background 0.3s ease;
-        }
-
-        .tab {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background: var(--tab-bg);
-            font-size: 13px;
-            max-width: 200px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-right: 1px solid var(--nav-bg);
-            height: 100%;
-            transform-origin: center;
-            animation: slideInTab 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: var(--tab-text);
-        }
-
-        @keyframes slideInTab {
-            from {
-                opacity: 0;
-                transform: translateX(-20px) scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-        }
-
-        .tab:hover {
-            background: var(--tab-bg-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .tab.active {
-            background: var(--tab-bg-active);
-            transform: translateY(0);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-        .tab.closing {
-            animation: slideOutTab 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        @keyframes slideOutTab {
-            from {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-                max-width: 200px;
-                padding: 8px 12px;
-            }
-            to {
-                opacity: 0;
-                transform: translateX(-20px) scale(0.8);
-                max-width: 0;
-                padding: 8px 0;
-            }
-        }
-
-        .tab-icon {
-            font-size: 16px;
-        }
-
-        .tab-title {
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-size: 12px;
-            color: var(--tab-text);
-        }
-
-        .tab-close {
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 16px;
-            opacity: 0.6;
-            transition: all 0.2s;
-            color: var(--tab-text);
-        }
-
-        .tab-close:hover {
-            opacity: 1;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .new-tab-btn {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 18px;
-            color: var(--tab-text);
-        }
-
-        .new-tab-btn:hover {
-            background: var(--tab-bg-hover);
-            transform: scale(1.1);
-        }
-
-        .new-tab-btn:active {
-            transform: scale(0.95);
-        }
-
-        .new-tab-btn.clicked {
-            animation: pulseNewTab 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes pulseNewTab {
-            0% {
-                transform: scale(1) rotate(0deg);
-            }
-            50% {
-                transform: scale(1.2) rotate(180deg);
-                background: var(--tab-bg-hover);
-            }
-            100% {
-                transform: scale(1) rotate(360deg);
-            }
-        }
-
-        /* Navigation Bar */
-        .nav-bar {
-            position: fixed;
-            top: 36px;
-            left: 0;
-            right: 0;
-            height: 44px;
-            background: var(--nav-bg);
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-            gap: 8px;
-            z-index: 9999;
-            transition: background 0.3s ease;
-        }
-
-        .nav-btn {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 18px;
-            color: var(--tab-text);
-            opacity: 0.7;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--tab-text);
-            opacity: 1;
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .address-bar {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--tab-bg);
-            border-radius: 20px;
-            padding: 8px 15px;
-            transition: all 0.2s;
-        }
-
-        .address-bar:hover {
-            background: var(--tab-bg-hover);
-        }
-
-        .address-bar:focus-within {
-            background: var(--tab-bg);
-            outline: 2px solid var(--primary);
-        }
-
-        .address-icon {
-            font-size: 18px;
-            color: var(--tab-text);
-            opacity: 0.6;
-        }
-
-        .address-input {
-            flex: 1;
-            background: none;
-            border: none;
-            outline: none;
-            color: var(--tab-text);
-            font-size: 13px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .address-input::placeholder {
-            color: var(--tab-text);
-            opacity: 0.5;
-        }
-
-        .menu-btn {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 20px;
-            color: var(--tab-text);
-            opacity: 0.7;
-        }
-
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--tab-text);
-            opacity: 1;
-        }
-
         /* Main Container */
         .container {
             display: flex;
@@ -296,15 +40,9 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 90px 20px 20px;
+            padding: 40px 20px 20px;
             position: relative;
             z-index: 1;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        .container.hidden {
-            opacity: 0;
-            pointer-events: none;
         }
 
         /* Particles */
@@ -348,119 +86,12 @@
             background-clip: text;
             animation: gradientShift 8s ease infinite;
             text-shadow: 0 0 80px var(--glow);
-            margin-bottom: 15px;
+            margin-bottom: 50px;
         }
 
         @keyframes gradientShift {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
-        }
-
-        .subtitle {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-        }
-
-        /* Search Bar */
-        .search-container {
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 30px;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            padding: 15px 25px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--primary);
-            box-shadow: 0 0 30px var(--glow);
-        }
-
-        .search-input {
-            flex: 1;
-            background: none;
-            border: none;
-            outline: none;
-            color: white;
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .search-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            font-size: 18px;
-        }
-
-        .search-btn:hover {
-            transform: scale(1.1) rotate(90deg);
-            box-shadow: 0 0 20px var(--glow);
-        }
-
-        /* Shortcuts */
-        .shortcuts {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 40px;
-        }
-
-        .shortcut {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            color: white;
-        }
-
-        .shortcut:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px var(--glow);
-        }
-
-        .shortcut img {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-        }
-
-        .shortcut-name {
-            font-size: 13px;
-            opacity: 0.8;
         }
 
         /* Browse Games Button */
@@ -497,7 +128,7 @@
         /* Corner Buttons */
         .corner-buttons {
             position: fixed;
-            top: 90px;
+            top: 20px;
             right: 20px;
             display: flex;
             gap: 10px;
@@ -526,7 +157,7 @@
             box-shadow: 0 5px 20px var(--glow);
         }
 
-        /* Settings Modal */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -659,7 +290,7 @@
             transform: translateX(24px);
         }
 
-        /* Changelog Content */
+        /* Changelog */
         .changelog-content {
             max-height: 500px;
             overflow-y: auto;
@@ -704,7 +335,7 @@
         .games-page {
             display: none;
             position: fixed;
-            top: 80px;
+            top: 0;
             left: 0;
             right: 0;
             bottom: 0;
@@ -780,8 +411,8 @@
 
         .games-list {
             padding: 20px;
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 15px;
         }
 
@@ -800,7 +431,7 @@
         .game-item:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--primary);
-            transform: translateX(10px);
+            transform: translateY(-5px);
             box-shadow: 0 5px 30px var(--glow);
         }
 
@@ -810,57 +441,26 @@
             text-align: center;
         }
 
+        .game-info {
+            flex: 1;
+        }
+
         .game-name {
             font-size: 18px;
             font-weight: 600;
+            margin-bottom: 5px;
         }
 
-        /* Browser Content */
-        .browser-content {
-            display: none;
-            position: fixed;
-            top: 80px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: white;
-            z-index: 9998;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        .browser-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .browser-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        .browser-frame.active {
-            opacity: 1;
+        .game-category {
+            font-size: 12px;
+            opacity: 0.6;
         }
 
         /* Loading Screen */
         .loading-screen {
             display: none;
             position: fixed;
-            top: 80px;
+            top: 0;
             left: 0;
             right: 0;
             bottom: 0;
@@ -905,30 +505,10 @@
             50% { opacity: 0.5; }
         }
 
-        .skip-loading {
-            padding: 12px 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--primary);
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .skip-loading:hover {
-            background: rgba(124, 77, 255, 0.2);
-            transform: scale(1.05);
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .logo {
                 font-size: 48px;
-            }
-
-            .shortcuts {
-                grid-template-columns: repeat(2, 1fr);
             }
 
             .theme-buttons {
@@ -943,84 +523,31 @@
                 width: 100%;
                 max-width: none;
             }
+
+            .games-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Particles Background -->
     <div class="particles"></div>
-
-    <!-- Browser Tab Bar -->
-    <div class="tab-bar">
-        <div class="new-tab-btn">+</div>
-    </div>
-
-    <!-- Navigation Bar -->
-    <div class="nav-bar">
-        <button class="nav-btn" onclick="goBack()" title="Back">←</button>
-        <button class="nav-btn" onclick="goForward()" title="Forward">→</button>
-        <button class="nav-btn" onclick="reloadPage()" title="Reload">↻</button>
-        <div class="address-bar">
-            <span class="address-icon">🔒</span>
-            <input type="text" class="address-input" placeholder="Search Google or type a URL" id="addressBar">
-        </div>
-        <button class="menu-btn" onclick="openSettings()">⋮</button>
-    </div>
-
-    <!-- Corner Buttons -->
     <div class="corner-buttons">
         <button class="corner-btn" onclick="openChangelog()">📋</button>
         <button class="corner-btn" onclick="openSettings()">⚙️</button>
     </div>
-
-    <!-- Main Container -->
     <div class="container">
         <h1 class="logo">DESRITORY</h1>
-        <p class="subtitle">Browse Privately, Freely, and Anonymously</p>
-
-        <!-- Search Bar -->
-        <div class="search-container">
-            <div class="search-box">
-                <input type="text" class="search-input" placeholder="Search or enter URL..." id="browserSearch">
-                <button class="search-btn" onclick="searchBrowser()">→</button>
-            </div>
-        </div>
-
-        <!-- Shortcuts -->
-        <div class="shortcuts">
-            <div class="shortcut" onclick="openSite('https://youtube.com')">
-                <img src="https://www.youtube.com/s/desktop/6e27c0b1/img/favicon_144x144.png" alt="YouTube">
-                <span class="shortcut-name">YouTube</span>
-            </div>
-            <div class="shortcut" onclick="openSite('https://reddit.com')">
-                <img src="https://www.redditstatic.com/desktop2x/img/favicon/apple-icon-180x180.png" alt="Reddit">
-                <span class="shortcut-name">Reddit</span>
-            </div>
-            <div class="shortcut" onclick="openSite('https://twitter.com')">
-                <img src="https://abs.twimg.com/responsive-web/client-web/icon-ios.77d25eba.png" alt="Twitter">
-                <span class="shortcut-name">Twitter</span>
-            </div>
-            <div class="shortcut" onclick="openSite('https://discord.com')">
-                <img src="https://discord.com/assets/f9bb9c4af2b9c32a2c5ee0014661546d.png" alt="Discord">
-                <span class="shortcut-name">Discord</span>
-            </div>
-        </div>
-
-        <!-- Browse Games Button -->
-        <button class="games-btn" onclick="showGamesPage()">Browse Games</button>
-
-        <!-- Footer -->
+        <button class="games-btn" onclick="showGamesPage()">🎮 Browse Games</button>
         <div class="footer">©2025 Desritory</div>
     </div>
 
-    <!-- Settings Modal -->
     <div class="modal" id="settingsModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Settings</h2>
                 <button class="close-btn" onclick="closeSettings()">×</button>
             </div>
-
             <div class="settings-section">
                 <div class="settings-label">Theme</div>
                 <div class="theme-buttons">
@@ -1035,7 +562,6 @@
                     <button class="theme-btn" onclick="changeTheme('blackwhite')" style="background: linear-gradient(135deg, #666, #222);">B&W</button>
                 </div>
             </div>
-
             <div class="settings-section">
                 <div class="settings-label">Tab Cloaking</div>
                 <div class="toggle-option">
@@ -1045,7 +571,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="settings-section">
                 <div class="settings-label">Panic Key (' key)</div>
                 <div class="toggle-option">
@@ -1058,35 +583,31 @@
         </div>
     </div>
 
-    <!-- Changelog Modal -->
     <div class="modal" id="changelogModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Updates & Changelog</h2>
                 <button class="close-btn" onclick="closeChangelog()">×</button>
             </div>
-
-            <div class="changelog-content" id="changelogContent">
-                <!-- Updated: Feb 7, 2026 v3 -->
+            <div class="changelog-content">
                 <div class="changelog-entry">
-                    <div class="changelog-version">v0.5.0</div>
-                    <div class="changelog-date">February 7, 2026</div>
+                    <div class="changelog-version">v0.7.0</div>
+                    <div class="changelog-date">February 8, 2026</div>
                     <div class="changelog-items">
                         <div class="changelog-item">will add more soon dw</div>
-                        <div class="changelog-item">currently working on improving proxy</div>
-                        <div class="changelog-item">added B&W theme option</div>
-                        <div class="changelog-item">attempting to add LOTS of games</div>
-                        <div class="changelog-item">added a transition to make it look cool</div>
-                        <div class="changelog-item">added a hopefully better tab cloaking</div>
-                        <div class="changelog-item">working on adding a better ui</div>
-                        <div class="changelog-item">added an almost instant response time (to some things)</div>
+                        <div class="changelog-item">removed proxy cause idk how to make ts work</div>
+                        <div class="changelog-item">adding more games</div>
+                        <div class="changelog-item">removed browser ui look and replaced it with a more modern ui.</div>
+                        <div class="changelog-item">will work on tryna add more smoother loading times</div>
+                        <div class="changelog-item">will work on adding a better tab cloaking</div>
+                        <div class="changelog-item">removing boring old pre-set games</div>
+                        <div class="changelog-item">thats all</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Games Page -->
     <div class="games-page" id="gamesPage">
         <div class="games-header">
             <button class="back-btn" onclick="closeGames()">← Back</button>
@@ -1097,339 +618,58 @@
         <div class="games-list" id="gamesList"></div>
     </div>
 
-    <!-- Browser Content (Hidden initially, shows when loading a site) -->
-    <div class="browser-content" id="browserContent">
-        <iframe class="browser-frame" id="browserFrame" style="display: none;"></iframe>
-    </div>
-
-    <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loader"></div>
         <div class="loading-text" id="loadingText">LOADING...</div>
-        <button class="skip-loading" onclick="skipLoading()">Skip Loading</button>
     </div>
 
     <script>
-        // Proxy configuration
-        const PROXY_SERVICES = [
-            url => `https://website-legacy-ashy.vercel.app/service/hvtrs8%2F-${btoa(url).replace(/=/g, '%3D')}`,
-            url => url
-        ];
-
-        let currentProxyUrl = '';
-        let currentGameName = '';
-        let loadingTimeout;
-        
-        // Tab management
-        let tabs = [];
-        let activeTabId = null;
-        let nextTabId = 1;
-
-        // Initialize with first tab
-        function initializeTabs() {
-            createNewTab('New Tab', '', true);
-        }
-
-        function createNewTab(title = 'New Tab', url = '', isInitial = false) {
-            const tabId = nextTabId++;
-            
-            const tab = {
-                id: tabId,
-                title: title,
-                url: url,
-                element: null,
-                iframeElement: null
-            };
-            
-            tabs.push(tab);
-            renderTab(tab);
-            
-            if (!isInitial) {
-                switchToTab(tabId);
-            }
-            
-            return tabId;
-        }
-
-        function renderTab(tab) {
-            const tabBar = document.querySelector('.tab-bar');
-            const newTabBtn = document.querySelector('.new-tab-btn');
-            
-            const tabElement = document.createElement('div');
-            tabElement.className = 'tab';
-            tabElement.setAttribute('data-tab-id', tab.id);
-            
-            tabElement.innerHTML = `
-                <span class="tab-icon">🌐</span>
-                <span class="tab-title">${tab.title}</span>
-                <span class="tab-close">×</span>
-            `;
-            
-            tabElement.addEventListener('click', (e) => {
-                if (!e.target.classList.contains('tab-close')) {
-                    switchToTab(tab.id);
-                }
-            });
-            
-            tabElement.querySelector('.tab-close').addEventListener('click', (e) => {
-                e.stopPropagation();
-                closeTab(tab.id);
-            });
-            
-            tab.element = tabElement;
-            tabBar.insertBefore(tabElement, newTabBtn);
-        }
-
-        function switchToTab(tabId) {
-            tabs.forEach(tab => {
-                if (tab.element) {
-                    tab.element.classList.remove('active');
-                }
-                if (tab.iframeElement) {
-                    tab.iframeElement.style.display = 'none';
-                    tab.iframeElement.classList.remove('active');
-                }
-            });
-            
-            const tab = tabs.find(t => t.id === tabId);
-            if (tab) {
-                activeTabId = tabId;
-                if (tab.element) {
-                    tab.element.classList.add('active');
-                }
-                
-                if (tab.url) {
-                    if (tab.iframeElement) {
-                        tab.iframeElement.style.display = 'block';
-                        setTimeout(() => {
-                            tab.iframeElement.classList.add('active');
-                        }, 10);
-                    }
-                    document.querySelector('.container').style.display = 'none';
-                    document.getElementById('gamesPage').classList.remove('active');
-                    document.getElementById('browserContent').classList.add('active');
-                    document.getElementById('addressBar').value = tab.url;
-                } else {
-                    document.getElementById('browserContent').classList.remove('active');
-                    document.getElementById('gamesPage').classList.remove('active');
-                    document.querySelector('.container').style.display = 'flex';
-                    document.getElementById('addressBar').value = '';
-                }
-            }
-        }
-
-        function closeTab(tabId) {
-            const tabIndex = tabs.findIndex(t => t.id === tabId);
-            if (tabIndex === -1) return;
-            
-            const tab = tabs[tabIndex];
-            
-            if (tab.element) {
-                tab.element.classList.add('closing');
-                
-                setTimeout(() => {
-                    if (tab.element) {
-                        tab.element.remove();
-                    }
-                    
-                    if (tab.iframeElement) {
-                        tab.iframeElement.remove();
-                    }
-                    
-                    tabs.splice(tabIndex, 1);
-                    
-                    if (activeTabId === tabId) {
-                        if (tabs.length > 0) {
-                            const newActiveTab = tabs[Math.max(0, tabIndex - 1)];
-                            switchToTab(newActiveTab.id);
-                        } else {
-                            createNewTab();
-                        }
-                    }
-                }, 300);
-            }
-        }
-
-        function updateTabTitle(tabId, title) {
-            const tab = tabs.find(t => t.id === tabId);
-            if (tab && tab.element) {
-                tab.title = title;
-                const titleElement = tab.element.querySelector('.tab-title');
-                if (titleElement) {
-                    titleElement.textContent = title;
-                }
-            }
-        }
-
-        function getActiveTab() {
-            return tabs.find(t => t.id === activeTabId);
-        }
-
-        // Games list
         const games = [
-            { name: '2048', icon: '🔢', url: 'https://play2048.co/' },
-            { name: 'Snake', icon: '🐍', url: 'https://www.google.com/fbx?fbx=snake_arcade' },
-            { name: 'Tetris', icon: '🟦', url: 'https://tetris.com/play-tetris' },
-            { name: 'Pac-Man', icon: '👾', url: 'https://www.google.com/logos/2010/pacman10-i.html' },
-            { name: 'Slope', icon: '⛷️', url: 'https://slope-game.github.io/rbrush/slope/' },
-            { name: 'Run 3', icon: '🏃', url: 'https://www.coolmathgames.com/0-run-3' },
-            { name: 'Minesweeper', icon: '💣', url: 'https://minesweeperonline.com/' },
-            { name: 'Chess', icon: '♟️', url: 'https://www.chess.com/play/computer' },
-            { name: 'Wordle', icon: '📝', url: 'https://www.nytimes.com/games/wordle/index.html' },
-            { name: 'Cookie Clicker', icon: '🍪', url: 'https://orteil.dashnet.org/cookieclicker/' },
-            { name: 'Flappy Bird', icon: '🐦', url: 'https://flappybird.io/' },
-            { name: 'Agar.io', icon: '⚪', url: 'https://agar.io/' }
+            // Direct HTML5 games that work in iframes
+            { name: '2048', icon: '🔢', url: 'https://play2048.co/', category: 'Puzzle' },
+            { name: 'Tetris', icon: '🟦', url: 'https://chvin.github.io/react-tetris/', category: 'Puzzle' },
+            { name: 'Snake', icon: '🐍', url: 'https://playsnake.org/', category: 'Arcade' },
+            { name: 'Pac-Man', icon: '👾', url: 'https://freepacman.org/', category: 'Arcade' },
+            { name: 'Breakout', icon: '🧱', url: 'https://elgoog.im/breakout/', category: 'Arcade' },
+            { name: 'Flappy Bird', icon: '🐦', url: 'https://flappybird.io/', category: 'Arcade' },
+            { name: 'T-Rex Run', icon: '🦖', url: 'https://chromedino.com/', category: 'Arcade' },
+            { name: 'Space Invaders', icon: '👽', url: 'https://freeinvaders.org/', category: 'Arcade' },
+            { name: 'Pong', icon: '🏓', url: 'https://ponggame.org/', category: 'Arcade' },
+            { name: 'Minesweeper', icon: '💣', url: 'https://minesweeperonline.com/', category: 'Puzzle' },
+            { name: 'Solitaire', icon: '🃏', url: 'https://www.solitr.com/', category: 'Classic' },
+            { name: 'Agar.io', icon: '⚪', url: 'https://agar.io/', category: 'Multiplayer' },
+            { name: 'Slither.io', icon: '🐍', url: 'https://slither.io/', category: 'Multiplayer' },
+            { name: 'Krunker.io', icon: '🔫', url: 'https://krunker.io/', category: 'Multiplayer' },
+            { name: 'Diep.io', icon: '🛡️', url: 'https://diep.io/', category: 'Multiplayer' },
+            { name: 'Wormate.io', icon: '🪱', url: 'https://wormate.io/', category: 'Multiplayer' },
+            { name: 'Paper.io', icon: '📄', url: 'https://paper-io.com/', category: 'Multiplayer' },
+            { name: 'Zombs Royale', icon: '🧟', url: 'https://zombsroyale.io/', category: 'Multiplayer' },
+            { name: 'Cookie Clicker', icon: '🍪', url: 'https://orteil.dashnet.org/cookieclicker/', category: 'Idle' },
+            { name: 'Crossy Road', icon: '🐔', url: 'https://poki.com/en/g/crossy-road', category: 'Arcade' },
+            { name: 'Run 3', icon: '🏃', url: 'https://www.mathplayground.com/run_3/run_3.html', category: 'Arcade' },
+            { name: 'Slope', icon: '⛷️', url: 'https://slope-game.github.io/', category: 'Arcade' },
+            { name: 'Subway Surfers', icon: '🚇', url: 'https://poki.com/en/g/subway-surfers', category: 'Arcade' },
+            { name: 'Temple Run 2', icon: '🏃', url: 'https://poki.com/en/g/temple-run-2', category: 'Arcade' },
+            { name: 'Sudoku', icon: '🧩', url: 'https://sudoku.com/', category: 'Puzzle' },
+            { name: 'Chess', icon: '♟️', url: 'https://www.chess.com/play/computer', category: 'Strategy' },
+            { name: 'Checkers', icon: '⚫', url: 'https://www.247checkers.com/', category: 'Strategy' },
+            { name: 'Cut the Rope', icon: '✂️', url: 'https://poki.com/en/g/cut-the-rope', category: 'Puzzle' },
+            { name: 'Geometry Dash', icon: '🔷', url: 'https://scratch.mit.edu/projects/105500895/embed', category: 'Arcade' },
+            { name: 'Duck Life', icon: '🦆', url: 'https://www.mathplayground.com/duck_life_4.html', category: 'Adventure' },
         ];
 
-        // Theme data
         const themes = {
-            purple: {
-                primary: '#7c4dff',
-                secondary: '#9333ea',
-                accent: '#a855f7',
-                light: '#c084fc',
-                glow: 'rgba(120, 70, 220, 0.4)',
-                bgBase: '#0a0b1a',
-                bgGradient1: 'rgba(88, 40, 180, 0.08)',
-                bgGradient2: 'rgba(60, 20, 140, 0.06)',
-                bgGradient3: 'rgba(30, 15, 80, 0.1)',
-                tabBg: '#2d1b4e',
-                tabBgHover: '#3d2b5e',
-                tabBgActive: '#1a0f2e',
-                navBg: '#1a0f2e',
-                tabText: '#e8eaed'
-            },
-            green: {
-                primary: '#10b981',
-                secondary: '#059669',
-                accent: '#34d399',
-                light: '#6ee7b7',
-                glow: 'rgba(16, 185, 129, 0.4)',
-                bgBase: '#0a1a14',
-                bgGradient1: 'rgba(16, 185, 129, 0.08)',
-                bgGradient2: 'rgba(5, 150, 105, 0.06)',
-                bgGradient3: 'rgba(4, 120, 87, 0.1)',
-                tabBg: '#1a3d2e',
-                tabBgHover: '#2a4d3e',
-                tabBgActive: '#0f2a1e',
-                navBg: '#0f2a1e',
-                tabText: '#e8eaed'
-            },
-            blue: {
-                primary: '#3b82f6',
-                secondary: '#1d4ed8',
-                accent: '#60a5fa',
-                light: '#93c5fd',
-                glow: 'rgba(59, 130, 246, 0.4)',
-                bgBase: '#0a0f1a',
-                bgGradient1: 'rgba(59, 130, 246, 0.08)',
-                bgGradient2: 'rgba(29, 78, 216, 0.06)',
-                bgGradient3: 'rgba(30, 58, 138, 0.1)',
-                tabBg: '#1a2d4e',
-                tabBgHover: '#2a3d5e',
-                tabBgActive: '#0f1a2e',
-                navBg: '#0f1a2e',
-                tabText: '#e8eaed'
-            },
-            red: {
-                primary: '#ef4444',
-                secondary: '#dc2626',
-                accent: '#f87171',
-                light: '#fca5a5',
-                glow: 'rgba(239, 68, 68, 0.4)',
-                bgBase: '#1a0a0a',
-                bgGradient1: 'rgba(239, 68, 68, 0.08)',
-                bgGradient2: 'rgba(220, 38, 38, 0.06)',
-                bgGradient3: 'rgba(185, 28, 28, 0.1)',
-                tabBg: '#3d1a1a',
-                tabBgHover: '#4d2a2a',
-                tabBgActive: '#2a0f0f',
-                navBg: '#2a0f0f',
-                tabText: '#e8eaed'
-            },
-            pink: {
-                primary: '#ec4899',
-                secondary: '#db2777',
-                accent: '#f472b6',
-                light: '#f9a8d4',
-                glow: 'rgba(236, 72, 153, 0.4)',
-                bgBase: '#1a0a14',
-                bgGradient1: 'rgba(236, 72, 153, 0.08)',
-                bgGradient2: 'rgba(219, 39, 119, 0.06)',
-                bgGradient3: 'rgba(190, 24, 93, 0.1)',
-                tabBg: '#3d1a2e',
-                tabBgHover: '#4d2a3e',
-                tabBgActive: '#2a0f1e',
-                navBg: '#2a0f1e',
-                tabText: '#e8eaed'
-            },
-            orange: {
-                primary: '#f59e0b',
-                secondary: '#d97706',
-                accent: '#fbbf24',
-                light: '#fcd34d',
-                glow: 'rgba(245, 158, 11, 0.4)',
-                bgBase: '#1a140a',
-                bgGradient1: 'rgba(245, 158, 11, 0.08)',
-                bgGradient2: 'rgba(217, 119, 6, 0.06)',
-                bgGradient3: 'rgba(180, 83, 9, 0.1)',
-                tabBg: '#3d2a1a',
-                tabBgHover: '#4d3a2a',
-                tabBgActive: '#2a1a0f',
-                navBg: '#2a1a0f',
-                tabText: '#e8eaed'
-            },
-            cyan: {
-                primary: '#06b6d4',
-                secondary: '#0891b2',
-                accent: '#22d3ee',
-                light: '#67e8f9',
-                glow: 'rgba(6, 182, 212, 0.4)',
-                bgBase: '#0a1419',
-                bgGradient1: 'rgba(6, 182, 212, 0.08)',
-                bgGradient2: 'rgba(8, 145, 178, 0.06)',
-                bgGradient3: 'rgba(14, 116, 144, 0.1)',
-                tabBg: '#1a3d4e',
-                tabBgHover: '#2a4d5e',
-                tabBgActive: '#0f2a3e',
-                navBg: '#0f2a3e',
-                tabText: '#e8eaed'
-            },
-            yellow: {
-                primary: '#eab308',
-                secondary: '#ca8a04',
-                accent: '#facc15',
-                light: '#fde047',
-                glow: 'rgba(234, 179, 8, 0.4)',
-                bgBase: '#1a1a0a',
-                bgGradient1: 'rgba(234, 179, 8, 0.08)',
-                bgGradient2: 'rgba(202, 138, 4, 0.06)',
-                bgGradient3: 'rgba(161, 98, 7, 0.1)',
-                tabBg: '#3d3d1a',
-                tabBgHover: '#4d4d2a',
-                tabBgActive: '#2a2a0f',
-                navBg: '#2a2a0f',
-                tabText: '#e8eaed'
-            },
-            blackwhite: {
-                primary: '#888888',
-                secondary: '#666666',
-                accent: '#aaaaaa',
-                light: '#cccccc',
-                glow: 'rgba(136, 136, 136, 0.4)',
-                bgBase: '#0a0a0a',
-                bgGradient1: 'rgba(80, 80, 80, 0.08)',
-                bgGradient2: 'rgba(60, 60, 60, 0.06)',
-                bgGradient3: 'rgba(40, 40, 40, 0.1)',
-                tabBg: '#2d2e30',
-                tabBgHover: '#46474a',
-                tabBgActive: '#202124',
-                navBg: '#202124',
-                tabText: '#e8eaed'
-            }
+            purple: { primary: '#7c4dff', secondary: '#9333ea', accent: '#a855f7', light: '#c084fc', glow: 'rgba(120, 70, 220, 0.4)', bgBase: '#0a0b1a', bgGradient1: 'rgba(88, 40, 180, 0.08)', bgGradient2: 'rgba(60, 20, 140, 0.06)', bgGradient3: 'rgba(30, 15, 80, 0.1)' },
+            green: { primary: '#10b981', secondary: '#059669', accent: '#34d399', light: '#6ee7b7', glow: 'rgba(16, 185, 129, 0.4)', bgBase: '#0a1a14', bgGradient1: 'rgba(16, 185, 129, 0.08)', bgGradient2: 'rgba(5, 150, 105, 0.06)', bgGradient3: 'rgba(4, 120, 87, 0.1)' },
+            blue: { primary: '#3b82f6', secondary: '#1d4ed8', accent: '#60a5fa', light: '#93c5fd', glow: 'rgba(59, 130, 246, 0.4)', bgBase: '#0a0f1a', bgGradient1: 'rgba(59, 130, 246, 0.08)', bgGradient2: 'rgba(29, 78, 216, 0.06)', bgGradient3: 'rgba(30, 58, 138, 0.1)' },
+            red: { primary: '#ef4444', secondary: '#dc2626', accent: '#f87171', light: '#fca5a5', glow: 'rgba(239, 68, 68, 0.4)', bgBase: '#1a0a0a', bgGradient1: 'rgba(239, 68, 68, 0.08)', bgGradient2: 'rgba(220, 38, 38, 0.06)', bgGradient3: 'rgba(185, 28, 28, 0.1)' },
+            pink: { primary: '#ec4899', secondary: '#db2777', accent: '#f472b6', light: '#f9a8d4', glow: 'rgba(236, 72, 153, 0.4)', bgBase: '#1a0a14', bgGradient1: 'rgba(236, 72, 153, 0.08)', bgGradient2: 'rgba(219, 39, 119, 0.06)', bgGradient3: 'rgba(190, 24, 93, 0.1)' },
+            orange: { primary: '#f59e0b', secondary: '#d97706', accent: '#fbbf24', light: '#fcd34d', glow: 'rgba(245, 158, 11, 0.4)', bgBase: '#1a140a', bgGradient1: 'rgba(245, 158, 11, 0.08)', bgGradient2: 'rgba(217, 119, 6, 0.06)', bgGradient3: 'rgba(180, 83, 9, 0.1)' },
+            cyan: { primary: '#06b6d4', secondary: '#0891b2', accent: '#22d3ee', light: '#67e8f9', glow: 'rgba(6, 182, 212, 0.4)', bgBase: '#0a1419', bgGradient1: 'rgba(6, 182, 212, 0.08)', bgGradient2: 'rgba(8, 145, 178, 0.06)', bgGradient3: 'rgba(14, 116, 144, 0.1)' },
+            yellow: { primary: '#eab308', secondary: '#ca8a04', accent: '#facc15', light: '#fde047', glow: 'rgba(234, 179, 8, 0.4)', bgBase: '#1a1a0a', bgGradient1: 'rgba(234, 179, 8, 0.08)', bgGradient2: 'rgba(202, 138, 4, 0.06)', bgGradient3: 'rgba(161, 98, 7, 0.1)' },
+            blackwhite: { primary: '#888888', secondary: '#666666', accent: '#aaaaaa', light: '#cccccc', glow: 'rgba(136, 136, 136, 0.4)', bgBase: '#0a0a0a', bgGradient1: 'rgba(80, 80, 80, 0.08)', bgGradient2: 'rgba(60, 60, 60, 0.06)', bgGradient3: 'rgba(40, 40, 40, 0.1)' }
         };
 
-        // Initialize particles
         function createParticles() {
             const particlesContainer = document.querySelector('.particles');
             for (let i = 0; i < 50; i++) {
@@ -1443,38 +683,22 @@
             }
         }
 
-        // Change theme
         function changeTheme(colorName) {
             const theme = themes[colorName];
             if (!theme) return;
-
             localStorage.setItem('desritory-theme', colorName);
-
             document.body.style.background = theme.bgBase;
-            document.body.style.backgroundImage = `
-                radial-gradient(ellipse at 20% 50%, ${theme.bgGradient1} 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, ${theme.bgGradient2} 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)
-            `;
-
+            document.body.style.backgroundImage = `radial-gradient(ellipse at 20% 50%, ${theme.bgGradient1} 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, ${theme.bgGradient2} 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)`;
             document.documentElement.style.setProperty('--primary', theme.primary);
             document.documentElement.style.setProperty('--secondary', theme.secondary);
             document.documentElement.style.setProperty('--accent', theme.accent);
             document.documentElement.style.setProperty('--light', theme.light);
             document.documentElement.style.setProperty('--glow', theme.glow);
-            
-            document.documentElement.style.setProperty('--tab-bg', theme.tabBg);
-            document.documentElement.style.setProperty('--tab-bg-hover', theme.tabBgHover);
-            document.documentElement.style.setProperty('--tab-bg-active', theme.tabBgActive);
-            document.documentElement.style.setProperty('--nav-bg', theme.navBg);
-            document.documentElement.style.setProperty('--tab-text', theme.tabText);
-
             const logo = document.querySelector('.logo');
             logo.style.background = `linear-gradient(135deg, ${theme.light} 0%, ${theme.primary} 25%, ${theme.accent} 50%, ${theme.secondary} 75%, ${theme.light} 100%)`;
             logo.style.webkitBackgroundClip = 'text';
             logo.style.webkitTextFillColor = 'transparent';
             logo.style.backgroundClip = 'text';
-
             const gamesTitle = document.querySelector('.games-title');
             if (gamesTitle) {
                 gamesTitle.style.background = `linear-gradient(135deg, ${theme.light}, ${theme.primary})`;
@@ -1482,80 +706,21 @@
                 gamesTitle.style.webkitTextFillColor = 'transparent';
                 gamesTitle.style.backgroundClip = 'text';
             }
-
-            const searchBtn = document.querySelector('.search-btn');
-            searchBtn.style.background = `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`;
-
-            document.querySelectorAll('.corner-btn, .back-btn').forEach(btn => {
-                btn.style.borderColor = `rgba(255, 255, 255, 0.2)`;
-            });
-
-            document.querySelectorAll('.search-input, .games-search').forEach(input => {
-                input.style.caretColor = theme.primary;
-            });
-
-            const modalTitle = document.querySelector('.modal-title');
-            if (modalTitle) {
-                modalTitle.style.background = `linear-gradient(135deg, ${theme.light}, ${theme.primary})`;
-                modalTitle.style.webkitBackgroundClip = 'text';
-                modalTitle.style.webkitTextFillColor = 'transparent';
-                modalTitle.style.backgroundClip = 'text';
-            }
-
-            document.querySelectorAll('.game-item').forEach(item => {
-                item.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-            });
-
-            document.querySelectorAll('.toggle-switch.active').forEach(toggle => {
-                toggle.style.background = theme.primary;
-            });
-
-            const loader = document.querySelector('.loader');
-            if (loader) {
-                loader.style.borderTopColor = theme.primary;
-            }
-
-            const loadingText = document.querySelector('.loading-text');
-            if (loadingText) {
-                loadingText.style.background = `linear-gradient(135deg, ${theme.light}, ${theme.primary}, ${theme.accent})`;
-                loadingText.style.webkitBackgroundClip = 'text';
-                loadingText.style.webkitTextFillColor = 'transparent';
-                loadingText.style.backgroundClip = 'text';
-            }
-
-            const skipBtn = document.querySelector('.skip-loading');
-            if (skipBtn) {
-                skipBtn.style.borderColor = theme.primary;
-            }
-
             document.querySelectorAll('.particle').forEach(particle => {
                 particle.style.background = theme.glow.replace('0.4', '0.3');
             });
         }
 
-        // Settings functions
-        function openSettings() {
-            document.getElementById('settingsModal').classList.add('active');
-        }
-
-        function closeSettings() {
-            document.getElementById('settingsModal').classList.remove('active');
-        }
-
-        function openChangelog() {
-            document.getElementById('changelogModal').classList.add('active');
-        }
-
-        function closeChangelog() {
-            document.getElementById('changelogModal').classList.remove('active');
-        }
-
+        function openSettings() { document.getElementById('settingsModal').classList.add('active'); }
+        function closeSettings() { document.getElementById('settingsModal').classList.remove('active'); }
+        function openChangelog() { document.getElementById('changelogModal').classList.add('active'); }
+        function closeChangelog() { document.getElementById('changelogModal').classList.remove('active'); }
+        
         function toggleCloak() {
             const toggle = document.getElementById('cloakToggle');
             toggle.classList.toggle('active');
             const enabled = toggle.classList.contains('active');
             localStorage.setItem('desritory-cloak', enabled);
-            
             if (enabled) {
                 document.title = 'Google';
                 const favicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
@@ -1567,335 +732,122 @@
                 document.title = 'Desritory';
             }
         }
-
+        
         function togglePanic() {
             const toggle = document.getElementById('panicToggle');
             toggle.classList.toggle('active');
             localStorage.setItem('desritory-panic', toggle.classList.contains('active'));
         }
-
-        // Games functions
+        
         function showGamesPage() {
             const loadingScreen = document.getElementById('loadingScreen');
             const loadingText = document.getElementById('loadingText');
             const gamesPage = document.getElementById('gamesPage');
-
-            loadingText.textContent = 'Loading games library...';
+            loadingText.textContent = 'Loading games...';
             loadingScreen.classList.add('active');
-
-            loadingTimeout = setTimeout(() => {
+            setTimeout(() => {
                 loadingScreen.classList.remove('active');
                 gamesPage.classList.add('active');
-            }, 2000);
+            }, 1000);
         }
-
+        
         function closeGames() {
             document.getElementById('gamesPage').classList.remove('active');
             document.getElementById('gamesSearch').value = '';
             renderGames();
         }
-
+        
         function renderGames(filter = '') {
             const gamesList = document.getElementById('gamesList');
             gamesList.innerHTML = '';
-
-            const filteredGames = games.filter(game => 
-                game.name.toLowerCase().includes(filter.toLowerCase())
-            );
-
+            const filteredGames = games.filter(game => game.name.toLowerCase().includes(filter.toLowerCase()) || game.category.toLowerCase().includes(filter.toLowerCase()));
             filteredGames.forEach(game => {
                 const gameItem = document.createElement('div');
                 gameItem.className = 'game-item';
-                gameItem.innerHTML = `
-                    <div class="game-icon">${game.icon}</div>
-                    <div class="game-name">${game.name}</div>
-                `;
+                gameItem.innerHTML = `<div class="game-icon">${game.icon}</div><div class="game-info"><div class="game-name">${game.name}</div><div class="game-category">${game.category}</div></div>`;
                 gameItem.onclick = () => openGame(game.name, game.url);
                 gamesList.appendChild(gameItem);
             });
         }
-
+        
         function openGame(name, url) {
-            currentGameName = name;
-            currentProxyUrl = url;
-            
             const loadingScreen = document.getElementById('loadingScreen');
             const loadingText = document.getElementById('loadingText');
-
             loadingText.textContent = `Loading ${name}...`;
             loadingScreen.classList.add('active');
-
-            loadingTimeout = setTimeout(() => {
+            setTimeout(() => {
                 loadingScreen.classList.remove('active');
-                loadProxiedContent(url);
-            }, 2000);
+                // Load game in iframe instead of new window
+                showGameIframe(name, url);
+            }, 500);
         }
 
-        function skipLoading() {
-            clearTimeout(loadingTimeout);
-            document.getElementById('loadingScreen').classList.remove('active');
-            
-            if (currentGameName) {
-                loadProxiedContent(currentProxyUrl);
-            } else {
-                document.getElementById('gamesPage').classList.add('active');
-            }
-        }
-
-        // Browser functions - FIXED VERSION
-        function searchBrowser() {
-            const input = document.getElementById('browserSearch');
-            const query = input.value.trim();
-            
-            if (!query) return;
-
-            // Process URL first, BEFORE clearing input
-            let url;
-            if (query.includes('.') && !query.includes(' ')) {
-                url = query.startsWith('http') ? query : 'https://' + query;
-            } else {
-                url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
-            }
-
-            console.log('Search triggered with URL:', url);
-
-            // Get or create active tab
-            let activeTab = getActiveTab();
-            
-            if (!activeTab) {
-                console.log('No active tab, creating new one');
-                const newTabId = createNewTab('Loading...', url);
-                activeTab = getActiveTab();
-            } else if (!activeTab.url) {
-                console.log('Using existing empty tab');
-                // Current tab is empty, just update its URL
-                activeTab.url = url;
-            } else {
-                console.log('Creating new tab for search');
-                // Current tab has content, create new tab
-                const newTabId = createNewTab('Loading...', url);
-                switchToTab(newTabId);
-                activeTab = getActiveTab();
-            }
-            
-            // Clear input AFTER processing
-            input.value = '';
-            
-            // Load the content
-            setTimeout(() => {
-                loadProxiedContent(url);
-            }, 100);
-        }
-
-        function searchFromAddressBar() {
-            const input = document.getElementById('addressBar');
-            const query = input.value.trim();
-            
-            if (!query) return;
-
-            let url;
-            if (query.includes('.') && !query.includes(' ')) {
-                url = query.startsWith('http') ? query : 'https://' + query;
-            } else {
-                url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
-            }
-
-            console.log('Address bar search:', url);
-            loadProxiedContent(url);
-        }
-
-        function goBack() {
-            const activeTab = getActiveTab();
-            if (activeTab && activeTab.iframeElement && activeTab.iframeElement.contentWindow) {
-                try {
-                    activeTab.iframeElement.contentWindow.history.back();
-                } catch(e) {
-                    console.log('Cannot go back');
-                }
-            }
-        }
-
-        function goForward() {
-            const activeTab = getActiveTab();
-            if (activeTab && activeTab.iframeElement && activeTab.iframeElement.contentWindow) {
-                try {
-                    activeTab.iframeElement.contentWindow.history.forward();
-                } catch(e) {
-                    console.log('Cannot go forward');
-                }
-            }
-        }
-
-        function reloadPage() {
-            const activeTab = getActiveTab();
-            if (activeTab && activeTab.iframeElement && activeTab.iframeElement.src) {
-                activeTab.iframeElement.src = activeTab.iframeElement.src;
-            }
-        }
-
-        function openSite(url) {
-            console.log('Opening site:', url);
-            
-            // Create new tab or use empty one
-            let activeTab = getActiveTab();
-            
-            if (!activeTab || activeTab.url) {
-                // No tab or current tab has content, create new one
-                const newTabId = createNewTab('Loading...', url);
-                switchToTab(newTabId);
-            }
-            
-            loadProxiedContent(url);
-        }
-
-        function loadProxiedContent(url) {
-            console.log('Loading proxied content:', url);
-            
-            const activeTab = getActiveTab();
-            if (!activeTab) {
-                console.error('No active tab!');
-                return;
-            }
-            
-            const browserContent = document.getElementById('browserContent');
-            const container = document.querySelector('.container');
-            const addressBar = document.getElementById('addressBar');
-            
-            // Update tab
-            activeTab.url = url;
-            currentProxyUrl = url;
-            
-            // Get domain for title
-            let domain = url;
-            try {
-                const urlObj = new URL(url);
-                domain = urlObj.hostname.replace('www.', '');
-            } catch(e) {
-                domain = url.substring(0, 20);
-            }
-            updateTabTitle(activeTab.id, domain);
-
-            // Update address bar
-            addressBar.value = url;
-
-            // Create or update iframe for this tab
-            if (!activeTab.iframeElement) {
-                console.log('Creating new iframe for tab', activeTab.id);
-                const iframe = document.createElement('iframe');
-                iframe.className = 'browser-frame';
-                iframe.setAttribute('data-tab-id', activeTab.id);
-                activeTab.iframeElement = iframe;
-                document.getElementById('browserContent').appendChild(iframe);
-            }
-
-            // Hide all iframes
-            document.querySelectorAll('.browser-frame').forEach(frame => {
-                frame.style.display = 'none';
-                frame.classList.remove('active');
-            });
-
-            // Show this tab's iframe
-            activeTab.iframeElement.style.display = 'block';
-            
-            setTimeout(() => {
-                activeTab.iframeElement.classList.add('active');
-            }, 10);
-
-            // Load URL in iframe
-            const proxyUrl = PROXY_SERVICES[0](url);
-            console.log('Loading proxy URL:', proxyUrl);
-            activeTab.iframeElement.src = proxyUrl;
-
-            // Show browser view
-            container.style.display = 'none';
+        function showGameIframe(name, url) {
+            // Hide games page
             document.getElementById('gamesPage').classList.remove('active');
-            browserContent.classList.add('active');
+            
+            // Create or get game container
+            let gameContainer = document.getElementById('gameContainer');
+            if (!gameContainer) {
+                gameContainer = document.createElement('div');
+                gameContainer.id = 'gameContainer';
+                gameContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: #0a0b1a;
+                    z-index: 10000;
+                    display: flex;
+                    flex-direction: column;
+                `;
+                document.body.appendChild(gameContainer);
+            }
+            
+            // Create header with back button and game title
+            gameContainer.innerHTML = `
+                <div style="background: rgba(10, 11, 26, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 15px 20px; display: flex; align-items: center; gap: 15px; z-index: 10001;">
+                    <button onclick="closeGameIframe()" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 10px; color: white; cursor: pointer; font-size: 14px; font-family: 'Inter', sans-serif;">← Back</button>
+                    <h2 style="font-size: 20px; font-weight: 700; background: linear-gradient(135deg, var(--light), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0;">${name}</h2>
+                    <button onclick="openInNewTab('${url}')" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 10px; color: white; cursor: pointer; font-size: 14px; font-family: 'Inter', sans-serif; margin-left: auto;">Open in New Tab ↗</button>
+                </div>
+                <iframe src="${url}" style="flex: 1; width: 100%; border: none; background: white;"></iframe>
+            `;
+            
+            gameContainer.style.display = 'flex';
         }
 
-        function goHome() {
-            const activeTab = getActiveTab();
-            if (!activeTab) return;
-            
-            const browserContent = document.getElementById('browserContent');
-            const container = document.querySelector('.container');
-            const addressBar = document.getElementById('addressBar');
-            
-            activeTab.url = '';
-            updateTabTitle(activeTab.id, 'New Tab');
-            
-            if (activeTab.iframeElement) {
-                activeTab.iframeElement.style.display = 'none';
+        function closeGameIframe() {
+            const gameContainer = document.getElementById('gameContainer');
+            if (gameContainer) {
+                gameContainer.style.display = 'none';
             }
-            
-            addressBar.value = '';
-            browserContent.classList.remove('active');
-            container.style.display = 'flex';
+            document.getElementById('gamesPage').classList.add('active');
         }
 
-        // Search games
-        document.getElementById('gamesSearch').addEventListener('input', (e) => {
-            renderGames(e.target.value);
-        });
-
-        // Browser search on Enter
-        document.getElementById('browserSearch').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                searchBrowser();
-            }
-        });
-
-        // Address bar on Enter
-        document.getElementById('addressBar').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                searchFromAddressBar();
-            }
-        });
-
-        // ESC key to close
+        function openInNewTab(url) {
+            window.open(url, '_blank');
+        }
+        
+        document.getElementById('gamesSearch').addEventListener('input', (e) => renderGames(e.target.value));
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeSettings();
                 closeChangelog();
-                if (document.getElementById('browserContent').classList.contains('active')) {
-                    goHome();
-                } else if (document.getElementById('gamesPage').classList.contains('active')) {
-                    closeGames();
-                }
+                if (document.getElementById('gamesPage').classList.contains('active')) closeGames();
             }
-
-            // Panic key
-            if (e.key === "'" && localStorage.getItem('desritory-panic') === 'true') {
-                window.location.href = 'https://google.com';
-            }
+            if (e.key === "'" && localStorage.getItem('desritory-panic') === 'true') window.location.href = 'https://google.com';
         });
-
-        // Tab functionality
-        const newTabBtn = document.querySelector('.new-tab-btn');
-        newTabBtn.addEventListener('click', () => {
-            newTabBtn.classList.add('clicked');
-            setTimeout(() => {
-                newTabBtn.classList.remove('clicked');
-            }, 400);
-            
-            createNewTab();
-        });
-
-        // Initialize
+        
         createParticles();
         renderGames();
-        initializeTabs();
-
-        // Load saved settings
         const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite';
         changeTheme(savedTheme);
-
         if (localStorage.getItem('desritory-cloak') === 'true') {
             document.getElementById('cloakToggle').classList.add('active');
             toggleCloak();
         }
-
         if (localStorage.getItem('desritory-panic') === 'true') {
             document.getElementById('panicToggle').classList.add('active');
         }
