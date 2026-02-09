@@ -191,6 +191,7 @@
             transition: all 0.3s;
             backdrop-filter: blur(10px);
             font-size: 20px;
+            position: relative;
         }
 
         .corner-btn:hover {
@@ -198,6 +199,42 @@
             border-color: var(--primary);
             transform: translateY(-2px);
             box-shadow: 0 5px 20px var(--glow);
+        }
+
+        /* Notification Badge Styles */
+        .notification-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            min-width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, #ff3b30, #ff453a);
+            border: 2px solid #0a0b1a;
+            border-radius: 11px;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 0 6px;
+            box-shadow: 0 2px 8px rgba(255, 59, 48, 0.6);
+            animation: notificationPulse 2s ease-in-out infinite;
+        }
+
+        .notification-badge.active {
+            display: flex;
+        }
+
+        @keyframes notificationPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 2px 8px rgba(255, 59, 48, 0.6);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 2px 12px rgba(255, 59, 48, 0.8);
+            }
         }
 
         .modal {
@@ -833,7 +870,10 @@
 <body>
     <div class="particles"></div>
     <div class="corner-buttons">
-        <button class="corner-btn" onclick="openChat()"><i class="fas fa-comments"></i></button>
+        <button class="corner-btn" onclick="openChat()">
+            <i class="fas fa-comments"></i>
+            <span class="notification-badge" id="chatNotificationBadge">0</span>
+        </button>
         <button class="corner-btn" onclick="openChangelog()"><i class="fas fa-clipboard-list"></i></button>
         <button class="corner-btn" onclick="openSettings()"><i class="fas fa-cog"></i></button>
     </div>
@@ -1122,6 +1162,8 @@
         let selectedImageBase64 = null;
         let typingTimeout = null;
         let currentlyTypingUsers = new Set();
+        let unreadMessageCount = 0;
+        let lastReadTimestamp = Date.now();
 
         function shuffleArray(array) {
             const newArray = [...array];
@@ -1237,6 +1279,16 @@
             });
         }
 
+        function updateNotificationBadge() {
+            const badge = document.getElementById('chatNotificationBadge');
+            if (unreadMessageCount > 0) {
+                badge.textContent = unreadMessageCount > 99 ? '99+' : unreadMessageCount;
+                badge.classList.add('active');
+            } else {
+                badge.classList.remove('active');
+            }
+        }
+
         function openSettings() { document.getElementById('settingsModal').classList.add('active'); }
         function closeSettings() { document.getElementById('settingsModal').classList.remove('active'); }
         function openChangelog() { document.getElementById('changelogModal').classList.add('active'); }
@@ -1259,6 +1311,11 @@
             isChatOpen = true;
             document.getElementById('chatModal').classList.add('active');
             
+            // Reset unread count when opening chat
+            unreadMessageCount = 0;
+            lastReadTimestamp = Date.now();
+            updateNotificationBadge();
+            
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
                 window.firebaseChat.listenToMessages(displayMessage);
                 window.firebaseChat.listenToTyping(handleTypingUpdate);
@@ -1278,6 +1335,9 @@
             document.getElementById('chatModal').classList.remove('active');
             cancelReply();
             removeImage();
+            
+            // Update last read timestamp when closing chat
+            lastReadTimestamp = Date.now();
             
             // Stop typing indicator
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
@@ -1415,13 +1475,19 @@
         }
 
         function displayMessage(message) {
-            if (!isChatOpen) return;
-            
             const msgId = `${message.timestamp}-${message.username}-${message.text}`;
             
             if (messageIds.has(msgId)) return;
             messageIds.add(msgId);
             messagesCache[message.id] = message;
+            
+            // Increment unread count if chat is closed and message is from someone else
+            if (!isChatOpen && message.username !== username && message.timestamp > lastReadTimestamp) {
+                unreadMessageCount++;
+                updateNotificationBadge();
+            }
+            
+            if (!isChatOpen) return;
             
             const chatMessages = document.getElementById('chatMessages');
             const shouldScroll = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < 100;
