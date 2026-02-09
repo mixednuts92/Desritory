@@ -573,6 +573,56 @@
             justify-content: center;
         }
 
+        /* Typing Indicator Styles */
+        .typing-indicator {
+            display: none;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        .typing-indicator.active {
+            display: block;
+        }
+
+        .typing-dots {
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .typing-dots span {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            margin: 0 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingDot {
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-4px);
+            }
+        }
+
         .games-page {
             display: none;
             position: fixed;
@@ -897,6 +947,14 @@
             <div id="chatMessages" style="flex: 1; overflow-y: auto; padding: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 10px; margin-bottom: 15px; min-height: 400px;">
                 <!-- Messages will appear here -->
             </div>
+            <div id="typingIndicator" class="typing-indicator">
+                <span id="typingUsers"></span>
+                <span class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
             <div id="replyingToBar" class="replying-to-bar">
                 Replying to <strong id="replyingToUser"></strong>
                 <button class="cancel-reply" onclick="cancelReply()">×</button>
@@ -910,7 +968,7 @@
                     <i class="fas fa-image"></i>
                 </label>
                 <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)">
-                <input type="text" id="chatInput" placeholder="Type a message..." style="flex: 1; padding: 12px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: white; font-size: 14px; outline: none;" onkeypress="handleChatKeyPress(event)">
+                <input type="text" id="chatInput" placeholder="Type a message..." style="flex: 1; padding: 12px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: white; font-size: 14px; outline: none;" onkeypress="handleChatKeyPress(event)" oninput="handleTyping()">
                 <button onclick="sendMessage()" style="padding: 12px 30px; background: var(--primary); border: none; border-radius: 10px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s;">Send</button>
             </div>
         </div>
@@ -934,7 +992,7 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-        import { getDatabase, ref, push, onChildAdded, limitToLast, query, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+        import { getDatabase, ref, push, onChildAdded, onChildChanged, onChildRemoved, limitToLast, query, serverTimestamp, set, remove } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtWJWMhHL3ZZ8cyG6oYLJLLWRpqLHrdA",
@@ -946,13 +1004,14 @@
             appId: "1:799268069839:web:4bcbfa0389603054bf32ba"
         };
 
-        let app, database, messagesRef;
+        let app, database, messagesRef, typingRef;
         let isFirebaseInitialized = false;
 
         try {
             app = initializeApp(firebaseConfig);
             database = getDatabase(app);
             messagesRef = ref(database, 'messages');
+            typingRef = ref(database, 'typing');
             isFirebaseInitialized = true;
             console.log('Firebase initialized successfully');
         } catch (error) {
@@ -979,6 +1038,36 @@
                     const message = snapshot.val();
                     message.id = snapshot.key;
                     callback(message);
+                });
+            },
+            setTyping: (username, isTyping) => {
+                if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
+                const userTypingRef = ref(database, `typing/${username.replace(/[.#$[\]]/g, '_')}`);
+                if (isTyping) {
+                    return set(userTypingRef, {
+                        username: username,
+                        timestamp: serverTimestamp()
+                    });
+                } else {
+                    return remove(userTypingRef);
+                }
+            },
+            listenToTyping: (callback) => {
+                if (!isFirebaseInitialized) return;
+                
+                onChildAdded(typingRef, (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) callback(data.username, true);
+                });
+                
+                onChildChanged(typingRef, (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) callback(data.username, true);
+                });
+                
+                onChildRemoved(typingRef, (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) callback(data.username, false);
                 });
             },
             isInitialized: () => isFirebaseInitialized
@@ -1031,6 +1120,8 @@
         let typingSpeed = 100;
         let replyingToMessage = null;
         let selectedImageBase64 = null;
+        let typingTimeout = null;
+        let currentlyTypingUsers = new Set();
 
         function shuffleArray(array) {
             const newArray = [...array];
@@ -1170,6 +1261,7 @@
             
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
                 window.firebaseChat.listenToMessages(displayMessage);
+                window.firebaseChat.listenToTyping(handleTypingUpdate);
             } else {
                 document.getElementById('chatStatus').className = 'chat-status error';
                 document.getElementById('chatStatus').textContent = 'idk if this works yet';
@@ -1186,6 +1278,11 @@
             document.getElementById('chatModal').classList.remove('active');
             cancelReply();
             removeImage();
+            
+            // Stop typing indicator
+            if (window.firebaseChat && window.firebaseChat.isInitialized()) {
+                window.firebaseChat.setTyping(username, false);
+            }
         }
 
         function handleImageUpload(event) {
@@ -1224,6 +1321,65 @@
             document.getElementById('replyingToBar').classList.remove('active');
         }
 
+        function handleTyping() {
+            if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return;
+            
+            const input = document.getElementById('chatInput');
+            const isTyping = input.value.trim().length > 0;
+            
+            // Clear existing timeout
+            if (typingTimeout) {
+                clearTimeout(typingTimeout);
+            }
+            
+            if (isTyping) {
+                // Set typing status
+                window.firebaseChat.setTyping(username, true);
+                
+                // Set timeout to clear typing status after 3 seconds of no typing
+                typingTimeout = setTimeout(() => {
+                    window.firebaseChat.setTyping(username, false);
+                }, 3000);
+            } else {
+                // Clear typing status immediately if input is empty
+                window.firebaseChat.setTyping(username, false);
+            }
+        }
+
+        function handleTypingUpdate(typingUsername, isTyping) {
+            // Don't show our own typing indicator
+            if (typingUsername === username) return;
+            
+            if (isTyping) {
+                currentlyTypingUsers.add(typingUsername);
+            } else {
+                currentlyTypingUsers.delete(typingUsername);
+            }
+            
+            updateTypingIndicator();
+        }
+
+        function updateTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            const usersElement = document.getElementById('typingUsers');
+            
+            if (currentlyTypingUsers.size === 0) {
+                indicator.classList.remove('active');
+                return;
+            }
+            
+            indicator.classList.add('active');
+            
+            const users = Array.from(currentlyTypingUsers);
+            if (users.length === 1) {
+                usersElement.textContent = `${users[0]} is typing`;
+            } else if (users.length === 2) {
+                usersElement.textContent = `${users[0]} and ${users[1]} are typing`;
+            } else {
+                usersElement.textContent = `${users[0]}, ${users[1]}, and ${users.length - 2} other${users.length - 2 > 1 ? 's' : ''} are typing`;
+            }
+        }
+
         function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
@@ -1235,6 +1391,12 @@
                         username: replyingToMessage.username,
                         text: messagesCache[replyingToMessage.id]?.text || ''
                     } : null;
+                    
+                    // Clear typing status before sending
+                    window.firebaseChat.setTyping(username, false);
+                    if (typingTimeout) {
+                        clearTimeout(typingTimeout);
+                    }
                     
                     window.firebaseChat.sendMessage(username, message, selectedImageBase64, replyTo)
                         .then(() => {
@@ -1502,7 +1664,7 @@
             const logo = document.querySelector('.logo');
             logo.style.transform = 'rotate(180deg)';
             logo.style.transition = 'transform 1s ease';
-            console.log('🎉 Easter egg activated! You found the upside down logo!');
+            console.log('Wow! You got a 1/10000 chance of this happening!!');
         }
         
         const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite';
