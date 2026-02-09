@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desritory</title>
+    <title>Desritory V1</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -23,15 +23,23 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #0a0b1a;
-            background-image: 
-                radial-gradient(ellipse at 20% 50%, rgba(88, 40, 180, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(60, 20, 140, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(30, 15, 80, 0.1) 0%, transparent 50%);
+            background: #1a2332;
             color: white;
             overflow-x: hidden;
             min-height: 100vh;
             transition: background 0.5s ease;
+        }
+
+        .time-display {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+            letter-spacing: 0.5px;
         }
 
         .container {
@@ -89,8 +97,8 @@
         .typing-text {
             font-family: 'Inter', sans-serif;
             font-size: 24px;
-            font-weight: 500;
-            color: var(--light);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.5);
             margin-bottom: 40px;
             min-height: 32px;
             text-align: center;
@@ -107,17 +115,16 @@
         }
 
         .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 72px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 90px;
             font-weight: 900;
-            letter-spacing: 8px;
+            letter-spacing: 4px;
             background: linear-gradient(135deg, var(--light) 0%, var(--primary) 25%, var(--accent) 50%, var(--secondary) 75%, var(--light) 100%);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: gradientShift 8s ease infinite, floatLogo 4s ease-in-out infinite;
-            text-shadow: 0 0 80px var(--glow);
             margin-bottom: 50px;
         }
 
@@ -127,40 +134,41 @@
         }
 
         .games-btn {
-            padding: 18px 50px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--primary);
-            border-radius: 50px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 15px 45px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 15px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
             backdrop-filter: blur(10px);
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px var(--glow);
+            letter-spacing: 0.5px;
         }
 
         .games-btn:hover {
-            background: rgba(124, 77, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 40px var(--glow);
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
         .footer {
             position: absolute;
             bottom: 20px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 1px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.3px;
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+            gap: 5px;
             align-items: center;
+            text-align: center;
         }
 
         .random-text {
-            color: var(--primary);
-            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
             animation: fadeIn 0.5s ease;
         }
 
@@ -181,24 +189,24 @@
         .corner-btn {
             width: 45px;
             height: 45px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
             backdrop-filter: blur(10px);
-            font-size: 20px;
+            font-size: 18px;
             position: relative;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .corner-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px var(--glow);
         }
 
         /* Notification Badge Styles */
@@ -209,7 +217,7 @@
             min-width: 22px;
             height: 22px;
             background: linear-gradient(135deg, #ff3b30, #ff453a);
-            border: 2px solid #0a0b1a;
+            border: 2px solid #1a2332;
             border-radius: 11px;
             color: white;
             font-size: 11px;
@@ -257,9 +265,9 @@
         }
 
         .modal-content {
-            background: rgba(20, 20, 40, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
+            background: rgba(30, 40, 55, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             padding: 30px;
             max-width: 500px;
             width: 100%;
@@ -277,10 +285,7 @@
         .modal-title {
             font-size: 24px;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--light), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .close-btn {
@@ -367,46 +372,6 @@
 
         .toggle-switch.active .toggle-slider {
             transform: translateX(24px);
-        }
-
-        .changelog-content {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .changelog-entry {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .changelog-entry:last-child {
-            border-bottom: none;
-        }
-
-        .changelog-version {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .changelog-date {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 15px;
-        }
-
-        .changelog-items {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .changelog-item {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-            padding-left: 5px;
         }
 
         .chat-message {
@@ -667,7 +632,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: #0a0b1a;
+            background: #1a2332;
             z-index: 9999;
             overflow-y: auto;
         }
@@ -679,9 +644,9 @@
         .games-header {
             position: sticky;
             top: 0;
-            background: rgba(10, 11, 26, 0.95);
+            background: rgba(26, 35, 50, 0.98);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             padding: 20px;
             display: flex;
             align-items: center;
@@ -691,28 +656,25 @@
         }
 
         .back-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 10px 20px;
-            border-radius: 10px;
-            color: white;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.85);
             cursor: pointer;
             transition: all 0.3s;
             font-size: 14px;
         }
 
         .back-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
         .games-title {
             font-size: 24px;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--light), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .games-search {
@@ -720,8 +682,8 @@
             max-width: 400px;
             padding: 10px 20px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
             color: white;
             font-size: 14px;
             outline: none;
@@ -729,8 +691,8 @@
         }
 
         .games-search:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px var(--glow);
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .games-search::placeholder {
@@ -750,17 +712,16 @@
             gap: 20px;
             padding: 20px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .game-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 5px 30px var(--glow);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
         }
 
         .game-icon {
@@ -802,7 +763,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(10, 11, 26, 0.98);
+            background: rgba(26, 35, 50, 0.98);
             backdrop-filter: blur(10px);
             z-index: 10002;
             align-items: center;
@@ -831,16 +792,7 @@
         .loading-text {
             font-size: 24px;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--light), var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            color: rgba(255, 255, 255, 0.9);
         }
 
         @media (max-width: 768px) {
@@ -864,26 +816,38 @@
             .games-list {
                 grid-template-columns: 1fr;
             }
+
+            .time-display {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="time-display" id="timeDisplay">12:00 AM</div>
     <div class="particles"></div>
     <div class="corner-buttons">
         <button class="corner-btn" onclick="openChat()">
             <i class="fas fa-comments"></i>
             <span class="notification-badge" id="chatNotificationBadge">0</span>
         </button>
-        <button class="corner-btn" onclick="openChangelog()"><i class="fas fa-clipboard-list"></i></button>
+        <button class="corner-btn" onclick="openLatestUpdate()"><i class="fas fa-bell"></i></button>
         <button class="corner-btn" onclick="openSettings()"><i class="fas fa-cog"></i></button>
     </div>
     <div class="container">
         <h1 class="logo">DESRITORY</h1>
         <div class="typing-text" id="typingText"></div>
-        <button class="games-btn" onclick="showGamesPage()"><i class="fas fa-gamepad"></i> Browse Games</button>
+        <div style="display: flex; gap: 15px;">
+            <button class="games-btn" onclick="showGamesPage()"><i class="fas fa-gamepad"></i> Games</button>
+            <button class="games-btn" onclick="showAppsPage()"><i class="fas fa-th"></i> Apps</button>
+        </div>
         <div class="footer">
-            <span>©2025 Desritory</span>
             <span class="random-text" id="randomText"></span>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                <span>v0.8.0</span>
+                <span style="color: rgba(255, 255, 255, 0.2);">|</span>
+                <span>©2025 Desritory</span>
+            </div>
         </div>
     </div>
 
@@ -904,7 +868,7 @@
                     <button class="theme-btn" onclick="changeTheme('orange')" style="background: linear-gradient(135deg, #f59e0b, #d97706);">Orange</button>
                     <button class="theme-btn" onclick="changeTheme('cyan')" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">Cyan</button>
                     <button class="theme-btn" onclick="changeTheme('yellow')" style="background: linear-gradient(135deg, #eab308, #ca8a04);">Yellow</button>
-                    <button class="theme-btn" onclick="changeTheme('blackwhite')" style="background: linear-gradient(135deg, #666, #222);">B&W</button>
+                    <button class="theme-btn" onclick="changeTheme('blackwhite')" style="background: linear-gradient(135deg, #2a3a4d, #1a2332);">Slate</button>
                 </div>
             </div>
             <div class="settings-section">
@@ -940,38 +904,21 @@
         </div>
     </div>
 
-    <div class="modal" id="changelogModal">
-        <div class="modal-content">
+    <div class="modal" id="latestUpdateModal">
+        <div class="modal-content" style="max-width: 450px;">
             <div class="modal-header">
-                <h2 class="modal-title">Updates & Changelog</h2>
-                <button class="close-btn" onclick="closeChangelog()">×</button>
+                <h2 class="modal-title">Latest Update</h2>
+                <button class="close-btn" onclick="closeLatestUpdate()">×</button>
             </div>
-            <div class="changelog-content">
-                <div class="changelog-entry">
-                    <div class="changelog-version">v0.8.0</div>
-                    <div class="changelog-date">February 8, 2026</div>
-                    <div class="changelog-items">
-                        <div class="changelog-item">added a chat area so you can talk</div>
-                        <div class="changelog-item">also the chat MIGHT not work in some cases, refresh the page incase messages arent showing.</div>
-                        <div class="changelog-item">added stealth mode</div>
-                        <div class="changelog-item">also added undertale which is cool</div>
-                        <div class="changelog-item">didnt really add anything else</div>
-                        <div class="changelog-item">ok bye</div>
-                    </div>
-                </div>
-                <div class="changelog-entry">
-                    <div class="changelog-version">v0.7.0</div>
-                    <div class="changelog-date">February 8, 2026</div>
-                    <div class="changelog-items">
-                        <div class="changelog-item">will add more soon dw</div>
-                        <div class="changelog-item">removed proxy cause idk how to make ts work</div>
-                        <div class="changelog-item">adding more games</div>
-                        <div class="changelog-item">removed browser ui look and replaced it with a more modern ui.</div>
-                        <div class="changelog-item">will work on tryna add more smoother loading times</div>
-                        <div class="changelog-item">will work on adding a better tab cloaking</div>
-                        <div class="changelog-item">removing boring old pre-set games</div>
-                        <div class="changelog-item">thats all</div>
-                    </div>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 10px;">v1.0.0</div>
+                <div style="font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">What's new in this update</div>
+                <div style="font-size: 14px; color: rgba(255, 255, 255, 0.7); line-height: 1.6; text-align: left; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px;">
+                    • replaced B&W theme with Slate<br>
+                    • improved stealth mode<br>
+                    • added apps (more WORKING apps coming soon)<br>
+                    • more ui designs and a bit more animations<br>
+                    • bye
                 </div>
             </div>
         </div>
@@ -1022,6 +969,16 @@
             <button class="corner-btn" onclick="openSettings()"><i class="fas fa-cog"></i></button>
         </div>
         <div class="games-list" id="gamesList"></div>
+    </div>
+
+    <div class="games-page" id="appsPage">
+        <div class="games-header">
+            <button class="back-btn" onclick="closeApps()">← Back</button>
+            <h2 class="games-title">APPS</h2>
+            <input type="text" class="games-search" id="appsSearch" placeholder="🔍 Search apps...">
+            <button class="corner-btn" onclick="openSettings()"><i class="fas fa-cog"></i></button>
+        </div>
+        <div class="games-list" id="appsList"></div>
     </div>
 
     <div class="loading-screen" id="loadingScreen">
@@ -1127,6 +1084,20 @@
     </script>
 
     <script>
+        // Update time display
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('timeDisplay').textContent = hours + ':' + minutesStr + ' ' + ampm;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
         const IMAGES = {
             nazi: 'https://i.imgur.com/1570hPk.jpeg', 
             jhbetr: 'https://i.imgur.com/IZ0wJQb.jpeg', 
@@ -1141,7 +1112,11 @@
             { name: 'Undertale', icon: IMAGES.undertale, url: 'https://www.autistici.org/burnedprojects/UNDERTALE/', category: 'undertale fun' },
         ];
 
-        const randomTexts = ['Hi', 'desritory', 'gerard your website sucks /j', 'sniped', 'i <3 geo-dash', 'Ok thanks', '"im gonna shove a shotgun barrel down your throat"', "Ok youre welcome"];
+        const apps = [
+            { name: 'YouTube', icon: 'https://i.imgur.com/BqC7P4i.png', url: 'https://youtube.com', category: 'Dont know if this works yet but yeah' },
+        ];
+
+        const randomTexts = ['sniped', 'Hi', 'desritory', 'gerard your website sucks /j', 'i <3 geo-dash', 'Ok thanks', '"im gonna shove a shotgun barrel down your throat"', "Ok youre welcome"];
 
         const typingPhrases = [
             "browse games",
@@ -1210,15 +1185,15 @@
         }
 
         const themes = {
-            purple: { primary: '#7c4dff', secondary: '#9333ea', accent: '#a855f7', light: '#c084fc', glow: 'rgba(120, 70, 220, 0.4)', bgBase: '#0a0b1a', bgGradient1: 'rgba(88, 40, 180, 0.08)', bgGradient2: 'rgba(60, 20, 140, 0.06)', bgGradient3: 'rgba(30, 15, 80, 0.1)' },
-            green: { primary: '#10b981', secondary: '#059669', accent: '#34d399', light: '#6ee7b7', glow: 'rgba(16, 185, 129, 0.4)', bgBase: '#0a1a14', bgGradient1: 'rgba(16, 185, 129, 0.08)', bgGradient2: 'rgba(5, 150, 105, 0.06)', bgGradient3: 'rgba(4, 120, 87, 0.1)' },
-            blue: { primary: '#3b82f6', secondary: '#1d4ed8', accent: '#60a5fa', light: '#93c5fd', glow: 'rgba(59, 130, 246, 0.4)', bgBase: '#0a0f1a', bgGradient1: 'rgba(59, 130, 246, 0.08)', bgGradient2: 'rgba(29, 78, 216, 0.06)', bgGradient3: 'rgba(30, 58, 138, 0.1)' },
-            red: { primary: '#ef4444', secondary: '#dc2626', accent: '#f87171', light: '#fca5a5', glow: 'rgba(239, 68, 68, 0.4)', bgBase: '#1a0a0a', bgGradient1: 'rgba(239, 68, 68, 0.08)', bgGradient2: 'rgba(220, 38, 38, 0.06)', bgGradient3: 'rgba(185, 28, 28, 0.1)' },
-            pink: { primary: '#ec4899', secondary: '#db2777', accent: '#f472b6', light: '#f9a8d4', glow: 'rgba(236, 72, 153, 0.4)', bgBase: '#1a0a14', bgGradient1: 'rgba(236, 72, 153, 0.08)', bgGradient2: 'rgba(219, 39, 119, 0.06)', bgGradient3: 'rgba(190, 24, 93, 0.1)' },
-            orange: { primary: '#f59e0b', secondary: '#d97706', accent: '#fbbf24', light: '#fcd34d', glow: 'rgba(245, 158, 11, 0.4)', bgBase: '#1a140a', bgGradient1: 'rgba(245, 158, 11, 0.08)', bgGradient2: 'rgba(217, 119, 6, 0.06)', bgGradient3: 'rgba(180, 83, 9, 0.1)' },
-            cyan: { primary: '#06b6d4', secondary: '#0891b2', accent: '#22d3ee', light: '#67e8f9', glow: 'rgba(6, 182, 212, 0.4)', bgBase: '#0a1419', bgGradient1: 'rgba(6, 182, 212, 0.08)', bgGradient2: 'rgba(8, 145, 178, 0.06)', bgGradient3: 'rgba(14, 116, 144, 0.1)' },
-            yellow: { primary: '#eab308', secondary: '#ca8a04', accent: '#facc15', light: '#fde047', glow: 'rgba(234, 179, 8, 0.4)', bgBase: '#1a1a0a', bgGradient1: 'rgba(234, 179, 8, 0.08)', bgGradient2: 'rgba(202, 138, 4, 0.06)', bgGradient3: 'rgba(161, 98, 7, 0.1)' },
-            blackwhite: { primary: '#888888', secondary: '#666666', accent: '#aaaaaa', light: '#cccccc', glow: 'rgba(136, 136, 136, 0.4)', bgBase: '#0a0a0a', bgGradient1: 'rgba(80, 80, 80, 0.08)', bgGradient2: 'rgba(60, 60, 60, 0.06)', bgGradient3: 'rgba(40, 40, 40, 0.1)' }
+            purple: { primary: '#7c4dff', secondary: '#9333ea', accent: '#a855f7', light: '#c084fc', glow: 'rgba(120, 70, 220, 0.4)', bgBase: '#1a2332' },
+            green: { primary: '#10b981', secondary: '#059669', accent: '#34d399', light: '#6ee7b7', glow: 'rgba(16, 185, 129, 0.4)', bgBase: '#1a2e28' },
+            blue: { primary: '#3b82f6', secondary: '#1d4ed8', accent: '#60a5fa', light: '#93c5fd', glow: 'rgba(59, 130, 246, 0.4)', bgBase: '#1a2332' },
+            red: { primary: '#ef4444', secondary: '#dc2626', accent: '#f87171', light: '#fca5a5', glow: 'rgba(239, 68, 68, 0.4)', bgBase: '#2e1a1a' },
+            pink: { primary: '#ec4899', secondary: '#db2777', accent: '#f472b6', light: '#f9a8d4', glow: 'rgba(236, 72, 153, 0.4)', bgBase: '#2e1a28' },
+            orange: { primary: '#f59e0b', secondary: '#d97706', accent: '#fbbf24', light: '#fcd34d', glow: 'rgba(245, 158, 11, 0.4)', bgBase: '#2e281a' },
+            cyan: { primary: '#06b6d4', secondary: '#0891b2', accent: '#22d3ee', light: '#67e8f9', glow: 'rgba(6, 182, 212, 0.4)', bgBase: '#1a2832' },
+            yellow: { primary: '#eab308', secondary: '#ca8a04', accent: '#facc15', light: '#fde047', glow: 'rgba(234, 179, 8, 0.4)', bgBase: '#2e2e1a' },
+            blackwhite: { primary: '#888888', secondary: '#666666', accent: '#aaaaaa', light: '#cccccc', glow: 'rgba(136, 136, 136, 0.4)', bgBase: '#1a2332' }
         };
 
         function createParticles() {
@@ -1256,27 +1231,18 @@
             if (!theme) return;
             localStorage.setItem('desritory-theme', colorName);
             document.body.style.background = theme.bgBase;
-            document.body.style.backgroundImage = `radial-gradient(ellipse at 20% 50%, ${theme.bgGradient1} 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, ${theme.bgGradient2} 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, ${theme.bgGradient3} 0%, transparent 50%)`;
             document.documentElement.style.setProperty('--primary', theme.primary);
             document.documentElement.style.setProperty('--secondary', theme.secondary);
             document.documentElement.style.setProperty('--accent', theme.accent);
             document.documentElement.style.setProperty('--light', theme.light);
             document.documentElement.style.setProperty('--glow', theme.glow);
-            const logo = document.querySelector('.logo');
-            logo.style.background = `linear-gradient(135deg, ${theme.light} 0%, ${theme.primary} 25%, ${theme.accent} 50%, ${theme.secondary} 75%, ${theme.light} 100%)`;
-            logo.style.webkitBackgroundClip = 'text';
-            logo.style.webkitTextFillColor = 'transparent';
-            logo.style.backgroundClip = 'text';
-            const gamesTitle = document.querySelector('.games-title');
-            if (gamesTitle) {
-                gamesTitle.style.background = `linear-gradient(135deg, ${theme.light}, ${theme.primary})`;
-                gamesTitle.style.webkitBackgroundClip = 'text';
-                gamesTitle.style.webkitTextFillColor = 'transparent';
-                gamesTitle.style.backgroundClip = 'text';
-            }
             document.querySelectorAll('.particle').forEach(particle => {
                 particle.style.boxShadow = `0 0 8px 2px rgba(255, 255, 255, 0.8), 0 0 15px 4px ${theme.glow}`;
             });
+            const gamesPage = document.getElementById('gamesPage');
+            if (gamesPage) {
+                gamesPage.style.background = theme.bgBase;
+            }
         }
 
         function updateNotificationBadge() {
@@ -1291,8 +1257,8 @@
 
         function openSettings() { document.getElementById('settingsModal').classList.add('active'); }
         function closeSettings() { document.getElementById('settingsModal').classList.remove('active'); }
-        function openChangelog() { document.getElementById('changelogModal').classList.add('active'); }
-        function closeChangelog() { document.getElementById('changelogModal').classList.remove('active'); }
+        function openLatestUpdate() { document.getElementById('latestUpdateModal').classList.add('active'); }
+        function closeLatestUpdate() { document.getElementById('latestUpdateModal').classList.remove('active'); }
         
         let username = localStorage.getItem('desritory-username') || '';
         let isChatOpen = false;
@@ -1311,7 +1277,6 @@
             isChatOpen = true;
             document.getElementById('chatModal').classList.add('active');
             
-            // Reset unread count when opening chat
             unreadMessageCount = 0;
             lastReadTimestamp = Date.now();
             updateNotificationBadge();
@@ -1336,10 +1301,8 @@
             cancelReply();
             removeImage();
             
-            // Update last read timestamp when closing chat
             lastReadTimestamp = Date.now();
             
-            // Stop typing indicator
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
                 window.firebaseChat.setTyping(username, false);
             }
@@ -1387,27 +1350,22 @@
             const input = document.getElementById('chatInput');
             const isTyping = input.value.trim().length > 0;
             
-            // Clear existing timeout
             if (typingTimeout) {
                 clearTimeout(typingTimeout);
             }
             
             if (isTyping) {
-                // Set typing status
                 window.firebaseChat.setTyping(username, true);
                 
-                // Set timeout to clear typing status after 3 seconds of no typing
                 typingTimeout = setTimeout(() => {
                     window.firebaseChat.setTyping(username, false);
                 }, 3000);
             } else {
-                // Clear typing status immediately if input is empty
                 window.firebaseChat.setTyping(username, false);
             }
         }
 
         function handleTypingUpdate(typingUsername, isTyping) {
-            // Don't show our own typing indicator
             if (typingUsername === username) return;
             
             if (isTyping) {
@@ -1452,7 +1410,6 @@
                         text: messagesCache[replyingToMessage.id]?.text || ''
                     } : null;
                     
-                    // Clear typing status before sending
                     window.firebaseChat.setTyping(username, false);
                     if (typingTimeout) {
                         clearTimeout(typingTimeout);
@@ -1481,7 +1438,6 @@
             messageIds.add(msgId);
             messagesCache[message.id] = message;
             
-            // Increment unread count if chat is closed and message is from someone else
             if (!isChatOpen && message.username !== username && message.timestamp > lastReadTimestamp) {
                 unreadMessageCount++;
                 updateNotificationBadge();
@@ -1642,6 +1598,24 @@
             document.getElementById('gamesSearch').value = '';
             renderGames();
         }
+
+        function showAppsPage() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingText = document.getElementById('loadingText');
+            const appsPage = document.getElementById('appsPage');
+            loadingText.textContent = 'Loading apps...';
+            loadingScreen.classList.add('active');
+            setTimeout(() => {
+                loadingScreen.classList.remove('active');
+                appsPage.classList.add('active');
+            }, 1000);
+        }
+        
+        function closeApps() {
+            document.getElementById('appsPage').classList.remove('active');
+            document.getElementById('appsSearch').value = '';
+            renderApps();
+        }
         
         function renderGames(filter = '') {
             const gamesList = document.getElementById('gamesList');
@@ -1655,6 +1629,23 @@
                 gamesList.appendChild(gameItem);
             });
         }
+
+        function renderApps(filter = '') {
+            const appsList = document.getElementById('appsList');
+            appsList.innerHTML = '';
+            const filteredApps = apps.filter(app => app.name.toLowerCase().includes(filter.toLowerCase()) || app.category.toLowerCase().includes(filter.toLowerCase()));
+            if (filteredApps.length === 0) {
+                appsList.innerHTML = '<div style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.5);">No apps available yet. Check back soon!</div>';
+                return;
+            }
+            filteredApps.forEach(app => {
+                const appItem = document.createElement('div');
+                appItem.className = 'game-item';
+                appItem.innerHTML = `<div class="game-icon"><img src="${app.icon}" alt="${app.name}"></div><div class="game-info"><div class="game-name">${app.name}</div><div class="game-category">${app.category}</div></div>`;
+                appItem.onclick = () => openApp(app.name, app.url);
+                appsList.appendChild(appItem);
+            });
+        }
         
         function openGame(name, url) {
             const loadingScreen = document.getElementById('loadingScreen');
@@ -1664,6 +1655,17 @@
             setTimeout(() => {
                 loadingScreen.classList.remove('active');
                 showGameIframe(name, url);
+            }, 500);
+        }
+
+        function openApp(name, url) {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingText = document.getElementById('loadingText');
+            loadingText.textContent = `Loading ${name}...`;
+            loadingScreen.classList.add('active');
+            setTimeout(() => {
+                loadingScreen.classList.remove('active');
+                showAppIframe(name, url);
             }, 500);
         }
 
@@ -1680,7 +1682,7 @@
                     left: 0;
                     right: 0;
                     bottom: 0;
-                    background: #0a0b1a;
+                    background: #1a2332;
                     z-index: 10000;
                     display: flex;
                     flex-direction: column;
@@ -1698,6 +1700,37 @@
             gameContainer.style.display = 'flex';
         }
 
+        function showAppIframe(name, url) {
+            document.getElementById('appsPage').classList.remove('active');
+            
+            let gameContainer = document.getElementById('gameContainer');
+            if (!gameContainer) {
+                gameContainer = document.createElement('div');
+                gameContainer.id = 'gameContainer';
+                gameContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: #1a2332;
+                    z-index: 10000;
+                    display: flex;
+                    flex-direction: column;
+                `;
+                document.body.appendChild(gameContainer);
+            }
+            
+            gameContainer.innerHTML = `
+                <iframe id="gameIframe" src="${url}" style="width: 100%; height: 100%; border: none; background: white;"></iframe>
+                <button onclick="closeAppIframe()" style="position: fixed; top: 20px; left: 20px; width: 50px; height: 50px; background: rgba(0, 0, 0, 0.8); border: 2px solid var(--primary); border-radius: 12px; color: white; cursor: pointer; z-index: 10001; backdrop-filter: blur(10px); font-size: 20px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);" onmouseover="this.style.background='rgba(124, 77, 255, 0.3)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0, 0, 0, 0.8)'; this.style.transform='translateY(0)'">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            `;
+            
+            gameContainer.style.display = 'flex';
+        }
+
         function closeGameIframe() {
             const gameContainer = document.getElementById('gameContainer');
             if (gameContainer) {
@@ -1706,17 +1739,27 @@
             document.getElementById('gamesPage').classList.add('active');
         }
 
+        function closeAppIframe() {
+            const gameContainer = document.getElementById('gameContainer');
+            if (gameContainer) {
+                gameContainer.style.display = 'none';
+            }
+            document.getElementById('appsPage').classList.add('active');
+        }
+
         function openInNewTab(url) {
             window.open(url, '_blank');
         }
         
         document.getElementById('gamesSearch').addEventListener('input', (e) => renderGames(e.target.value));
+        document.getElementById('appsSearch').addEventListener('input', (e) => renderApps(e.target.value));
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeSettings();
-                closeChangelog();
+                closeLatestUpdate();
                 closeChat();
                 if (document.getElementById('gamesPage').classList.contains('active')) closeGames();
+                if (document.getElementById('appsPage').classList.contains('active')) closeApps();
             }
             if (e.key === "'" && localStorage.getItem('desritory-panic') === 'true') window.location.href = 'https://google.com';
         });
@@ -1724,6 +1767,7 @@
         createParticles();
         setRandomText();
         renderGames();
+        renderApps();
         typeText();
         
         if (Math.random() < 1/10000) {
