@@ -57,19 +57,58 @@
 
         .particle {
             position: absolute;
-            width: 3px;
-            height: 3px;
-            background: var(--glow);
+            width: 2px;
+            height: 2px;
+            background: white;
             border-radius: 50%;
-            opacity: 0.3;
-            animation: float 15s infinite;
+            opacity: 0.8;
+            box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.6), 
+                        0 0 12px 3px var(--glow);
+            animation: drift linear infinite, twinkle 3s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(100px, -100px); }
-            50% { transform: translate(-50px, -200px); }
-            75% { transform: translate(-150px, -100px); }
+        @keyframes drift {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+            }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { filter: brightness(1.2); }
+            50% { filter: brightness(0.7); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(0.6); }
+        }
+
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .typing-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--light);
+            margin-bottom: 40px;
+            min-height: 32px;
+            text-align: center;
+        }
+
+        .typing-text::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
 
         .logo {
@@ -82,7 +121,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradientShift 8s ease infinite;
+            animation: gradientShift 8s ease infinite, floatLogo 4s ease-in-out infinite;
             text-shadow: 0 0 80px var(--glow);
             margin-bottom: 50px;
         }
@@ -608,6 +647,7 @@
     </div>
     <div class="container">
         <h1 class="logo">DESRITORY</h1>
+        <div class="typing-text" id="typingText"></div>
         <button class="games-btn" onclick="showGamesPage()"><i class="fas fa-gamepad"></i> Browse Games</button>
         <div class="footer">
             <span>©2025 Desritory</span>
@@ -805,6 +845,66 @@
 
         const randomTexts = ['Hi', 'desritory', 'gerard your website sucks', 'sniped', 'i <3 geo-dash', 'Ok thanks', '"im gonna shove a shotgun barrel down your throat"', "Ok youre welcome"];
 
+        const typingPhrases = [
+            "browse games",
+            "desritory",
+            "have fun using our site",
+            "proxy soon"
+            "Wow this site is amazing!! - epic desritory user"
+            "Hi"
+        ];
+
+        let currentPhraseIndex = 0;
+        let currentText = '';
+        let isDeleting = false;
+        let typingSpeed = 100;
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        let shuffledPhrases = shuffleArray(typingPhrases);
+        let phrasePosition = 0;
+
+        function typeText() {
+            const typingElement = document.getElementById('typingText');
+            const currentPhrase = shuffledPhrases[phrasePosition];
+
+            if (isDeleting) {
+                currentText = currentPhrase.substring(0, currentText.length - 1);
+                typingSpeed = 50;
+            } else {
+                currentText = currentPhrase.substring(0, currentText.length + 1);
+                typingSpeed = 100;
+            }
+
+            typingElement.textContent = currentText;
+
+            if (!isDeleting && currentText === currentPhrase) {
+                // Pause at end of phrase
+                typingSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && currentText === '') {
+                isDeleting = false;
+                phrasePosition++;
+                
+                // Reshuffle when we've gone through all phrases
+                if (phrasePosition >= shuffledPhrases.length) {
+                    shuffledPhrases = shuffleArray(typingPhrases);
+                    phrasePosition = 0;
+                }
+                
+                typingSpeed = 500;
+            }
+
+            setTimeout(typeText, typingSpeed);
+        }
+
         const themes = {
             purple: { primary: '#7c4dff', secondary: '#9333ea', accent: '#a855f7', light: '#c084fc', glow: 'rgba(120, 70, 220, 0.4)', bgBase: '#0a0b1a', bgGradient1: 'rgba(88, 40, 180, 0.08)', bgGradient2: 'rgba(60, 20, 140, 0.06)', bgGradient3: 'rgba(30, 15, 80, 0.1)' },
             green: { primary: '#10b981', secondary: '#059669', accent: '#34d399', light: '#6ee7b7', glow: 'rgba(16, 185, 129, 0.4)', bgBase: '#0a1a14', bgGradient1: 'rgba(16, 185, 129, 0.08)', bgGradient2: 'rgba(5, 150, 105, 0.06)', bgGradient3: 'rgba(4, 120, 87, 0.1)' },
@@ -819,13 +919,28 @@
 
         function createParticles() {
             const particlesContainer = document.querySelector('.particles');
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 100; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
+                
+                // Random position across entire screen
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                
+                // Slow drift movement in random direction
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 100 + Math.random() * 200; // Pixels to travel
+                const deltaX = Math.cos(angle) * distance;
+                const deltaY = Math.sin(angle) * distance;
+                
+                particle.style.setProperty('--tx', deltaX + 'px');
+                particle.style.setProperty('--ty', deltaY + 'px');
+                
+                // Long, smooth animation duration
+                const duration = 15 + Math.random() * 15; // 15-30 seconds
+                particle.style.animationDuration = duration + 's, 2s';
+                particle.style.animationDelay = Math.random() * 10 + 's, ' + (Math.random() * 2) + 's';
+                
                 particlesContainer.appendChild(particle);
             }
         }
@@ -859,7 +974,7 @@
                 gamesTitle.style.backgroundClip = 'text';
             }
             document.querySelectorAll('.particle').forEach(particle => {
-                particle.style.background = theme.glow.replace('0.4', '0.3');
+                particle.style.boxShadow = `0 0 8px 2px rgba(255, 255, 255, 0.8), 0 0 15px 4px ${theme.glow}`;
             });
         }
 
@@ -1104,6 +1219,7 @@
         createParticles();
         setRandomText();
         renderGames();
+        typeText(); // Start typing animation
         const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite';
         changeTheme(savedTheme);
         if (localStorage.getItem('desritory-cloak') === 'true') {
