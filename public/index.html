@@ -896,14 +896,12 @@
             typingElement.textContent = currentText;
 
             if (!isDeleting && currentText === currentPhrase) {
-                // Pause at end of phrase
                 typingSpeed = 2000;
                 isDeleting = true;
             } else if (isDeleting && currentText === '') {
                 isDeleting = false;
                 phrasePosition++;
                 
-                // Reshuffle when we've gone through all phrases
                 if (phrasePosition >= shuffledPhrases.length) {
                     shuffledPhrases = shuffleArray(typingPhrases);
                     phrasePosition = 0;
@@ -933,21 +931,18 @@
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 
-                // Random position across entire screen
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
                 
-                // Slow drift movement in random direction
                 const angle = Math.random() * Math.PI * 2;
-                const distance = 100 + Math.random() * 200; // Pixels to travel
+                const distance = 100 + Math.random() * 200;
                 const deltaX = Math.cos(angle) * distance;
                 const deltaY = Math.sin(angle) * distance;
                 
                 particle.style.setProperty('--tx', deltaX + 'px');
                 particle.style.setProperty('--ty', deltaY + 'px');
                 
-                // Long, smooth animation duration
-                const duration = 15 + Math.random() * 15; // 15-30 seconds
+                const duration = 15 + Math.random() * 15;
                 particle.style.animationDuration = duration + 's, 2s';
                 particle.style.animationDelay = Math.random() * 10 + 's, ' + (Math.random() * 2) + 's';
                 
@@ -1010,7 +1005,6 @@
             isChatOpen = true;
             document.getElementById('chatModal').classList.add('active');
             
-            // Set up Firebase listener
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
                 window.firebaseChat.listenToMessages(displayMessage);
             } else {
@@ -1052,10 +1046,8 @@
         function displayMessage(message) {
             if (!isChatOpen) return;
             
-            // Create unique ID from timestamp and username
             const msgId = `${message.timestamp}-${message.username}-${message.text}`;
             
-            // Prevent duplicate messages
             if (messageIds.has(msgId)) return;
             messageIds.add(msgId);
             
@@ -1072,7 +1064,6 @@
             
             chatMessages.appendChild(messageDiv);
             
-            // Keep only last 100 messages in DOM
             while (chatMessages.children.length > 100) {
                 chatMessages.removeChild(chatMessages.firstChild);
             }
@@ -1119,7 +1110,6 @@
                 document.getElementsByTagName('head')[0].appendChild(favicon);
             } else {
                 document.title = 'Desritory';
-                // If stealth mode is on and we're turning off cloak, turn off stealth too
                 if (localStorage.getItem('desritory-stealth') === 'true') {
                     document.getElementById('stealthToggle').classList.remove('active');
                     localStorage.setItem('desritory-stealth', 'false');
@@ -1132,7 +1122,6 @@
             toggle.classList.toggle('active');
             const enabled = toggle.classList.contains('active');
             localStorage.setItem('desritory-panic', enabled);
-            // If stealth mode is on and we're turning off panic, turn off stealth too
             if (!enabled && localStorage.getItem('desritory-stealth') === 'true') {
                 document.getElementById('stealthToggle').classList.remove('active');
                 localStorage.setItem('desritory-stealth', 'false');
@@ -1146,7 +1135,6 @@
             localStorage.setItem('desritory-stealth', enabled);
             
             if (enabled) {
-                // Enable both cloak and panic
                 const cloakToggle = document.getElementById('cloakToggle');
                 const panicToggle = document.getElementById('panicToggle');
                 
@@ -1166,7 +1154,6 @@
                     localStorage.setItem('desritory-panic', 'true');
                 }
             } else {
-                // Disable both cloak and panic
                 const cloakToggle = document.getElementById('cloakToggle');
                 const panicToggle = document.getElementById('panicToggle');
                 
@@ -1243,68 +1230,12 @@
             
             gameContainer.innerHTML = `
                 <iframe id="gameIframe" src="${url}" style="width: 100%; height: 100%; border: none; background: white;"></iframe>
-                <div id="gameTooltip" style="position: fixed; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 12px 20px; color: white; font-size: 14px; z-index: 10001; backdrop-filter: blur(10px); font-family: 'Inter', sans-serif; animation: fadeIn 0.5s ease; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);">
-                    Press <span style="background: rgba(124, 77, 255, 0.3); padding: 4px 8px; border-radius: 5px; font-weight: 600; border: 1px solid var(--primary);">Shift+Q</span> to go back home
-                </div>
+                <button onclick="closeGameIframe()" style="position: fixed; top: 20px; left: 20px; width: 50px; height: 50px; background: rgba(0, 0, 0, 0.8); border: 2px solid var(--primary); border-radius: 12px; color: white; cursor: pointer; z-index: 10001; backdrop-filter: blur(10px); font-size: 20px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);" onmouseover="this.style.background='rgba(124, 77, 255, 0.3)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0, 0, 0, 0.8)'; this.style.transform='translateY(0)'">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
             `;
             
             gameContainer.style.display = 'flex';
-            
-            // Fade out tooltip after 5 seconds
-            setTimeout(() => {
-                const tooltip = document.getElementById('gameTooltip');
-                if (tooltip) {
-                    tooltip.style.transition = 'opacity 0.5s ease';
-                    tooltip.style.opacity = '0';
-                    setTimeout(() => {
-                        if (tooltip.parentNode) {
-                            tooltip.parentNode.removeChild(tooltip);
-                        }
-                    }, 500);
-                }
-            }, 5000);
-        }
-
-        function toggleFullscreen() {
-            const gameContainer = document.getElementById('gameContainer');
-            
-            if (!document.fullscreenElement && !document.webkitFullscreenElement && 
-                !document.mozFullScreenElement && !document.msFullscreenElement) {
-                // Enter fullscreen
-                if (gameContainer.requestFullscreen) {
-                    gameContainer.requestFullscreen();
-                } else if (gameContainer.webkitRequestFullscreen) {
-                    gameContainer.webkitRequestFullscreen();
-                } else if (gameContainer.mozRequestFullScreen) {
-                    gameContainer.mozRequestFullScreen();
-                } else if (gameContainer.msRequestFullscreen) {
-                    gameContainer.msRequestFullscreen();
-                }
-            } else {
-                // Exit fullscreen
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-            }
-        }
-
-        function updateFullscreenButton() {
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
-            if (!fullscreenBtn) return;
-            
-            const icon = fullscreenBtn.querySelector('i');
-            if (document.fullscreenElement || document.webkitFullscreenElement || 
-                document.mozFullScreenElement || document.msFullscreenElement) {
-                icon.className = 'fas fa-compress';
-            } else {
-                icon.className = 'fas fa-expand';
-            }
         }
 
         function closeGameIframe() {
@@ -1327,22 +1258,14 @@
                 closeChat();
                 if (document.getElementById('gamesPage').classList.contains('active')) closeGames();
             }
-            // Shift+Q to go back from game
-            if (e.shiftKey && e.key.toLowerCase() === 'q') {
-                const gameContainer = document.getElementById('gameContainer');
-                if (gameContainer && gameContainer.style.display === 'flex') {
-                    closeGameIframe();
-                }
-            }
             if (e.key === "'" && localStorage.getItem('desritory-panic') === 'true') window.location.href = 'https://google.com';
         });
         
         createParticles();
         setRandomText();
         renderGames();
-        typeText(); // Start typing animation
+        typeText();
         
-        // Easter egg: 1/10000 chance for upside down logo
         if (Math.random() < 1/10000) {
             const logo = document.querySelector('.logo');
             logo.style.transform = 'rotate(180deg)';
