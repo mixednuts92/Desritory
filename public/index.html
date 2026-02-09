@@ -728,12 +728,6 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
         import { getDatabase, ref, push, onChildAdded, limitToLast, query, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
 
-        // ⚠️ SETUP REQUIRED: Replace with your Firebase config
-        // To get your config:
-        // 1. Go to https://console.firebase.google.com/
-        // 2. Create a new project (or use existing)
-        // 3. Click "Add app" → Web
-        // 4. Copy the config object and paste below
         const firebaseConfig = {
             apiKey: "AIzaSyCtWJWMhHL3ZZ8cyG6oYLJLLWRpqLHrdA",
             authDomain: "desritory-chat.firebaseapp.com",
@@ -742,7 +736,6 @@
             storageBucket: "desritory-chat.firebasestorage.app",
             messagingSenderId: "799268069839",
             appId: "1:799268069839:web:4bcbfa0389603054bf32ba"
-            measurementId: "G-C0X9Y5WQPK"
         };
 
         // Initialize Firebase
@@ -896,7 +889,7 @@
                 window.firebaseChat.listenToMessages(displayMessage);
             } else {
                 document.getElementById('chatStatus').className = 'chat-status error';
-                document.getElementById('chatStatus').textContent = '⚠️ Firebase not configured - see setup instructions';
+                document.getElementById('chatStatus').textContent = 'idk if this works yet';
             }
             
             setTimeout(() => {
