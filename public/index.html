@@ -81,11 +81,6 @@
             50% { filter: brightness(0.7); }
         }
 
-        @keyframes twinkle {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(0.6); }
-        }
-
         @keyframes floatLogo {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
@@ -824,7 +819,7 @@
         }
 
         if (isFirebaseInitialized) {
-            updateChatStatus('connected', 'hello');
+            updateChatStatus('connected', '🟢 Connected - Real-time chat active');
         }
     </script>
 
@@ -850,8 +845,6 @@
             "desritory",
             "have fun using our site",
             "proxy soon"
-            "Wow this site is amazing!! - epic desritory user"
-            "Hi"
         ];
 
         let currentPhraseIndex = 0;
