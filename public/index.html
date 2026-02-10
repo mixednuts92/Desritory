@@ -1582,16 +1582,30 @@
         }
         
         function showGamesPage() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            const loadingText = document.getElementById('loadingText');
-            const gamesPage = document.getElementById('gamesPage');
-            loadingText.textContent = 'Loading games...';
-            loadingScreen.classList.add('active');
-            setTimeout(() => {
-                loadingScreen.classList.remove('active');
-                gamesPage.classList.add('active');
-            }, 1000);
-        }
+    const loadingScreen = document.getElementById('loadingScreen');
+    const loadingText = document.getElementById('loadingText');
+    const gamesPage = document.getElementById('gamesPage');
+    
+    // cool secret
+    const isSpecialLoad = Math.random() < 1/20;
+    
+    if (isSpecialLoad) {
+        loadingText.textContent = 'probably fine';
+        console.log('Special loading message triggered! (1/20 chance)');
+    } else {
+        loadingText.textContent = 'Loading games...';
+    }
+    
+    loadingScreen.classList.add('active');
+    
+    // plays an extra 2s of loading screen time for cool thing
+    const loadTime = isSpecialLoad ? 3000 : 1000;
+    
+    setTimeout(() => {
+        loadingScreen.classList.remove('active');
+        gamesPage.classList.add('active');
+    }, loadTime);
+}
         
         function closeGames() {
             document.getElementById('gamesPage').classList.remove('active');
