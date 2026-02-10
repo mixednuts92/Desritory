@@ -104,16 +104,6 @@
             text-align: center;
         }
 
-        .typing-text::after {
-            content: '|';
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
         .logo {
             font-family: 'Poppins', sans-serif;
             font-size: 90px;
@@ -821,26 +811,179 @@
                 font-size: 16px;
             }
         }
+
+        /* Dashboard Sidebar Styles */
+        .dashboard-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 10003;
+        }
+
+        .dashboard-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background: rgba(26, 35, 50, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 10002;
+            transition: left 0.3s ease;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            padding: 80px 20px 20px;
+        }
+
+        .dashboard-sidebar.active {
+            left: 0;
+        }
+
+        .dashboard-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 10001;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .dashboard-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .dashboard-header {
+            font-size: 24px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dashboard-menu-item {
+            padding: 18px 20px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .dashboard-menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .dashboard-menu-item i {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .dashboard-menu-item .item-text {
+            flex: 1;
+        }
+
+        .dashboard-menu-item .item-label {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .dashboard-menu-item .item-desc {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-sidebar {
+                width: 280px;
+                left: -280px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="time-display" id="timeDisplay">12:00 AM</div>
     <div class="particles"></div>
+    
+    <!-- Dashboard Button -->
+    <button class="dashboard-btn" onclick="toggleDashboard()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Dashboard Overlay -->
+    <div class="dashboard-overlay" id="dashboardOverlay" onclick="closeDashboard()"></div>
+    
+    <!-- Dashboard Sidebar -->
+    <div class="dashboard-sidebar" id="dashboardSidebar">
+        <div class="dashboard-header">Dashboard</div>
+        <div class="dashboard-menu-item" onclick="openGamesFromDashboard()">
+            <i class="fas fa-gamepad"></i>
+            <div class="item-text">
+                <div class="item-label">Games</div>
+                <div class="item-desc">Browse and play games</div>
+            </div>
+        </div>
+        <div class="dashboard-menu-item" onclick="openAppsFromDashboard()">
+            <i class="fas fa-th"></i>
+            <div class="item-text">
+                <div class="item-label">Apps</div>
+                <div class="item-desc">Explore applications</div>
+            </div>
+        </div>
+        <div class="dashboard-menu-item" onclick="openSettingsFromDashboard()">
+            <i class="fas fa-cog"></i>
+            <div class="item-text">
+                <div class="item-label">Settings</div>
+                <div class="item-desc">Customize your experience</div>
+            </div>
+        </div>
+    </div>
+    
     <div class="corner-buttons">
         <button class="corner-btn" onclick="openChat()">
             <i class="fas fa-comments"></i>
             <span class="notification-badge" id="chatNotificationBadge">0</span>
         </button>
         <button class="corner-btn" onclick="openLatestUpdate()"><i class="fas fa-bell"></i></button>
-        <button class="corner-btn" onclick="openSettings()"><i class="fas fa-cog"></i></button>
     </div>
     <div class="container">
         <h1 class="logo">DESRITORY V1</h1>
         <div class="typing-text" id="typingText"></div>
-        <div style="display: flex; gap: 15px;">
-            <button class="games-btn" onclick="showGamesPage()"><i class="fas fa-gamepad"></i> Games</button>
-            <button class="games-btn" onclick="showAppsPage()"><i class="fas fa-th"></i> Apps</button>
-        </div>
         <div class="footer">
             <span class="random-text" id="randomText"></span>
             <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
@@ -897,6 +1040,15 @@
                 <div class="toggle-option">
                     <span>Enable Stealth Mode</span>
                     <div class="toggle-switch" id="stealthToggle" onclick="toggleStealth()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <div class="settings-label">Background Particles</div>
+                <div class="toggle-option">
+                    <span>Show Particles</span>
+                    <div class="toggle-switch active" id="particlesToggle" onclick="toggleParticles()">
                         <div class="toggle-slider"></div>
                     </div>
                 </div>
@@ -1118,21 +1270,6 @@
 
         const randomTexts = ['sniped', 'Hi', 'desritory', 'gerard your website sucks /j', 'i <3 geo-dash', 'Ok thanks', '"im gonna shove a shotgun barrel down your throat"', "Ok youre welcome"];
 
-        const typingPhrases = [
-            "browse games",
-            "desritory",
-            "have fun using our site",
-            "proxy soon",
-            "AI coming soon...",
-            "Brooo hasss the keyyy",
-            "Hello",
-            "Uhh its on brazzers"
-        ];
-
-        let currentPhraseIndex = 0;
-        let currentText = '';
-        let isDeleting = false;
-        let typingSpeed = 100;
         let replyingToMessage = null;
         let selectedImageBase64 = null;
         let typingTimeout = null;
@@ -1140,48 +1277,47 @@
         let unreadMessageCount = 0;
         let lastReadTimestamp = Date.now();
 
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        // Time-based phrases
+        function getTypingPhrases() {
+            const hour = new Date().getHours();
+            
+            // 12am - 5am (midnight to early morning)
+            if (hour >= 0 && hour < 5) {
+                return [
+                    "you're up late",
+                    "hi night owl",
+                    "go to sleep.",
+                    "you got school in the morning (probably)"
+                ];
             }
-            return newArray;
+            // 7am - 9am (early morning)
+            else if (hour >= 7 && hour < 9) {
+                return [
+                    "you're up early",
+                    "goodmorning"
+                ];
+            }
+            // All other times
+            else {
+                return [
+                    "browse games",
+                    "desritory",
+                    "have fun using our site",
+                    "proxy soon",
+                    "AI coming soon...",
+                    "Brooo hasss the keyyy",
+                    "Hello",
+                    "Uhh its on brazzers"
+                ];
+            }
         }
 
-        let shuffledPhrases = shuffleArray(typingPhrases);
-        let phrasePosition = 0;
-
-        function typeText() {
+        // Set static phrase on load
+        function setTypingText() {
             const typingElement = document.getElementById('typingText');
-            const currentPhrase = shuffledPhrases[phrasePosition];
-
-            if (isDeleting) {
-                currentText = currentPhrase.substring(0, currentText.length - 1);
-                typingSpeed = 50;
-            } else {
-                currentText = currentPhrase.substring(0, currentText.length + 1);
-                typingSpeed = 100;
-            }
-
-            typingElement.textContent = currentText;
-
-            if (!isDeleting && currentText === currentPhrase) {
-                typingSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && currentText === '') {
-                isDeleting = false;
-                phrasePosition++;
-                
-                if (phrasePosition >= shuffledPhrases.length) {
-                    shuffledPhrases = shuffleArray(typingPhrases);
-                    phrasePosition = 0;
-                }
-                
-                typingSpeed = 500;
-            }
-
-            setTimeout(typeText, typingSpeed);
+            const phrases = getTypingPhrases();
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            typingElement.textContent = randomPhrase;
         }
 
         const themes = {
@@ -1581,31 +1717,74 @@
             }
         }
         
+        function toggleParticles() {
+            const toggle = document.getElementById('particlesToggle');
+            toggle.classList.toggle('active');
+            const enabled = toggle.classList.contains('active');
+            localStorage.setItem('desritory-particles', enabled);
+            
+            const particlesContainer = document.querySelector('.particles');
+            if (enabled) {
+                particlesContainer.style.display = 'block';
+            } else {
+                particlesContainer.style.display = 'none';
+            }
+        }
+        
+        function toggleDashboard() {
+            const sidebar = document.getElementById('dashboardSidebar');
+            const overlay = document.getElementById('dashboardOverlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+        
+        function closeDashboard() {
+            const sidebar = document.getElementById('dashboardSidebar');
+            const overlay = document.getElementById('dashboardOverlay');
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+        
+        function openGamesFromDashboard() {
+            closeDashboard();
+            showGamesPage();
+        }
+        
+        function openAppsFromDashboard() {
+            closeDashboard();
+            showAppsPage();
+        }
+        
+        function openSettingsFromDashboard() {
+            closeDashboard();
+            openSettings();
+        }
+        
         function showGamesPage() {
-    const loadingScreen = document.getElementById('loadingScreen');
-    const loadingText = document.getElementById('loadingText');
-    const gamesPage = document.getElementById('gamesPage');
-    
-    // cool secret
-    const isSpecialLoad = Math.random() < 1/20;
-    
-    if (isSpecialLoad) {
-        loadingText.textContent = 'probably fine';
-        console.log('Special loading message triggered! (1/20 chance)');
-    } else {
-        loadingText.textContent = 'Loading games...';
-    }
-    
-    loadingScreen.classList.add('active');
-    
-    // plays an extra 2s of loading screen time for cool thing
-    const loadTime = isSpecialLoad ? 3000 : 1000;
-    
-    setTimeout(() => {
-        loadingScreen.classList.remove('active');
-        gamesPage.classList.add('active');
-    }, loadTime);
-}
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingText = document.getElementById('loadingText');
+            const gamesPage = document.getElementById('gamesPage');
+            
+            // 1/20 chance for special message
+            const isSpecialLoad = Math.random() < 1/20;
+            
+            if (isSpecialLoad) {
+                loadingText.textContent = 'probably fine';
+                console.log('Special loading message triggered! (1/20 chance)');
+            } else {
+                loadingText.textContent = 'Loading games...';
+            }
+            
+            loadingScreen.classList.add('active');
+            
+            // Extra 2 seconds if special message
+            const loadTime = isSpecialLoad ? 3000 : 1000;
+            
+            setTimeout(() => {
+                loadingScreen.classList.remove('active');
+                gamesPage.classList.add('active');
+            }, loadTime);
+        }
         
         function closeGames() {
             document.getElementById('gamesPage').classList.remove('active');
@@ -1769,6 +1948,7 @@
         document.getElementById('appsSearch').addEventListener('input', (e) => renderApps(e.target.value));
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
+                closeDashboard();
                 closeSettings();
                 closeLatestUpdate();
                 closeChat();
@@ -1782,7 +1962,7 @@
         setRandomText();
         renderGames();
         renderApps();
-        typeText();
+        setTypingText();
         
         if (Math.random() < 1/10000) {
             const logo = document.querySelector('.logo');
@@ -1802,6 +1982,10 @@
         }
         if (localStorage.getItem('desritory-stealth') === 'true') {
             document.getElementById('stealthToggle').classList.add('active');
+        }
+        if (localStorage.getItem('desritory-particles') === 'false') {
+            document.getElementById('particlesToggle').classList.remove('active');
+            document.querySelector('.particles').style.display = 'none';
         }
     </script>
 </body>
