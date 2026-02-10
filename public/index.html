@@ -987,7 +987,7 @@
         <div class="footer">
             <span class="random-text" id="randomText"></span>
             <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
-                <span>v1.0.0</span>
+                <span>v1.1.0</span>
                 <span style="color: rgba(255, 255, 255, 0.2);">|</span>
                 <span>©2025 Desritory</span>
             </div>
@@ -1063,14 +1063,14 @@
                 <button class="close-btn" onclick="closeLatestUpdate()">×</button>
             </div>
             <div style="text-align: center; margin-bottom: 20px;">
-                <div style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 10px;">v1.0.0</div>
+                <div style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 10px;">v1.1.0</div>
                 <div style="font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">What's new in this update</div>
                 <div style="font-size: 14px; color: rgba(255, 255, 255, 0.7); line-height: 1.6; text-align: left; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px;">
-                    • replaced B&W theme with Slate<br>
-                    • improved stealth mode<br>
-                    • added apps (more WORKING apps coming soon)<br>
-                    • more ui designs and a bit more animations<br>
-                    • bye
+                    • added a dashboard button that displays settings, apps, and games.<br>
+                    • removed the typing animation<br>
+                    • made it possible to remove the background particals<br>
+                    • thats all for now<br>
+                    • next update fire trust
                 </div>
             </div>
         </div>
@@ -1287,17 +1287,19 @@
                     "you're up late",
                     "hi night owl",
                     "go to sleep.",
-                    "you got school in the morning (probably)"
+                    "you got school in the morning (probably)",
+                    "why are you awake"
                 ];
             }
             // 7am - 9am (early morning)
             else if (hour >= 7 && hour < 9) {
                 return [
                     "you're up early",
-                    "goodmorning"
+                    "goodmorning",
+                    "wow its morning"
                 ];
             }
-            // All other times
+            // All other text during other times.
             else {
                 return [
                     "browse games",
