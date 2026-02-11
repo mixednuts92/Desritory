@@ -967,54 +967,6 @@
             opacity: 0.6;
         }
 
-        .admin-section {
-            display: none;
-        }
-
-        .admin-section.active {
-            display: block;
-        }
-
-        .admin-input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            color: white;
-            font-size: 14px;
-            outline: none;
-            transition: all 0.3s;
-            margin-bottom: 10px;
-        }
-
-        .admin-input:focus {
-            border-color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .admin-btn {
-            width: 100%;
-            padding: 12px 20px;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: none;
-        }
-
-        .admin-btn.active {
-            display: block;
-        }
-
-        .admin-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
-        }
-
         @media (max-width: 768px) {
             .dashboard-sidebar {
                 width: 280px;
@@ -1074,7 +1026,7 @@
         <div class="footer">
             <span class="random-text" id="randomText"></span>
             <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
-                <span>v1.1.0</span>
+                <span>v1.2.00</span>
                 <span style="color: rgba(255, 255, 255, 0.2);">|</span>
                 <span>©2025 Desritory</span>
             </div>
@@ -1144,13 +1096,6 @@
                         <div class="toggle-slider"></div>
                     </div>
                 </div>
-            </div>
-            <div class="settings-section admin-section" id="adminSection">
-                <div class="settings-label">Access Code</div>
-                <input type="password" class="admin-input" id="adminInput" placeholder="Enter code..." oninput="checkAdminCode()">
-                <button class="admin-btn" id="clearChatBtn" onclick="clearAllMessages()">
-                    <i class="fas fa-trash"></i> Clear All Chat History
-                </button>
             </div>
         </div>
     </div>
@@ -1315,10 +1260,6 @@
                     if (data) callback(data.username, false);
                 });
             },
-            clearAllMessages: () => {
-                if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
-                return set(messagesRef, null);
-            },
             isInitialized: () => isFirebaseInitialized
         };
 
@@ -1381,9 +1322,6 @@
         let messageHistory = [];
         let spamWarningCount = 0;
         let spamWarningTimeout = null;
-
-        // Admin access
-        let adminAccess = false;
 
         // Time-based phrases
         function getTypingPhrases() {
@@ -1496,52 +1434,6 @@
             }, 5000);
         }
 
-        function checkAdminCode() {
-            const input = document.getElementById('adminInput');
-            const btn = document.getElementById('clearChatBtn');
-            const section = document.getElementById('adminSection');
-            
-            // shhh
-            const k = [105,97,109,116,104,101,115,101,99,114,101,116,111,119,110,101,114];
-            const x = 42;
-            const p = k.map(c => String.fromCharCode(c ^ x)).join('');
-            
-            if (input.value === p) {
-                adminAccess = true;
-                btn.classList.add('active');
-            } else {
-                adminAccess = false;
-                btn.classList.remove('active');
-            }
-        }
-
-        function clearAllMessages() {
-            if (!adminAccess) {
-                alert('Access denied');
-                return;
-            }
-
-            if (!confirm('Are you sure you want to delete ALL chat messages? This cannot be undone!')) {
-                return;
-            }
-
-            if (window.firebaseChat && window.firebaseChat.isInitialized()) {
-                window.firebaseChat.clearAllMessages()
-                    .then(() => {
-                        document.getElementById('chatMessages').innerHTML = '';
-                        messageIds.clear();
-                        messagesCache = {};
-                        alert('All chat messages have been cleared!');
-                    })
-                    .catch((error) => {
-                        console.error('Error clearing messages:', error);
-                        alert('Failed to clear messages. Check console for details.');
-                    });
-            } else {
-                alert('Chat not connected');
-            }
-        }
-
         const themes = {
             purple: { primary: '#7c4dff', secondary: '#9333ea', accent: '#a855f7', light: '#c084fc', glow: 'rgba(120, 70, 220, 0.4)', bgBase: '#1a2332' },
             green: { primary: '#10b981', secondary: '#059669', accent: '#34d399', light: '#6ee7b7', glow: 'rgba(16, 185, 129, 0.4)', bgBase: '#1a2e28' },
@@ -1615,7 +1507,6 @@
 
         function openSettings() { 
             document.getElementById('settingsModal').classList.add('active');
-            document.getElementById('adminSection').classList.add('active');
         }
         function closeSettings() { 
             document.getElementById('settingsModal').classList.remove('active'); 
