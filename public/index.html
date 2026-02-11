@@ -512,6 +512,14 @@
             align-items: center;
         }
 
+        .chat-input-container input:disabled,
+        .chat-input-container button:disabled,
+        .chat-input-container label.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .image-upload-btn {
             width: 40px;
             height: 40px;
@@ -613,6 +621,37 @@
                 opacity: 1;
                 transform: translateY(-4px);
             }
+        }
+
+        /* Spam Warning Popup */
+        .spam-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(239, 68, 68, 0.95);
+            border: 2px solid #dc2626;
+            border-radius: 15px;
+            padding: 30px 40px;
+            z-index: 10003;
+            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .spam-warning.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: all;
+        }
+
+        .spam-warning-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .games-page {
@@ -928,6 +967,54 @@
             opacity: 0.6;
         }
 
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .admin-input:focus {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .admin-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: none;
+        }
+
+        .admin-btn.active {
+            display: block;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+        }
+
         @media (max-width: 768px) {
             .dashboard-sidebar {
                 width: 280px;
@@ -994,6 +1081,11 @@
         </div>
     </div>
 
+    <!-- Spam Warning Popup -->
+    <div class="spam-warning" id="spamWarning">
+        <div class="spam-warning-text" id="spamWarningText">Hey, stop spamming!!</div>
+    </div>
+
     <div class="modal" id="settingsModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1053,6 +1145,13 @@
                     </div>
                 </div>
             </div>
+            <div class="settings-section admin-section" id="adminSection">
+                <div class="settings-label">Access Code</div>
+                <input type="password" class="admin-input" id="adminInput" placeholder="Enter code..." oninput="checkAdminCode()">
+                <button class="admin-btn" id="clearChatBtn" onclick="clearAllMessages()">
+                    <i class="fas fa-trash"></i> Clear All Chat History
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1063,14 +1162,11 @@
                 <button class="close-btn" onclick="closeLatestUpdate()">×</button>
             </div>
             <div style="text-align: center; margin-bottom: 20px;">
-                <div style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 10px;">v1.1.0</div>
+                <div style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 10px;">v1.2.0</div>
                 <div style="font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">What's new in this update</div>
                 <div style="font-size: 14px; color: rgba(255, 255, 255, 0.7); line-height: 1.6; text-align: left; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px;">
-                    • added a dashboard button that displays settings, apps, and games.<br>
-                    • removed the typing animation<br>
-                    • made it possible to remove the background particals<br>
-                    • thats all for now<br>
-                    • next update fire trust
+                    • added an anti-spam.<br>
+                    • thats literally all.<br>
                 </div>
             </div>
         </div>
@@ -1219,6 +1315,10 @@
                     if (data) callback(data.username, false);
                 });
             },
+            clearAllMessages: () => {
+                if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
+                return set(messagesRef, null);
+            },
             isInitialized: () => isFirebaseInitialized
         };
 
@@ -1277,6 +1377,14 @@
         let unreadMessageCount = 0;
         let lastReadTimestamp = Date.now();
 
+        // Anti-spam variables
+        let messageHistory = [];
+        let spamWarningCount = 0;
+        let spamWarningTimeout = null;
+
+        // Admin access
+        let adminAccess = false;
+
         // Time-based phrases
         function getTypingPhrases() {
             const hour = new Date().getHours();
@@ -1320,6 +1428,118 @@
             const phrases = getTypingPhrases();
             const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
             typingElement.textContent = randomPhrase;
+        }
+
+        // Anti-spam detection
+        function checkForSpam(message) {
+            const now = Date.now();
+            const trimmedMessage = message.trim().toLowerCase();
+            
+            // Add current message to history
+            messageHistory.push({
+                text: trimmedMessage,
+                timestamp: now
+            });
+            
+            // Remove messages older than 3 seconds
+            messageHistory = messageHistory.filter(msg => now - msg.timestamp < 3000);
+            
+            // Check if same message was sent 5 times in 3 seconds
+            const sameMessageCount = messageHistory.filter(msg => msg.text === trimmedMessage).length;
+            
+            if (sameMessageCount >= 5) {
+                showSpamWarning();
+                return true;
+            }
+            
+            return false;
+        }
+
+        function showSpamWarning() {
+            const warningEl = document.getElementById('spamWarning');
+            const warningTextEl = document.getElementById('spamWarningText');
+            
+            // Disable chat inputs
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.querySelector('.chat-input-container button[onclick="sendMessage()"]');
+            const imageUploadBtn = document.querySelector('.image-upload-btn');
+            
+            if (chatInput) chatInput.disabled = true;
+            if (sendButton) sendButton.disabled = true;
+            if (imageUploadBtn) imageUploadBtn.classList.add('disabled');
+            
+            spamWarningCount++;
+            
+            // Set message based on warning count
+            if (spamWarningCount === 1) {
+                warningTextEl.textContent = "Can you please not spam?";
+            } else if (spamWarningCount === 2) {
+                warningTextEl.textContent = "you're very annoying";
+            } else {
+                warningTextEl.textContent = "what is wrong with you";
+            }
+            
+            // Show warning
+            warningEl.classList.add('active');
+            
+            // Clear existing timeout
+            if (spamWarningTimeout) {
+                clearTimeout(spamWarningTimeout);
+            }
+            
+            // hides after 5s
+            spamWarningTimeout = setTimeout(() => {
+                warningEl.classList.remove('active');
+                if (chatInput) chatInput.disabled = false;
+                if (sendButton) sendButton.disabled = false;
+                if (imageUploadBtn) imageUploadBtn.classList.remove('disabled');
+            }, 5000);
+        }
+
+        function checkAdminCode() {
+            const input = document.getElementById('adminInput');
+            const btn = document.getElementById('clearChatBtn');
+            const section = document.getElementById('adminSection');
+            
+            // shhh
+            const k = [105,97,109,116,104,101,115,101,99,114,101,116,111,119,110,101,114];
+            const x = 42;
+            const p = k.map(c => String.fromCharCode(c ^ x)).join('');
+            
+            if (input.value === p) {
+                adminAccess = true;
+                btn.classList.add('active');
+            } else {
+                adminAccess = false;
+                btn.classList.remove('active');
+            }
+        }
+
+        function clearAllMessages() {
+            if (!adminAccess) {
+                alert('Access denied');
+                return;
+            }
+
+            if (!confirm('Are you sure you want to delete ALL chat messages? This cannot be undone!')) {
+                return;
+            }
+
+            if (window.firebaseChat && window.firebaseChat.isInitialized()) {
+                window.firebaseChat.clearAllMessages()
+                    .then(() => {
+                        document.getElementById('chatMessages').innerHTML = '';
+                        messageIds.clear();
+                        messagesCache = {};
+                        alert('All chat messages have been cleared!');
+                    })
+                    .catch((error) => {
+                        console.error('Error clearing messages:', error);
+                        alert('Failed to clear messages. Check console for details.');
+                    });
+            } else {
+                alert('Chat not connected');
+            }
         }
 
         const themes = {
@@ -1393,8 +1613,13 @@
             }
         }
 
-        function openSettings() { document.getElementById('settingsModal').classList.add('active'); }
-        function closeSettings() { document.getElementById('settingsModal').classList.remove('active'); }
+        function openSettings() { 
+            document.getElementById('settingsModal').classList.add('active');
+            document.getElementById('adminSection').classList.add('active');
+        }
+        function closeSettings() { 
+            document.getElementById('settingsModal').classList.remove('active'); 
+        }
         function openLatestUpdate() { document.getElementById('latestUpdateModal').classList.add('active'); }
         function closeLatestUpdate() { document.getElementById('latestUpdateModal').classList.remove('active'); }
         
@@ -1541,6 +1766,11 @@
             const message = input.value.trim();
             
             if ((message && message.length > 0) || selectedImageBase64) {
+                // Check for spam
+                if (message && checkForSpam(message)) {
+                    return; // Block the message if it's spam
+                }
+                
                 if (window.firebaseChat && window.firebaseChat.isInitialized()) {
                     const replyTo = replyingToMessage ? {
                         id: replyingToMessage.id,
