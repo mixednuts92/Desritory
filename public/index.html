@@ -2198,7 +2198,7 @@
             }
             
             
-            const finalUrl = getProxiedUrl(url);
+            const finalUrl = url.startsWith('http') ? getProxiedUrl(url) : url;
             
        
             document.getElementById('proxyPage').classList.remove('active');
