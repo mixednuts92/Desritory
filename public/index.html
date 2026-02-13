@@ -693,6 +693,7 @@
             cursor: pointer;
             transition: all 0.3s;
             font-size: 14px;
+            margin-left: 75px;
         }
 
         .back-btn:hover {
@@ -1994,6 +1995,9 @@
         function showGameIframe(name, url) {
             document.getElementById('gamesPage').classList.remove('active');
             
+            // Hide dashboard button when game opens
+            document.querySelector('.dashboard-btn').style.display = 'none';
+            
             let gameContainer = document.getElementById('gameContainer');
             if (!gameContainer) {
                 gameContainer = document.createElement('div');
@@ -2024,6 +2028,9 @@
 
         function showAppIframe(name, url) {
             document.getElementById('appsPage').classList.remove('active');
+            
+            // Hide dashboard button when app opens
+            document.querySelector('.dashboard-btn').style.display = 'none';
             
             let gameContainer = document.getElementById('gameContainer');
             if (!gameContainer) {
@@ -2058,6 +2065,10 @@
             if (gameContainer) {
                 gameContainer.style.display = 'none';
             }
+            
+            // Show dashboard button when returning to games page
+            document.querySelector('.dashboard-btn').style.display = 'flex';
+            
             document.getElementById('gamesPage').classList.add('active');
         }
 
@@ -2066,6 +2077,10 @@
             if (gameContainer) {
                 gameContainer.style.display = 'none';
             }
+            
+            // Show dashboard button when returning to apps page
+            document.querySelector('.dashboard-btn').style.display = 'flex';
+            
             document.getElementById('appsPage').classList.add('active');
         }
 
