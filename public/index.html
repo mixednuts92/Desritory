@@ -19,11 +19,13 @@
             --accent: #a855f7;
             --light: #c084fc;
             --glow: rgba(120, 70, 220, 0.4);
+            --particle-color-1: rgba(124, 77, 255, 0.8);
+            --particle-color-2: rgba(168, 85, 247, 0.6);
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #1a2332;
+            background: linear-gradient(135deg, #1a2332 0%, rgba(124, 77, 255, 0.09) 50%, #1a2332 100%);
             color: white;
             overflow-x: hidden;
             min-height: 100vh;
@@ -37,9 +39,10 @@
             transform: translateX(-50%);
             font-size: 18px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
             z-index: 1000;
             letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .container {
@@ -63,30 +66,18 @@
             z-index: 0;
         }
 
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.8;
-            box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.6), 
-                        0 0 12px 3px var(--glow);
-            animation: drift linear infinite, twinkle 3s ease-in-out infinite;
-        }
-
-        @keyframes drift {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(var(--tx), var(--ty));
-            }
-        }
-
-        @keyframes twinkle {
-            0%, 100% { filter: brightness(1.2); }
-            50% { filter: brightness(0.7); }
+            display: none;
         }
 
         @keyframes floatLogo {
@@ -98,10 +89,11 @@
             font-family: 'Inter', sans-serif;
             font-size: 24px;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.65);
             margin-bottom: 40px;
             min-height: 32px;
             text-align: center;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
         .logo {
@@ -144,20 +136,23 @@
         }
 
         .footer {
-            position: absolute;
-            bottom: 20px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.55);
             letter-spacing: 0.3px;
             display: flex;
             flex-direction: column;
             gap: 5px;
-            align-items: center;
-            text-align: center;
+            align-items: flex-end;
+            text-align: right;
+            z-index: 1;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
         }
 
         .random-text {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.6);
             font-weight: 400;
             animation: fadeIn 0.5s ease;
         }
@@ -179,7 +174,7 @@
         .corner-btn {
             width: 45px;
             height: 45px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 10px;
             display: flex;
@@ -255,14 +250,17 @@
         }
 
         .modal-content {
-            background: rgba(30, 40, 55, 0.98);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            background: rgba(20, 25, 35, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
             padding: 30px;
             max-width: 500px;
             width: 100%;
             max-height: 80vh;
             overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         .modal-header {
@@ -303,36 +301,80 @@
             opacity: 0.9;
         }
 
+        .theme-selector {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .theme-selector:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-selector:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--glow);
+        }
+
+        .theme-selector option {
+            background: #1e2837;
+            color: white;
+            padding: 10px;
+        }
+
         .theme-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
 
         .theme-btn {
-            padding: 12px;
-            border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
+            padding: 14px;
+            border-radius: 12px;
+            border: 2px solid transparent;
             color: white;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
         }
 
         .theme-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
             transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-btn.active {
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
         }
 
         .toggle-option {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            margin-bottom: 10px;
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .toggle-option:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .toggle-switch {
@@ -365,12 +407,19 @@
         }
 
         .chat-message {
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             animation: slideIn 0.3s ease;
             position: relative;
+            transition: all 0.3s;
+        }
+
+        .chat-message:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .chat-message:hover .chat-actions {
@@ -661,9 +710,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: #1a2332;
+            background: rgba(20, 25, 35, 1);
             z-index: 9999;
             overflow-y: auto;
+            transition: background 0.3s ease;
         }
 
         .games-page.active {
@@ -673,15 +723,17 @@
         .games-header {
             position: sticky;
             top: 0;
-            background: rgba(26, 35, 50, 0.98);
+            background: rgba(20, 25, 35, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             padding: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 15px;
             z-index: 100;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         .back-btn {
@@ -741,17 +793,18 @@
             align-items: center;
             gap: 20px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .game-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
 
         .game-icon {
@@ -793,7 +846,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(26, 35, 50, 0.98);
+            background: rgba(20, 25, 35, 0.98);
             backdrop-filter: blur(10px);
             z-index: 10002;
             align-items: center;
@@ -830,10 +883,6 @@
                 font-size: 48px;
             }
 
-            .theme-buttons {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
             .games-header {
                 flex-wrap: wrap;
             }
@@ -850,6 +899,11 @@
             .time-display {
                 font-size: 16px;
             }
+
+            .footer {
+                bottom: 15px;
+                right: 15px;
+            }
         }
 
         /* Dashboard Sidebar Styles */
@@ -859,7 +913,7 @@
             left: 20px;
             width: 45px;
             height: 45px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 10px;
             display: flex;
@@ -885,13 +939,14 @@
             left: -300px;
             width: 300px;
             height: 100%;
-            background: rgba(26, 35, 50, 0.98);
+            background: rgba(20, 25, 35, 0.95);
             backdrop-filter: blur(20px);
             z-index: 10002;
-            transition: left 0.3s ease;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transition: left 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
             overflow-y: auto;
             padding: 80px 20px 20px;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
         }
 
         .dashboard-sidebar.active {
@@ -928,10 +983,10 @@
 
         .dashboard-menu-item {
             padding: 18px 20px;
-            margin-bottom: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
@@ -941,9 +996,10 @@
         }
 
         .dashboard-menu-item:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.2);
             transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
 
         .dashboard-menu-item i {
@@ -978,7 +1034,7 @@
 </head>
 <body>
     <div class="time-display" id="timeDisplay">12:00 AM</div>
-    <div class="particles"></div>
+    <canvas id="particleCanvas"></canvas>
     
     <!-- Dashboard Button -->
     <button class="dashboard-btn" onclick="toggleDashboard()">
@@ -1024,6 +1080,7 @@
     <div class="container">
         <h1 class="logo">DESRITORY V1</h1>
         <div class="typing-text" id="typingText"></div>
+        
         <div class="footer">
             <span class="random-text" id="randomText"></span>
             <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
@@ -1047,17 +1104,18 @@
             </div>
             <div class="settings-section">
                 <div class="settings-label">Theme</div>
-                <div class="theme-buttons">
-                    <button class="theme-btn" onclick="changeTheme('purple')" style="background: linear-gradient(135deg, #7c4dff, #9333ea);">Purple</button>
-                    <button class="theme-btn" onclick="changeTheme('green')" style="background: linear-gradient(135deg, #10b981, #059669);">Green</button>
-                    <button class="theme-btn" onclick="changeTheme('blue')" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">Blue</button>
-                    <button class="theme-btn" onclick="changeTheme('red')" style="background: linear-gradient(135deg, #ef4444, #dc2626);">Red</button>
-                    <button class="theme-btn" onclick="changeTheme('pink')" style="background: linear-gradient(135deg, #ec4899, #db2777);">Pink</button>
-                    <button class="theme-btn" onclick="changeTheme('orange')" style="background: linear-gradient(135deg, #f59e0b, #d97706);">Orange</button>
-                    <button class="theme-btn" onclick="changeTheme('cyan')" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">Cyan</button>
-                    <button class="theme-btn" onclick="changeTheme('yellow')" style="background: linear-gradient(135deg, #eab308, #ca8a04);">Yellow</button>
-                    <button class="theme-btn" onclick="changeTheme('blackwhite')" style="background: linear-gradient(135deg, #2a3a4d, #1a2332);">Slate</button>
-                </div>
+                <select class="theme-selector" id="themeSelector" onchange="changeTheme(this.value)">
+                    <option value="purple">Purple</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="red">Red</option>
+                    <option value="pink">Pink</option>
+                    <option value="spooky">Spooky</option>
+                    <option value="sky">Sky</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="galaxy">Galaxy</option>
+                    <option value="blackwhite">Slate</option>
+                </select>
             </div>
             <div class="settings-section">
                 <div class="settings-label">Tab Cloaking</div>
@@ -1278,7 +1336,6 @@
     </script>
 
     <script>
-        // Update time display
         function updateTime() {
             const now = new Date();
             let hours = now.getHours();
@@ -1325,16 +1382,13 @@
         let unreadMessageCount = 0;
         let lastReadTimestamp = Date.now();
 
-        // Anti-spam variables
         let messageHistory = [];
         let spamWarningCount = 0;
         let spamWarningTimeout = null;
 
-        // Time-based phrases
         function getTypingPhrases() {
             const hour = new Date().getHours();
             
-            // 12am - 5am (midnight to early morning)
             if (hour >= 0 && hour < 5) {
                 return [
                     "you're up late",
@@ -1344,7 +1398,6 @@
                     "why are you awake"
                 ];
             }
-            // 7am - 9am (early morning)
             else if (hour >= 7 && hour < 9) {
                 return [
                     "you're up early",
@@ -1352,7 +1405,6 @@
                     "wow its morning"
                 ];
             }
-            // All other text during other times.
             else {
                 return [
                     "browse games",
@@ -1361,13 +1413,11 @@
                     "proxy soon",
                     "AI coming soon...",
                     "Brooo hasss the keyyy",
-                    "Hello",
-                    "Uhh its on brazzers"
+                    "Hello"
                 ];
             }
         }
 
-        // Set static phrase on load
         function setTypingText() {
             const typingElement = document.getElementById('typingText');
             const phrases = getTypingPhrases();
@@ -1375,21 +1425,17 @@
             typingElement.textContent = randomPhrase;
         }
 
-        // Anti-spam detection
         function checkForSpam(message) {
             const now = Date.now();
             const trimmedMessage = message.trim().toLowerCase();
             
-            // Add current message to history
             messageHistory.push({
                 text: trimmedMessage,
                 timestamp: now
             });
             
-            // Remove messages older than 3 seconds
             messageHistory = messageHistory.filter(msg => now - msg.timestamp < 3000);
             
-            // Check if same message was sent 5 times in 3 seconds
             const sameMessageCount = messageHistory.filter(msg => msg.text === trimmedMessage).length;
             
             if (sameMessageCount >= 5) {
@@ -1404,7 +1450,6 @@
             const warningEl = document.getElementById('spamWarning');
             const warningTextEl = document.getElementById('spamWarningText');
             
-            // Disable chat inputs
             const chatInput = document.getElementById('chatInput');
             const sendButton = document.querySelector('.chat-input-container button[onclick="sendMessage()"]');
             const imageUploadBtn = document.querySelector('.image-upload-btn');
@@ -1415,7 +1460,6 @@
             
             spamWarningCount++;
             
-            // Set message based on warning count
             if (spamWarningCount === 1) {
                 warningTextEl.textContent = "Can you please not spam?";
             } else if (spamWarningCount === 2) {
@@ -1424,15 +1468,12 @@
                 warningTextEl.textContent = "what is wrong with you";
             }
             
-            // Show warning
             warningEl.classList.add('active');
             
-            // Clear existing timeout
             if (spamWarningTimeout) {
                 clearTimeout(spamWarningTimeout);
             }
             
-            // hides after 5s
             spamWarningTimeout = setTimeout(() => {
                 warningEl.classList.remove('active');
                 if (chatInput) chatInput.disabled = false;
@@ -1442,40 +1483,144 @@
         }
 
         const themes = {
-            purple: { primary: '#7c4dff', secondary: '#9333ea', accent: '#a855f7', light: '#c084fc', glow: 'rgba(120, 70, 220, 0.4)', bgBase: '#1a2332' },
-            green: { primary: '#10b981', secondary: '#059669', accent: '#34d399', light: '#6ee7b7', glow: 'rgba(16, 185, 129, 0.4)', bgBase: '#1a2e28' },
-            blue: { primary: '#3b82f6', secondary: '#1d4ed8', accent: '#60a5fa', light: '#93c5fd', glow: 'rgba(59, 130, 246, 0.4)', bgBase: '#1a2332' },
-            red: { primary: '#ef4444', secondary: '#dc2626', accent: '#f87171', light: '#fca5a5', glow: 'rgba(239, 68, 68, 0.4)', bgBase: '#2e1a1a' },
-            pink: { primary: '#ec4899', secondary: '#db2777', accent: '#f472b6', light: '#f9a8d4', glow: 'rgba(236, 72, 153, 0.4)', bgBase: '#2e1a28' },
-            orange: { primary: '#f59e0b', secondary: '#d97706', accent: '#fbbf24', light: '#fcd34d', glow: 'rgba(245, 158, 11, 0.4)', bgBase: '#2e281a' },
-            cyan: { primary: '#06b6d4', secondary: '#0891b2', accent: '#22d3ee', light: '#67e8f9', glow: 'rgba(6, 182, 212, 0.4)', bgBase: '#1a2832' },
-            yellow: { primary: '#eab308', secondary: '#ca8a04', accent: '#facc15', light: '#fde047', glow: 'rgba(234, 179, 8, 0.4)', bgBase: '#2e2e1a' },
-            blackwhite: { primary: '#888888', secondary: '#666666', accent: '#aaaaaa', light: '#cccccc', glow: 'rgba(136, 136, 136, 0.4)', bgBase: '#1a2332' }
+            purple: { primary: '#7c4dff', secondary: '#9333ea', accent: '#a855f7', light: '#c084fc', glow: 'rgba(120, 70, 220, 0.4)', bgBase: '#1a2332', particleColor1: 'rgba(124, 77, 255, 0.8)', particleColor2: 'rgba(168, 85, 247, 0.6)' },
+            green: { primary: '#10b981', secondary: '#059669', accent: '#34d399', light: '#6ee7b7', glow: 'rgba(16, 185, 129, 0.4)', bgBase: '#1a2e28', particleColor1: 'rgba(16, 185, 129, 0.8)', particleColor2: 'rgba(52, 211, 153, 0.6)' },
+            blue: { primary: '#3b82f6', secondary: '#1d4ed8', accent: '#60a5fa', light: '#93c5fd', glow: 'rgba(59, 130, 246, 0.4)', bgBase: '#1a2332', particleColor1: 'rgba(59, 130, 246, 0.8)', particleColor2: 'rgba(96, 165, 250, 0.6)' },
+            red: { primary: '#ef4444', secondary: '#dc2626', accent: '#f87171', light: '#fca5a5', glow: 'rgba(239, 68, 68, 0.4)', bgBase: '#2e1a1a', particleColor1: 'rgba(239, 68, 68, 0.8)', particleColor2: 'rgba(248, 113, 113, 0.6)' },
+            pink: { primary: '#ec4899', secondary: '#db2777', accent: '#f472b6', light: '#f9a8d4', glow: 'rgba(236, 72, 153, 0.4)', bgBase: '#2e1a28', particleColor1: 'rgba(236, 72, 153, 0.8)', particleColor2: 'rgba(244, 114, 182, 0.6)' },
+            spooky: { primary: '#ff6b00', secondary: '#ff8c00', accent: '#ffa500', light: '#ffb347', glow: 'rgba(255, 107, 0, 0.4)', bgBase: '#1a0f0a', particleColor1: 'rgba(255, 107, 0, 0.8)', particleColor2: 'rgba(255, 140, 0, 0.6)' },
+            sky: { primary: '#38bdf8', secondary: '#0ea5e9', accent: '#7dd3fc', light: '#bae6fd', glow: 'rgba(56, 189, 248, 0.4)', bgBase: '#1a2632', particleColor1: 'rgba(56, 189, 248, 0.8)', particleColor2: 'rgba(125, 211, 252, 0.6)' },
+            yellow: { primary: '#eab308', secondary: '#ca8a04', accent: '#facc15', light: '#fde047', glow: 'rgba(234, 179, 8, 0.4)', bgBase: '#2e2e1a', particleColor1: 'rgba(234, 179, 8, 0.8)', particleColor2: 'rgba(250, 204, 21, 0.6)' },
+            galaxy: { primary: '#9333ea', secondary: '#7c3aed', accent: '#a855f7', light: '#c084fc', glow: 'rgba(147, 51, 234, 0.4)', bgBase: '#0a0a0f', particleColor1: 'rgba(147, 51, 234, 0.8)', particleColor2: 'rgba(168, 85, 247, 0.6)' },
+            blackwhite: { primary: '#888888', secondary: '#666666', accent: '#aaaaaa', light: '#cccccc', glow: 'rgba(136, 136, 136, 0.4)', bgBase: '#1a2332', particleColor1: 'rgba(136, 136, 136, 0.8)', particleColor2: 'rgba(170, 170, 170, 0.6)' }
         };
 
+        function updateParticleColors(theme) {
+            document.documentElement.style.setProperty('--particle-color-1', theme.particleColor1);
+            document.documentElement.style.setProperty('--particle-color-2', theme.particleColor2);
+        }
+
         function createParticles() {
-            const particlesContainer = document.querySelector('.particles');
-            for (let i = 0; i < 100; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+            
+            const particles = [];
+            const particleCount = 80;
+            const mouse = { x: null, y: null, radius: 150 };
+            
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.x;
+                mouse.y = e.y;
+            });
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                }
                 
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                    if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                }
                 
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 100 + Math.random() * 200;
-                const deltaX = Math.cos(angle) * distance;
-                const deltaY = Math.sin(angle) * distance;
-                
-                particle.style.setProperty('--tx', deltaX + 'px');
-                particle.style.setProperty('--ty', deltaY + 'px');
-                
-                const duration = 15 + Math.random() * 15;
-                particle.style.animationDuration = duration + 's, 2s';
-                particle.style.animationDelay = Math.random() * 10 + 's, ' + (Math.random() * 2) + 's';
-                
-                particlesContainer.appendChild(particle);
+                draw() {
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+                    ctx.shadowBlur = 2;
+                    ctx.shadowColor = 'rgba(255, 255, 255, 0.4)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
             }
+            
+            function init() {
+                particles.length = 0;
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            function connect() {
+                const particlesNearMouse = new Set();
+                const particleColor1 = getComputedStyle(document.documentElement).getPropertyValue('--particle-color-1').trim();
+                const particleColor2 = getComputedStyle(document.documentElement).getPropertyValue('--particle-color-2').trim();
+                
+                for (let a = 0; a < particles.length; a++) {
+                    if (mouse.x !== null && mouse.y !== null) {
+                        const dx = particles[a].x - mouse.x;
+                        const dy = particles[a].y - mouse.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < mouse.radius) {
+                            particlesNearMouse.add(a);
+                            const opacity = 1 - (distance / mouse.radius);
+                            ctx.strokeStyle = particleColor2.replace('0.6', String(opacity * 0.75));
+                            ctx.lineWidth = 1.8;
+                            ctx.shadowBlur = 3;
+                            ctx.shadowColor = particleColor2.replace('0.6', '0.3');
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(mouse.x, mouse.y);
+                            ctx.stroke();
+                            ctx.shadowBlur = 0;
+                        }
+                    }
+                }
+                
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a + 1; b < particles.length; b++) {
+                        if (particlesNearMouse.has(a) && particlesNearMouse.has(b)) {
+                            const dx = particles[a].x - particles[b].x;
+                            const dy = particles[a].y - particles[b].y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance < 120) {
+                                const opacity = 1 - (distance / 120);
+                                ctx.strokeStyle = particleColor1.replace('0.8', String(opacity * 0.45));
+                                ctx.lineWidth = 1.3;
+                                ctx.shadowBlur = 2;
+                                ctx.shadowColor = particleColor1.replace('0.8', '0.2');
+                                ctx.beginPath();
+                                ctx.moveTo(particles[a].x, particles[a].y);
+                                ctx.lineTo(particles[b].x, particles[b].y);
+                                ctx.stroke();
+                                ctx.shadowBlur = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let particle of particles) {
+                    particle.update();
+                    particle.draw();
+                }
+                
+                connect();
+                requestAnimationFrame(animate);
+            }
+            
+            init();
+            animate();
         }
 
         function setRandomText() {
@@ -1486,19 +1631,57 @@
         function changeTheme(colorName) {
             const theme = themes[colorName];
             if (!theme) return;
+            
             localStorage.setItem('desritory-theme', colorName);
-            document.body.style.background = theme.bgBase;
+            
+            const bgGradient = `linear-gradient(135deg, ${theme.bgBase} 0%, ${theme.primary}18 50%, ${theme.bgBase} 100%)`;
+            document.body.style.background = bgGradient;
+            
             document.documentElement.style.setProperty('--primary', theme.primary);
             document.documentElement.style.setProperty('--secondary', theme.secondary);
             document.documentElement.style.setProperty('--accent', theme.accent);
             document.documentElement.style.setProperty('--light', theme.light);
             document.documentElement.style.setProperty('--glow', theme.glow);
-            document.querySelectorAll('.particle').forEach(particle => {
-                particle.style.boxShadow = `0 0 8px 2px rgba(255, 255, 255, 0.8), 0 0 15px 4px ${theme.glow}`;
-            });
+            
+            updateParticleColors(theme);
+            
             const gamesPage = document.getElementById('gamesPage');
             if (gamesPage) {
-                gamesPage.style.background = theme.bgBase;
+                gamesPage.style.background = `linear-gradient(135deg, ${theme.bgBase} 0%, ${theme.primary}08 50%, ${theme.bgBase} 100%)`;
+            }
+            const appsPage = document.getElementById('appsPage');
+            if (appsPage) {
+                appsPage.style.background = `linear-gradient(135deg, ${theme.bgBase} 0%, ${theme.primary}08 50%, ${theme.bgBase} 100%)`;
+            }
+            
+            const logo = document.querySelector('.logo');
+            if (logo) {
+                logo.style.background = `linear-gradient(135deg, ${theme.light} 0%, ${theme.primary} 25%, ${theme.accent} 50%, ${theme.secondary} 75%, ${theme.light} 100%)`;
+                logo.style.backgroundSize = '200% 200%';
+                logo.style.webkitBackgroundClip = 'text';
+                logo.style.webkitTextFillColor = 'transparent';
+                logo.style.backgroundClip = 'text';
+            }
+            
+            document.querySelectorAll('.modal-content').forEach(modal => {
+                modal.style.background = `linear-gradient(135deg, ${theme.bgBase}f2 0%, ${theme.primary}15 50%, ${theme.bgBase}f2 100%)`;
+                modal.style.borderColor = `${theme.primary}40`;
+            });
+            
+            const dashboardSidebar = document.getElementById('dashboardSidebar');
+            if (dashboardSidebar) {
+                dashboardSidebar.style.background = `linear-gradient(180deg, ${theme.bgBase}f2 0%, ${theme.primary}12 50%, ${theme.bgBase}f2 100%)`;
+                dashboardSidebar.style.borderColor = `${theme.primary}40`;
+            }
+            
+            document.querySelectorAll('.games-header').forEach(header => {
+                header.style.background = `linear-gradient(135deg, ${theme.bgBase}f2 0%, ${theme.primary}15 50%, ${theme.bgBase}f2 100%)`;
+                header.style.borderColor = `${theme.primary}30`;
+            });
+            
+            const themeSelector = document.getElementById('themeSelector');
+            if (themeSelector) {
+                themeSelector.value = colorName;
             }
         }
 
@@ -1664,9 +1847,8 @@
             const message = input.value.trim();
             
             if ((message && message.length > 0) || selectedImageBase64) {
-                // Check for spam
                 if (message && checkForSpam(message)) {
-                    return; // Block the message if it's spam
+                    return;
                 }
                 
                 if (window.firebaseChat && window.firebaseChat.isInitialized()) {
@@ -1853,11 +2035,11 @@
             const enabled = toggle.classList.contains('active');
             localStorage.setItem('desritory-particles', enabled);
             
-            const particlesContainer = document.querySelector('.particles');
+            const canvas = document.getElementById('particleCanvas');
             if (enabled) {
-                particlesContainer.style.display = 'block';
+                canvas.style.display = 'block';
             } else {
-                particlesContainer.style.display = 'none';
+                canvas.style.display = 'none';
             }
         }
         
@@ -1895,7 +2077,6 @@
             const loadingText = document.getElementById('loadingText');
             const gamesPage = document.getElementById('gamesPage');
             
-            // 1/20 chance for special message
             const isSpecialLoad = Math.random() < 1/20;
             
             if (isSpecialLoad) {
@@ -1907,7 +2088,6 @@
             
             loadingScreen.classList.add('active');
             
-            // Extra 2 seconds if special message
             const loadTime = isSpecialLoad ? 3000 : 1000;
             
             setTimeout(() => {
@@ -1995,7 +2175,6 @@
         function showGameIframe(name, url) {
             document.getElementById('gamesPage').classList.remove('active');
             
-            // Hide dashboard button when game opens
             document.querySelector('.dashboard-btn').style.display = 'none';
             
             let gameContainer = document.getElementById('gameContainer');
@@ -2029,7 +2208,6 @@
         function showAppIframe(name, url) {
             document.getElementById('appsPage').classList.remove('active');
             
-            // Hide dashboard button when app opens
             document.querySelector('.dashboard-btn').style.display = 'none';
             
             let gameContainer = document.getElementById('gameContainer');
@@ -2066,7 +2244,6 @@
                 gameContainer.style.display = 'none';
             }
             
-            // Show dashboard button when returning to games page
             document.querySelector('.dashboard-btn').style.display = 'flex';
             
             document.getElementById('gamesPage').classList.add('active');
@@ -2078,7 +2255,6 @@
                 gameContainer.style.display = 'none';
             }
             
-            // Show dashboard button when returning to apps page
             document.querySelector('.dashboard-btn').style.display = 'flex';
             
             document.getElementById('appsPage').classList.add('active');
@@ -2117,6 +2293,7 @@
         
         const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite';
         changeTheme(savedTheme);
+        
         if (localStorage.getItem('desritory-cloak') === 'true') {
             document.getElementById('cloakToggle').classList.add('active');
             toggleCloak();
@@ -2129,7 +2306,7 @@
         }
         if (localStorage.getItem('desritory-particles') === 'false') {
             document.getElementById('particlesToggle').classList.remove('active');
-            document.querySelector('.particles').style.display = 'none';
+            document.getElementById('particleCanvas').style.display = 'none';
         }
     </script>
 </body>
