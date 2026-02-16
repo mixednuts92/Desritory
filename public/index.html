@@ -906,7 +906,7 @@
             }
         }
 
-        
+        /* Dashboard Sidebar Styles */
         .dashboard-btn {
             position: fixed;
             top: 20px;
@@ -2270,7 +2270,7 @@
         function closeGameIframe() {
             const gameContainer = document.getElementById('gameContainer');
             if (gameContainer) {
-                gameContainer.style.display = 'none';
+                gameContainer.remove();
             }
             
             document.querySelector('.dashboard-btn').style.display = 'flex';
@@ -2281,7 +2281,7 @@
         function closeAppIframe() {
             const gameContainer = document.getElementById('gameContainer');
             if (gameContainer) {
-                gameContainer.style.display = 'none';
+                gameContainer.remove();
             }
             
             document.querySelector('.dashboard-btn').style.display = 'flex';
