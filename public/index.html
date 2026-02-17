@@ -1192,7 +1192,7 @@
         <div class="footer">
             <span class="random-text" id="randomText"></span>
             <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
-                <span>v2.0.0</span>
+                <span>v2.0.1</span>
                 <span style="color: rgba(255, 255, 255, 0.2);">|</span>
                 <span>©2025 Desritory</span>
             </div>
@@ -1257,7 +1257,7 @@
                 <button class="close-btn" onclick="closeLatestUpdate()">×</button>
             </div>
             <div style="text-align: center; margin-bottom: 20px;">
-                <div style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 10px;">v2.0.0</div>
+                <div style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 10px;">v2.0.1</div>
                 <div style="font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">What's new in this update</div>
                 <div style="font-size: 14px; color: rgba(255, 255, 255, 0.7); line-height: 1.6; text-align: left; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px;">
                     • yayy v2<br>
@@ -1334,11 +1334,11 @@
     </div>
 
     <script type="module">
-        // Import Firebase modules
+        
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
         import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp, push, onChildAdded, onChildChanged, onChildRemoved, limitToLast, query, remove } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
 
-        // Firebase configuration
+        
         const firebaseConfig = {
             apiKey: "AIzaSyCtWJWMhHL3ZZ8cyG6oYLJLLWRpqLHrdA",
             authDomain: "desritory-chat.firebaseapp.com",
@@ -1353,7 +1353,7 @@
         let database = null;
         let messagesRef, typingRef, presenceRef;
 
-        // Initialize Firebase
+        
         try {
             const app = initializeApp(firebaseConfig);
             database = getDatabase(app);
@@ -1363,11 +1363,11 @@
             isFirebaseInitialized = true;
             console.log('Firebase initialized successfully');
             
-            // Initialize user presence tracking
+            
             initializePresence();
         } catch (error) {
             console.error('Firebase initialization error:', error);
-            // Fallback to simulated count if Firebase fails
+            
             updateActiveUsers();
             setInterval(updateActiveUsers, 10000);
             updateChatStatus('error', 'Firebase not configured');
@@ -1376,22 +1376,22 @@
         function initializePresence() {
             if (!isFirebaseInitialized) return;
             
-            // Generate unique user ID for this session
+            
             const currentUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             
             const userPresenceRef = ref(database, `presence/${currentUserId}`);
             const presenceRefAll = ref(database, 'presence');
             
-            // Set user as online
+            
             set(userPresenceRef, {
                 online: true,
                 lastSeen: serverTimestamp()
             }).catch(err => console.error('Error setting presence:', err));
             
-            // Remove user from presence when they disconnect
+            
             onDisconnect(userPresenceRef).remove();
             
-            // Update lastSeen every 30 seconds to keep presence fresh
+            
             setInterval(() => {
                 if (isFirebaseInitialized) {
                     set(userPresenceRef, {
@@ -1401,7 +1401,7 @@
                 }
             }, 30000);
             
-            // Listen to presence changes to update active user count
+            
             onValue(presenceRefAll, (snapshot) => {
                 const presenceData = snapshot.val();
                 if (presenceData) {
@@ -1420,13 +1420,13 @@
             }
         }
 
-        // Fallback for when Firebase is not available
+        
         function updateActiveUsers() {
-            const users = Math.floor(Math.random() * 16) + 20; // 20-35
+            const users = Math.floor(Math.random() * 16) + 20; 
             document.getElementById('usersActive').textContent = users;
         }
 
-        // Chat functions
+        
         window.firebaseChat = {
             sendMessage: (username, text, imageUrl = null, replyTo = null) => {
                 if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
@@ -1493,7 +1493,7 @@
             updateChatStatus('connected', '🟢 Connected - Real-time chat active');
         }
 
-        // Uptime tracking
+        
         const startTime = Date.now();
         
         function updateUptime() {
@@ -1507,11 +1507,11 @@
             document.getElementById('uptimeDisplay').textContent = uptimeString;
         }
         
-        // Update uptime every second
+        
         setInterval(updateUptime, 1000);
         updateUptime();
         
-        // Make functions available globally
+        
         window.updateActiveUsersCount = updateActiveUsersCount;
     </script>
 
@@ -1793,7 +1793,7 @@
             
             localStorage.setItem('desritory-theme', colorName);
             
-            // Update system panel theme display
+            
             document.getElementById('currentTheme').textContent = themeNames[colorName];
             
             const bgGradient = `linear-gradient(135deg, ${theme.bgBase} 0%, ${theme.primary}18 50%, ${theme.bgBase} 100%)`;
@@ -1856,7 +1856,7 @@
         function openLatestUpdate() { document.getElementById('latestUpdateModal').classList.add('active'); }
         function closeLatestUpdate() { document.getElementById('latestUpdateModal').classList.remove('active'); }
         
-        // STEALTH MODE FUNCTION
+        
         function toggleStealthMode() {
             const currentStealth = localStorage.getItem('desritory-stealth') === 'true';
             const newStealth = !currentStealth;
@@ -1885,7 +1885,7 @@
             closeDashboard();
         }
         
-        // CHAT FUNCTIONS
+        
         let username = localStorage.getItem('desritory-username') || '';
         let isChatOpen = false;
         let messageIds = new Set();
@@ -2503,10 +2503,23 @@
             console.log('Wow! You got a 1/10000 chance of this happening!!');
         }
         
+        const CURRENT_VERSION = '2.0.0';
+        const savedVersion = localStorage.getItem('desritory-version');
+        
+        if (savedVersion !== CURRENT_VERSION) {
+            const savedUsername = localStorage.getItem('desritory-username');
+            localStorage.clear();
+            if (savedUsername) {
+                localStorage.setItem('desritory-username', savedUsername);
+            }
+            localStorage.setItem('desritory-version', CURRENT_VERSION);
+            
+            window.location.reload(true);
+        }
+        
         const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite';
         changeTheme(savedTheme);
         
-        // Initialize stealth mode state
         const savedStealth = localStorage.getItem('desritory-stealth') === 'true';
         const stealthStatus = document.getElementById('stealthStatus');
         if (savedStealth) {
