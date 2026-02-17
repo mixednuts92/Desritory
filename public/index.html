@@ -805,6 +805,302 @@
                 right: 15px;
             }
         }
+
+        /* CHAT STYLES */
+        .chat-message {
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            animation: slideIn 0.3s ease;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .chat-message:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .chat-message:hover .chat-actions {
+            opacity: 1;
+        }
+
+        .chat-actions {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .chat-action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chat-action-btn:hover {
+            background: var(--primary);
+        }
+
+        .chat-reply-indicator {
+            background: rgba(124, 77, 255, 0.2);
+            border-left: 3px solid var(--primary);
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .chat-reply-indicator strong {
+            color: var(--primary);
+        }
+
+        .replying-to-bar {
+            display: none;
+            background: rgba(124, 77, 255, 0.15);
+            border-left: 3px solid var(--primary);
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            position: relative;
+        }
+
+        .replying-to-bar.active {
+            display: block;
+        }
+
+        .cancel-reply {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .cancel-reply:hover {
+            opacity: 1;
+        }
+
+        .chat-message-username {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .chat-message-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .chat-message-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .chat-message-image:hover {
+            transform: scale(1.02);
+        }
+
+        .chat-message-time {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 5px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-status {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .chat-status.connected {
+            color: #10b981;
+        }
+
+        .chat-status.error {
+            color: #ef4444;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input-container input:disabled,
+        .chat-input-container button:disabled,
+        .chat-input-container label.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .image-upload-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .image-upload-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .image-preview {
+            display: none;
+            max-width: 150px;
+            max-height: 100px;
+            border-radius: 10px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .image-preview.active {
+            display: block;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        .typing-indicator.active {
+            display: block;
+        }
+
+        .typing-dots {
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .typing-dots span {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            margin: 0 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingDot {
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-4px);
+            }
+        }
+
+        .spam-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(239, 68, 68, 0.95);
+            border: 2px solid #dc2626;
+            border-radius: 15px;
+            padding: 30px 40px;
+            z-index: 10003;
+            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .spam-warning.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: all;
+        }
+
+        .spam-warning-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -821,6 +1117,10 @@
         <div class="system-stat">
             <span class="system-stat-label">Users Active:</span>
             <span class="system-stat-value users" id="usersActive">--</span>
+        </div>
+        <div class="system-stat">
+            <span class="system-stat-label">Stealth Mode:</span>
+            <span class="system-stat-value theme" id="stealthStatus">Disabled</span>
         </div>
         <div class="system-stat">
             <span class="system-stat-label">Theme:</span>
@@ -868,10 +1168,20 @@
                 <div class="item-desc">Customize your experience</div>
             </div>
         </div>
+        <div class="dashboard-menu-item" onclick="toggleStealthMode()">
+            <i class="fas fa-user-secret"></i>
+            <div class="item-text">
+                <div class="item-label">Stealth Mode</div>
+                <div class="item-desc">Toggle stealth mode</div>
+            </div>
+        </div>
     </div>
     
     <div class="corner-buttons">
-        <button class="corner-btn" onclick="openSettings()"><i class="fas fa-cog"></i></button>
+        <button class="corner-btn" onclick="openChat()">
+            <i class="fas fa-comments"></i>
+            <span class="notification-badge" id="chatNotificationBadge">0</span>
+        </button>
         <button class="corner-btn" onclick="openLatestUpdate()"><i class="fas fa-bell"></i></button>
     </div>
     
@@ -960,12 +1270,51 @@
         </div>
     </div>
 
+    <div class="modal" id="chatModal">
+        <div class="modal-content" style="max-width: 600px; max-height: 80vh; display: flex; flex-direction: column;">
+            <div class="modal-header">
+                <h2 class="modal-title">Chat Room</h2>
+                <button class="close-btn" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-status" id="chatStatus">Connecting...</div>
+            <div id="chatMessages" style="flex: 1; overflow-y: auto; padding: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 10px; margin-bottom: 15px; min-height: 400px;">
+            </div>
+            <div id="typingIndicator" class="typing-indicator">
+                <span id="typingUsers"></span>
+                <span class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+            <div id="replyingToBar" class="replying-to-bar">
+                Replying to <strong id="replyingToUser"></strong>
+                <button class="cancel-reply" onclick="cancelReply()">×</button>
+            </div>
+            <div id="imagePreviewContainer" style="position: relative; display: inline-block;">
+                <img id="imagePreview" class="image-preview">
+                <button class="remove-image" onclick="removeImage()" style="display: none;">×</button>
+            </div>
+            <div class="chat-input-container">
+                <label for="imageInput" class="image-upload-btn" title="Upload image">
+                    <i class="fas fa-image"></i>
+                </label>
+                <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)">
+                <input type="text" id="chatInput" placeholder="Type a message..." style="flex: 1; padding: 12px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: white; font-size: 14px; outline: none;" onkeypress="handleChatKeyPress(event)" oninput="handleTyping()">
+                <button onclick="sendMessage()" style="padding: 12px 30px; background: var(--primary); border: none; border-radius: 10px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s;">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="spam-warning" id="spamWarning">
+        <div class="spam-warning-text" id="spamWarningText">Hey, stop spamming!!</div>
+    </div>
+
     <div class="games-page" id="gamesPage">
         <div class="games-header">
             <button class="back-btn" onclick="closeGames()">← Back</button>
             <h2 class="games-title">GAMES</h2>
             <input type="text" class="games-search" id="gamesSearch" placeholder="🔍 Search games...">
-            <button class="corner-btn" onclick="openSettings()"><i class="fas fa-cog"></i></button>
         </div>
         <div class="games-list" id="gamesList"></div>
     </div>
@@ -975,7 +1324,6 @@
             <button class="back-btn" onclick="closeApps()">← Back</button>
             <h2 class="games-title">APPS</h2>
             <input type="text" class="games-search" id="appsSearch" placeholder="🔍 Search apps...">
-            <button class="corner-btn" onclick="openSettings()"><i class="fas fa-cog"></i></button>
         </div>
         <div class="games-list" id="appsList"></div>
     </div>
@@ -988,7 +1336,7 @@
     <script type="module">
         // Import Firebase modules
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-        import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+        import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp, push, onChildAdded, onChildChanged, onChildRemoved, limitToLast, query, remove } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
 
         // Firebase configuration
         const firebaseConfig = {
@@ -1003,11 +1351,15 @@
 
         let isFirebaseInitialized = false;
         let database = null;
+        let messagesRef, typingRef, presenceRef;
 
         // Initialize Firebase
         try {
             const app = initializeApp(firebaseConfig);
             database = getDatabase(app);
+            messagesRef = ref(database, 'messages');
+            typingRef = ref(database, 'typing');
+            presenceRef = ref(database, 'presence');
             isFirebaseInitialized = true;
             console.log('Firebase initialized successfully');
             
@@ -1018,6 +1370,7 @@
             // Fallback to simulated count if Firebase fails
             updateActiveUsers();
             setInterval(updateActiveUsers, 10000);
+            updateChatStatus('error', 'Firebase not configured');
         }
 
         function initializePresence() {
@@ -1027,7 +1380,7 @@
             const currentUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             
             const userPresenceRef = ref(database, `presence/${currentUserId}`);
-            const presenceRef = ref(database, 'presence');
+            const presenceRefAll = ref(database, 'presence');
             
             // Set user as online
             set(userPresenceRef, {
@@ -1049,7 +1402,7 @@
             }, 30000);
             
             // Listen to presence changes to update active user count
-            onValue(presenceRef, (snapshot) => {
+            onValue(presenceRefAll, (snapshot) => {
                 const presenceData = snapshot.val();
                 if (presenceData) {
                     const activeUsers = Object.keys(presenceData).length;
@@ -1071,6 +1424,73 @@
         function updateActiveUsers() {
             const users = Math.floor(Math.random() * 16) + 20; // 20-35
             document.getElementById('usersActive').textContent = users;
+        }
+
+        // Chat functions
+        window.firebaseChat = {
+            sendMessage: (username, text, imageUrl = null, replyTo = null) => {
+                if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
+                const messageData = {
+                    username: username,
+                    text: text,
+                    timestamp: serverTimestamp()
+                };
+                if (imageUrl) messageData.imageUrl = imageUrl;
+                if (replyTo) messageData.replyTo = replyTo;
+                return push(messagesRef, messageData);
+            },
+            listenToMessages: (callback) => {
+                if (!isFirebaseInitialized) return;
+                const recentMessages = query(messagesRef, limitToLast(50));
+                onChildAdded(recentMessages, (snapshot) => {
+                    const message = snapshot.val();
+                    message.id = snapshot.key;
+                    callback(message);
+                });
+            },
+            setTyping: (username, isTyping) => {
+                if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
+                const userTypingRef = ref(database, `typing/${username.replace(/[.#$[\]]/g, '_')}`);
+                if (isTyping) {
+                    return set(userTypingRef, {
+                        username: username,
+                        timestamp: serverTimestamp()
+                    });
+                } else {
+                    return remove(userTypingRef);
+                }
+            },
+            listenToTyping: (callback) => {
+                if (!isFirebaseInitialized) return;
+                
+                onChildAdded(typingRef, (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) callback(data.username, true);
+                });
+                
+                onChildChanged(typingRef, (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) callback(data.username, true);
+                });
+                
+                onChildRemoved(typingRef, (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) callback(data.username, false);
+                });
+            },
+            isInitialized: () => isFirebaseInitialized
+        };
+
+        function updateChatStatus(status, text) {
+            const statusEl = document.getElementById('chatStatus');
+            if (statusEl) {
+                statusEl.className = 'chat-status ' + status;
+                statusEl.textContent = text;
+            }
+        }
+
+        if (isFirebaseInitialized) {
+            updateChatStatus('connected', '🟢 Connected - Real-time chat active');
         }
 
         // Uptime tracking
@@ -1436,6 +1856,369 @@
         function openLatestUpdate() { document.getElementById('latestUpdateModal').classList.add('active'); }
         function closeLatestUpdate() { document.getElementById('latestUpdateModal').classList.remove('active'); }
         
+        // STEALTH MODE FUNCTION
+        function toggleStealthMode() {
+            const currentStealth = localStorage.getItem('desritory-stealth') === 'true';
+            const newStealth = !currentStealth;
+            localStorage.setItem('desritory-stealth', newStealth);
+            
+            const stealthStatus = document.getElementById('stealthStatus');
+            if (newStealth) {
+                document.title = 'Google';
+                const favicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
+                favicon.type = 'image/x-icon';
+                favicon.rel = 'shortcut icon';
+                favicon.href = 'https://www.google.com/favicon.ico';
+                document.getElementsByTagName('head')[0].appendChild(favicon);
+                stealthStatus.textContent = 'Enabled';
+                stealthStatus.style.color = '#10b981';
+            } else {
+                document.title = 'Desritory V2';
+                const favicon = document.querySelector("link[rel*='icon']");
+                if (favicon) {
+                    favicon.href = '';
+                }
+                stealthStatus.textContent = 'Disabled';
+                stealthStatus.style.color = 'var(--light)';
+            }
+            
+            closeDashboard();
+        }
+        
+        // CHAT FUNCTIONS
+        let username = localStorage.getItem('desritory-username') || '';
+        let isChatOpen = false;
+        let messageIds = new Set();
+        let messagesCache = {};
+        let replyingToMessage = null;
+        let selectedImageBase64 = null;
+        let typingTimeout = null;
+        let currentlyTypingUsers = new Set();
+        let unreadMessageCount = 0;
+        let lastReadTimestamp = Date.now();
+        let messageHistory = [];
+        let spamWarningCount = 0;
+        let spamWarningTimeout = null;
+
+        function updateNotificationBadge() {
+            const badge = document.getElementById('chatNotificationBadge');
+            if (unreadMessageCount > 0) {
+                badge.textContent = unreadMessageCount > 99 ? '99+' : unreadMessageCount;
+                badge.classList.add('active');
+            } else {
+                badge.classList.remove('active');
+            }
+        }
+
+        function openChat() {
+            if (!username) {
+                username = prompt('Enter your username:');
+                if (!username) {
+                    username = 'Anonymous' + Math.floor(Math.random() * 1000);
+                }
+                localStorage.setItem('desritory-username', username);
+            }
+            
+            isChatOpen = true;
+            document.getElementById('chatModal').classList.add('active');
+            
+            unreadMessageCount = 0;
+            lastReadTimestamp = Date.now();
+            updateNotificationBadge();
+            
+            if (window.firebaseChat && window.firebaseChat.isInitialized()) {
+                window.firebaseChat.listenToMessages(displayMessage);
+                window.firebaseChat.listenToTyping(handleTypingUpdate);
+            } else {
+                document.getElementById('chatStatus').className = 'chat-status error';
+                document.getElementById('chatStatus').textContent = 'Chat unavailable';
+            }
+            
+            setTimeout(() => {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 100);
+        }
+
+        function closeChat() {
+            isChatOpen = false;
+            document.getElementById('chatModal').classList.remove('active');
+            cancelReply();
+            removeImage();
+            
+            lastReadTimestamp = Date.now();
+            
+            if (window.firebaseChat && window.firebaseChat.isInitialized()) {
+                window.firebaseChat.setTyping(username, false);
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImageBase64 = e.target.result;
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = selectedImageBase64;
+                    preview.classList.add('active');
+                    document.querySelector('.remove-image').style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage() {
+            selectedImageBase64 = null;
+            const preview = document.getElementById('imagePreview');
+            preview.classList.remove('active');
+            preview.src = '';
+            document.querySelector('.remove-image').style.display = 'none';
+            document.getElementById('imageInput').value = '';
+        }
+
+        function replyToMessage(messageId, username) {
+            replyingToMessage = { id: messageId, username: username };
+            document.getElementById('replyingToBar').classList.add('active');
+            document.getElementById('replyingToUser').textContent = username;
+            document.getElementById('chatInput').focus();
+        }
+
+        function cancelReply() {
+            replyingToMessage = null;
+            document.getElementById('replyingToBar').classList.remove('active');
+        }
+
+        function handleTyping() {
+            if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return;
+            
+            const input = document.getElementById('chatInput');
+            const isTyping = input.value.trim().length > 0;
+            
+            if (typingTimeout) {
+                clearTimeout(typingTimeout);
+            }
+            
+            if (isTyping) {
+                window.firebaseChat.setTyping(username, true);
+                
+                typingTimeout = setTimeout(() => {
+                    window.firebaseChat.setTyping(username, false);
+                }, 3000);
+            } else {
+                window.firebaseChat.setTyping(username, false);
+            }
+        }
+
+        function handleTypingUpdate(typingUsername, isTyping) {
+            if (typingUsername === username) return;
+            
+            if (isTyping) {
+                currentlyTypingUsers.add(typingUsername);
+            } else {
+                currentlyTypingUsers.delete(typingUsername);
+            }
+            
+            updateTypingIndicator();
+        }
+
+        function updateTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            const usersElement = document.getElementById('typingUsers');
+            
+            if (currentlyTypingUsers.size === 0) {
+                indicator.classList.remove('active');
+                return;
+            }
+            
+            indicator.classList.add('active');
+            
+            const users = Array.from(currentlyTypingUsers);
+            if (users.length === 1) {
+                usersElement.textContent = `${users[0]} is typing`;
+            } else if (users.length === 2) {
+                usersElement.textContent = `${users[0]} and ${users[1]} are typing`;
+            } else {
+                usersElement.textContent = `${users[0]}, ${users[1]}, and ${users.length - 2} other${users.length - 2 > 1 ? 's' : ''} are typing`;
+            }
+        }
+
+        function checkForSpam(message) {
+            const now = Date.now();
+            const trimmedMessage = message.trim().toLowerCase();
+            
+            messageHistory.push({
+                text: trimmedMessage,
+                timestamp: now
+            });
+            
+            messageHistory = messageHistory.filter(msg => now - msg.timestamp < 3000);
+            
+            const sameMessageCount = messageHistory.filter(msg => msg.text === trimmedMessage).length;
+            
+            if (sameMessageCount >= 5) {
+                showSpamWarning();
+                return true;
+            }
+            
+            return false;
+        }
+
+        function showSpamWarning() {
+            const warningEl = document.getElementById('spamWarning');
+            const warningTextEl = document.getElementById('spamWarningText');
+            
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.querySelector('.chat-input-container button[onclick="sendMessage()"]');
+            const imageUploadBtn = document.querySelector('.image-upload-btn');
+            
+            if (chatInput) chatInput.disabled = true;
+            if (sendButton) sendButton.disabled = true;
+            if (imageUploadBtn) imageUploadBtn.classList.add('disabled');
+            
+            spamWarningCount++;
+            
+            if (spamWarningCount === 1) {
+                warningTextEl.textContent = "Can you please not spam?";
+            } else if (spamWarningCount === 2) {
+                warningTextEl.textContent = "you're very annoying";
+            } else {
+                warningTextEl.textContent = "what is wrong with you";
+            }
+            
+            warningEl.classList.add('active');
+            
+            if (spamWarningTimeout) {
+                clearTimeout(spamWarningTimeout);
+            }
+            
+            spamWarningTimeout = setTimeout(() => {
+                warningEl.classList.remove('active');
+                if (chatInput) chatInput.disabled = false;
+                if (sendButton) sendButton.disabled = false;
+                if (imageUploadBtn) imageUploadBtn.classList.remove('disabled');
+            }, 5000);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if ((message && message.length > 0) || selectedImageBase64) {
+                if (message && checkForSpam(message)) {
+                    return;
+                }
+                
+                if (window.firebaseChat && window.firebaseChat.isInitialized()) {
+                    const replyTo = replyingToMessage ? {
+                        id: replyingToMessage.id,
+                        username: replyingToMessage.username,
+                        text: messagesCache[replyingToMessage.id]?.text || ''
+                    } : null;
+                    
+                    window.firebaseChat.setTyping(username, false);
+                    if (typingTimeout) {
+                        clearTimeout(typingTimeout);
+                    }
+                    
+                    window.firebaseChat.sendMessage(username, message, selectedImageBase64, replyTo)
+                        .then(() => {
+                            input.value = '';
+                            cancelReply();
+                            removeImage();
+                        })
+                        .catch((error) => {
+                            console.error('Error sending message:', error);
+                            alert('Failed to send message.');
+                        });
+                } else {
+                    alert('Chat not connected.');
+                }
+            }
+        }
+
+        function displayMessage(message) {
+            const msgId = `${message.timestamp}-${message.username}-${message.text}`;
+            
+            if (messageIds.has(msgId)) return;
+            messageIds.add(msgId);
+            messagesCache[message.id] = message;
+            
+            if (!isChatOpen && message.username !== username && message.timestamp > lastReadTimestamp) {
+                unreadMessageCount++;
+                updateNotificationBadge();
+            }
+            
+            if (!isChatOpen) return;
+            
+            const chatMessages = document.getElementById('chatMessages');
+            const shouldScroll = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < 100;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message';
+            
+            let replyHTML = '';
+            if (message.replyTo) {
+                replyHTML = `
+                    <div class="chat-reply-indicator">
+                        <strong>@${escapeHtml(message.replyTo.username)}</strong>: ${escapeHtml(message.replyTo.text.substring(0, 50))}${message.replyTo.text.length > 50 ? '...' : ''}
+                    </div>
+                `;
+            }
+            
+            let imageHTML = '';
+            if (message.imageUrl) {
+                imageHTML = `<img src="${message.imageUrl}" class="chat-message-image" onclick="window.open('${message.imageUrl}', '_blank')">`;
+            }
+            
+            messageDiv.innerHTML = `
+                <div class="chat-actions">
+                    <button class="chat-action-btn" onclick="replyToMessage('${message.id}', '${escapeHtml(message.username)}')">
+                        <i class="fas fa-reply"></i> Reply
+                    </button>
+                </div>
+                ${replyHTML}
+                <div class="chat-message-username">${escapeHtml(message.username)}</div>
+                <div class="chat-message-text">${escapeHtml(message.text)}</div>
+                ${imageHTML}
+                <div class="chat-message-time">${formatTimestamp(message.timestamp)}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            
+            while (chatMessages.children.length > 100) {
+                chatMessages.removeChild(chatMessages.firstChild);
+            }
+            
+            if (shouldScroll) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatTimestamp(timestamp) {
+            if (!timestamp) return '';
+            try {
+                const date = new Date(timestamp);
+                return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } catch (e) {
+                return '';
+            }
+        }
+        
+
         function toggleCloak() {
             const toggle = document.getElementById('cloakToggle');
             toggle.classList.toggle('active');
@@ -1722,6 +2505,20 @@
         
         const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite';
         changeTheme(savedTheme);
+        
+        // Initialize stealth mode state
+        const savedStealth = localStorage.getItem('desritory-stealth') === 'true';
+        const stealthStatus = document.getElementById('stealthStatus');
+        if (savedStealth) {
+            document.title = 'Google';
+            const favicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            favicon.type = 'image/x-icon';
+            favicon.rel = 'shortcut icon';
+            favicon.href = 'https://www.google.com/favicon.ico';
+            document.getElementsByTagName('head')[0].appendChild(favicon);
+            stealthStatus.textContent = 'Enabled';
+            stealthStatus.style.color = '#10b981';
+        }
         
         if (localStorage.getItem('desritory-cloak') === 'true') {
             document.getElementById('cloakToggle').classList.add('active');
