@@ -1884,6 +1884,7 @@
         let nameKeepAliveInterval = null;
         let pendingNameRequestId = null;
         let pendingNameRequestResolve = null;
+        let chatListenersAttached = false;
 
         if (!myOwnerId) {
             myOwnerId = 'owner_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -2034,8 +2035,15 @@
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
                 if (!chatListenersAttached) {
                     chatListenersAttached = true;
-                    window.firebaseChat.listenToMessages(displayMessage);
+                    window.firebaseChat.listenToMessages((message) => {
+                        bufferedMessages.push(message);
+                        if (isChatOpen) {
+                            flushBufferedMessages();
+                        }
+                    });
                     window.firebaseChat.listenToTyping(handleTypingUpdate);
+                } else {
+                    flushBufferedMessages();
                 }
             } else {
                 document.getElementById('chatStatus').className = 'chat-status error';
@@ -2046,6 +2054,16 @@
                 const chatMessages = document.getElementById('chatMessages');
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 100);
+        }
+
+        let bufferedMessages = [];
+
+        function flushBufferedMessages() {
+            const toFlush = bufferedMessages.slice();
+            bufferedMessages = [];
+            for (const msg of toFlush) {
+                displayMessage(msg);
+            }
         }
 
         function closeChat() {
@@ -2237,14 +2255,14 @@
         }
 
         function displayMessage(message) {
-            const msgId = `${message.timestamp}-${message.username}-${message.text}`;
-            if (messageIds.has(msgId)) return;
-            messageIds.add(msgId);
+            if (messageIds.has(message.id)) return;
+            messageIds.add(message.id);
             messagesCache[message.id] = message;
 
             if (!isChatOpen && message.username !== username && message.timestamp > lastReadTimestamp) {
                 unreadMessageCount++;
                 updateNotificationBadge();
+                return;
             }
 
             if (!isChatOpen) return;
