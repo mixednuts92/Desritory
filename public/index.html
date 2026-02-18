@@ -1348,7 +1348,7 @@
                 if (replyTo) messageData.replyTo = replyTo;
                 return push(messagesRef, messageData);
             },
-            listenToMessages: (callback, onRemoved) => {
+            listenToMessages: (callback) => {
                 if (!isFirebaseInitialized) return;
                 const recentMessages = query(messagesRef, limitToLast(50));
                 onChildAdded(recentMessages, (snapshot) => {
@@ -1356,15 +1356,6 @@
                     message.id = snapshot.key;
                     callback(message);
                 });
-                if (onRemoved) {
-                    onChildRemoved(messagesRef, (snapshot) => {
-                        onRemoved(snapshot.key);
-                    });
-                }
-            },
-            deleteMessage: (messageId) => {
-                if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
-                return remove(ref(database, 'messages/' + messageId));
             },
             setTyping: (username, isTyping) => {
                 if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
@@ -1993,29 +1984,38 @@
             }
         }
 
-        async function openChat() {
+        function openChat() {
             if (!username) {
                 let desiredName = prompt('Enter your username:');
                 if (!desiredName) desiredName = 'Anonymous' + Math.floor(Math.random() * 1000);
 
                 if (window.firebaseChat && window.firebaseChat.isInitialized()) {
-                    username = await resolveUsername(desiredName);
+                    resolveUsername(desiredName).then(resolvedName => {
+                        username = resolvedName;
+                        localStorage.setItem('desritory-username', username);
+
+                        if (nameKeepAliveInterval) clearInterval(nameKeepAliveInterval);
+                        nameKeepAliveInterval = setInterval(() => {
+                            if (window.firebaseChat && window.firebaseChat.isInitialized() && username) {
+                                window.firebaseChat.keepNameAlive(username, myOwnerId);
+                            }
+                        }, 60000);
+
+                        listenForNameRequests();
+                        openChatModal();
+                    });
                 } else {
                     username = desiredName;
+                    localStorage.setItem('desritory-username', username);
+                    openChatModal();
                 }
-
-                localStorage.setItem('desritory-username', username);
-
-                if (nameKeepAliveInterval) clearInterval(nameKeepAliveInterval);
-                nameKeepAliveInterval = setInterval(() => {
-                    if (window.firebaseChat && window.firebaseChat.isInitialized() && username) {
-                        window.firebaseChat.keepNameAlive(username, myOwnerId);
-                    }
-                }, 60000);
-
-                listenForNameRequests();
+                return;
             }
 
+            openChatModal();
+        }
+
+        function openChatModal() {
             isChatOpen = true;
             document.getElementById('chatModal').classList.add('active');
             unreadMessageCount = 0;
@@ -2023,7 +2023,7 @@
             updateNotificationBadge();
 
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
-                window.firebaseChat.listenToMessages(displayMessage, removeMessageFromDOM);
+                window.firebaseChat.listenToMessages(displayMessage);
                 window.firebaseChat.listenToTyping(handleTypingUpdate);
             } else {
                 document.getElementById('chatStatus').className = 'chat-status error';
@@ -2224,22 +2224,6 @@
             }
         }
 
-        function removeMessageFromDOM(messageId) {
-            const el = document.querySelector('[data-message-id="' + messageId + '"]');
-            if (el) {
-                el.style.transition = 'opacity 0.3s, transform 0.3s';
-                el.style.opacity = '0';
-                el.style.transform = 'translateX(-10px)';
-                setTimeout(() => el.remove(), 300);
-            }
-            delete messagesCache[messageId];
-        }
-
-        function deleteMessage(messageId) {
-            if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return;
-            window.firebaseChat.deleteMessage(messageId).catch(() => { alert('Failed to delete message.'); });
-        }
-
         function displayMessage(message) {
             const msgId = `${message.timestamp}-${message.username}-${message.text}`;
             if (messageIds.has(msgId)) return;
@@ -2269,19 +2253,11 @@
                 imageHTML = `<img src="${message.imageUrl}" class="chat-message-image" onclick="window.open('${message.imageUrl}', '_blank')">`;
             }
 
-            messageDiv.setAttribute('data-message-id', message.id);
-
-            const isOwnMessage = message.username === username;
-            const deleteBtn = isOwnMessage
-                ? `<button class="chat-action-btn" onclick="deleteMessage('${message.id}')" style="margin-left:5px;background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);" onmouseover="this.style.background='rgba(239,68,68,0.7)'" onmouseout="this.style.background='rgba(239,68,68,0.15)'"><i class="fas fa-trash"></i></button>`
-                : '';
-
             messageDiv.innerHTML = `
                 <div class="chat-actions">
                     <button class="chat-action-btn" onclick="replyToMessage('${message.id}', '${escapeHtml(message.username)}')">
                         <i class="fas fa-reply"></i> Reply
                     </button>
-                    ${deleteBtn}
                 </div>
                 ${replyHTML}
                 <div class="chat-message-username">${escapeHtml(message.username)}</div>
