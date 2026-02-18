@@ -111,35 +111,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scale(0.9);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.9); }
         }
 
-        .system-stat-value.status {
-            color: #10b981;
-        }
-
-        .system-stat-value.users {
-            color: var(--accent);
-        }
-
-        .system-stat-value.theme {
-            color: var(--light);
-        }
-
-        .system-stat-value.version {
-            color: #60a5fa;
-        }
-
-        .system-stat-value.uptime {
-            color: #fbbf24;
-        }
+        .system-stat-value.status { color: #10b981; }
+        .system-stat-value.users { color: var(--accent); }
+        .system-stat-value.theme { color: var(--light); }
+        .system-stat-value.version { color: #60a5fa; }
+        .system-stat-value.uptime { color: #fbbf24; }
 
         .container {
             display: flex;
@@ -152,16 +132,6 @@
             z-index: 1;
         }
 
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
         #particleCanvas {
             position: fixed;
             top: 0;
@@ -170,10 +140,6 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
-        }
-
-        .particle {
-            display: none;
         }
 
         @keyframes floatLogo {
@@ -209,26 +175,6 @@
         @keyframes gradientShift {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
-        }
-
-        .games-btn {
-            padding: 15px 45px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-            letter-spacing: 0.5px;
-        }
-
-        .games-btn:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.25);
         }
 
         .footer {
@@ -310,19 +256,11 @@
             animation: notificationPulse 2s ease-in-out infinite;
         }
 
-        .notification-badge.active {
-            display: flex;
-        }
+        .notification-badge.active { display: flex; }
 
         @keyframes notificationPulse {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 2px 8px rgba(255, 59, 48, 0.6);
-            }
-            50% {
-                transform: scale(1.1);
-                box-shadow: 0 2px 12px rgba(255, 59, 48, 0.8);
-            }
+            0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(255, 59, 48, 0.6); }
+            50% { transform: scale(1.1); box-shadow: 0 2px 12px rgba(255, 59, 48, 0.8); }
         }
 
         .modal {
@@ -340,9 +278,7 @@
             padding: 20px;
         }
 
-        .modal.active {
-            display: flex;
-        }
+        .modal.active { display: flex; }
 
         .modal-content {
             background: rgba(20, 25, 35, 0.95);
@@ -381,13 +317,9 @@
             transition: opacity 0.3s;
         }
 
-        .close-btn:hover {
-            opacity: 1;
-        }
+        .close-btn:hover { opacity: 1; }
 
-        .settings-section {
-            margin-bottom: 25px;
-        }
+        .settings-section { margin-bottom: 25px; }
 
         .settings-label {
             font-size: 14px;
@@ -410,21 +342,9 @@
             outline: none;
         }
 
-        .theme-selector:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .theme-selector:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--glow);
-        }
-
-        .theme-selector option {
-            background: #1e2837;
-            color: white;
-            padding: 10px;
-        }
+        .theme-selector:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.3); }
+        .theme-selector:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--glow); }
+        .theme-selector option { background: #1e2837; color: white; padding: 10px; }
 
         .toggle-option {
             display: flex;
@@ -438,10 +358,7 @@
             transition: all 0.3s;
         }
 
-        .toggle-option:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
+        .toggle-option:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.15); }
 
         .toggle-switch {
             position: relative;
@@ -453,9 +370,7 @@
             transition: background 0.3s;
         }
 
-        .toggle-switch.active {
-            background: var(--primary);
-        }
+        .toggle-switch.active { background: var(--primary); }
 
         .toggle-slider {
             position: absolute;
@@ -468,9 +383,7 @@
             transition: transform 0.3s;
         }
 
-        .toggle-switch.active .toggle-slider {
-            transform: translateX(24px);
-        }
+        .toggle-switch.active .toggle-slider { transform: translateX(24px); }
 
         .dashboard-btn {
             position: fixed;
@@ -492,11 +405,7 @@
             z-index: 10003;
         }
 
-        .dashboard-btn:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
+        .dashboard-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
         .dashboard-sidebar {
             position: fixed;
@@ -514,9 +423,7 @@
             box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
         }
 
-        .dashboard-sidebar.active {
-            left: 0;
-        }
+        .dashboard-sidebar.active { left: 0; }
 
         .dashboard-overlay {
             position: fixed;
@@ -532,10 +439,7 @@
             transition: opacity 0.3s ease;
         }
 
-        .dashboard-overlay.active {
-            display: block;
-            opacity: 1;
-        }
+        .dashboard-overlay.active { display: block; opacity: 1; }
 
         .dashboard-header {
             font-size: 24px;
@@ -560,46 +464,11 @@
             color: rgba(255, 255, 255, 0.85);
         }
 
-        .dashboard-menu-item:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .dashboard-menu-item i {
-            font-size: 20px;
-            width: 30px;
-            text-align: center;
-            color: var(--primary);
-        }
-
-        .dashboard-menu-item .item-text {
-            flex: 1;
-        }
-
-        .dashboard-menu-item .item-label {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 3px;
-        }
-
-        .dashboard-menu-item .item-desc {
-            font-size: 12px;
-            opacity: 0.6;
-        }
-
-        .wip-badge {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #1a1a1a;
-            font-size: 9px;
-            font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 4px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            flex-shrink: 0;
-        }
+        .dashboard-menu-item:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.2); transform: translateX(5px); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); }
+        .dashboard-menu-item i { font-size: 20px; width: 30px; text-align: center; color: var(--primary); }
+        .dashboard-menu-item .item-text { flex: 1; }
+        .dashboard-menu-item .item-label { font-weight: 600; font-size: 16px; margin-bottom: 3px; }
+        .dashboard-menu-item .item-desc { font-size: 12px; opacity: 0.6; }
 
         .games-page {
             display: none;
@@ -614,9 +483,7 @@
             transition: background 0.3s ease;
         }
 
-        .games-page.active {
-            display: block;
-        }
+        .games-page.active { display: block; }
 
         .games-header {
             position: sticky;
@@ -646,16 +513,9 @@
             margin-left: 75px;
         }
 
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.25);
-        }
+        .back-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.25); }
 
-        .games-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.9);
-        }
+        .games-title { font-size: 24px; font-weight: 700; color: rgba(255, 255, 255, 0.9); }
 
         .games-search {
             flex: 1;
@@ -670,14 +530,8 @@
             transition: all 0.3s;
         }
 
-        .games-search:focus {
-            border-color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .games-search::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
+        .games-search:focus { border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.08); }
+        .games-search::placeholder { color: rgba(255, 255, 255, 0.4); }
 
         .games-list {
             padding: 20px;
@@ -698,44 +552,13 @@
             transition: all 0.3s;
         }
 
-        .game-item:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-        }
+        .game-item:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); }
 
-        .game-icon {
-            min-width: 60px;
-            width: 60px;
-            height: 60px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .game-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-
-        .game-info {
-            flex: 1;
-        }
-
-        .game-name {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .game-category {
-            font-size: 12px;
-            opacity: 0.6;
-        }
+        .game-icon { min-width: 60px; width: 60px; height: 60px; text-align: center; display: flex; align-items: center; justify-content: center; }
+        .game-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 10px; }
+        .game-info { flex: 1; }
+        .game-name { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+        .game-category { font-size: 12px; opacity: 0.6; }
 
         .loading-screen {
             display: none;
@@ -753,9 +576,7 @@
             gap: 30px;
         }
 
-        .loading-screen.active {
-            display: flex;
-        }
+        .loading-screen.active { display: flex; }
 
         .loader {
             width: 60px;
@@ -766,15 +587,9 @@
             animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .loading-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.9);
-        }
+        .loading-text { font-size: 24px; font-weight: 700; color: rgba(255, 255, 255, 0.9); }
 
         .proxy-page {
             display: none;
@@ -789,263 +604,7 @@
             transition: background 0.3s ease;
         }
 
-        .proxy-page.active {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .proxy-wip-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            text-align: center;
-            gap: 30px;
-        }
-
-        .proxy-icon-wrapper {
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
-
-        .proxy-icon-bg {
-            width: 120px;
-            height: 120px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, rgba(124, 77, 255, 0.2), rgba(168, 85, 247, 0.1));
-            border: 1px solid rgba(124, 77, 255, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 52px;
-            animation: proxyFloat 3s ease-in-out infinite;
-            box-shadow: 0 0 40px rgba(124, 77, 255, 0.2);
-        }
-
-        @keyframes proxyFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-        }
-
-        .proxy-orbit-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 160px;
-            height: 160px;
-            margin-top: -80px;
-            margin-left: -80px;
-            border-radius: 50%;
-            border: 1px dashed rgba(124, 77, 255, 0.3);
-            animation: proxyOrbit 8s linear infinite;
-        }
-
-        .proxy-orbit-dot {
-            position: absolute;
-            top: -5px;
-            left: 50%;
-            margin-left: -5px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--primary);
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        @keyframes proxyOrbit {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .proxy-wip-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 48px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, var(--light) 0%, var(--primary) 50%, var(--accent) 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 6s ease infinite;
-        }
-
-        .proxy-wip-subtitle {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--primary);
-            opacity: 0.8;
-        }
-
-        .proxy-wip-message {
-            max-width: 520px;
-            font-size: 18px;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.7);
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 28px 36px;
-        }
-
-        .proxy-wip-message strong {
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .proxy-progress-section {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .proxy-progress-label {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.5);
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .proxy-progress-bar-outer {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .proxy-progress-bar-inner {
-            height: 100%;
-            width: 35%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 4px;
-            position: relative;
-            animation: progressPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes progressPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .proxy-progress-bar-inner::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 30px;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: shimmer 1.5s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-30px); }
-            100% { transform: translateX(30px); }
-        }
-
-        .proxy-features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            max-width: 520px;
-            width: 100%;
-        }
-
-        .proxy-feature-chip {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 14px 16px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .proxy-feature-chip i {
-            color: var(--primary);
-            font-size: 15px;
-        }
-
-        .proxy-back-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 14px 36px;
-            border-radius: 10px;
-            color: rgba(255, 255, 255, 0.85);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 15px;
-            font-weight: 500;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .proxy-back-btn:hover {
-            background: rgba(255, 255, 255, 0.13);
-            border-color: rgba(255, 255, 255, 0.28);
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 48px;
-            }
-
-            .system-panel {
-                left: 15px;
-                bottom: 15px;
-                min-width: 240px;
-                padding: 15px 20px;
-            }
-
-            .system-stat {
-                font-size: 12px;
-                margin-bottom: 10px;
-            }
-
-            .games-header {
-                flex-wrap: wrap;
-            }
-
-            .games-search {
-                width: 100%;
-                max-width: none;
-            }
-
-            .games-list {
-                grid-template-columns: 1fr;
-            }
-
-            .time-display {
-                font-size: 16px;
-            }
-
-            .footer {
-                bottom: 15px;
-                right: 15px;
-            }
-
-            .proxy-wip-title {
-                font-size: 32px;
-            }
-
-            .proxy-wip-message {
-                font-size: 16px;
-                padding: 20px 24px;
-            }
-        }
+        .proxy-page.active { display: flex; flex-direction: column; }
 
         .chat-message {
             padding: 12px 16px;
@@ -1058,22 +617,10 @@
             transition: all 0.3s;
         }
 
-        .chat-message:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
+        .chat-message:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.15); }
+        .chat-message:hover .chat-actions { opacity: 1; }
 
-        .chat-message:hover .chat-actions {
-            opacity: 1;
-        }
-
-        .chat-actions {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
+        .chat-actions { position: absolute; top: 5px; right: 10px; opacity: 0; transition: opacity 0.2s; }
 
         .chat-action-btn {
             background: rgba(255, 255, 255, 0.1);
@@ -1086,9 +633,7 @@
             transition: all 0.2s;
         }
 
-        .chat-action-btn:hover {
-            background: var(--primary);
-        }
+        .chat-action-btn:hover { background: var(--primary); }
 
         .chat-reply-indicator {
             background: rgba(124, 77, 255, 0.2);
@@ -1100,9 +645,7 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        .chat-reply-indicator strong {
-            color: var(--primary);
-        }
+        .chat-reply-indicator strong { color: var(--primary); }
 
         .replying-to-bar {
             display: none;
@@ -1115,9 +658,7 @@
             position: relative;
         }
 
-        .replying-to-bar.active {
-            display: block;
-        }
+        .replying-to-bar.active { display: block; }
 
         .cancel-reply {
             position: absolute;
@@ -1133,22 +674,10 @@
             transition: opacity 0.2s;
         }
 
-        .cancel-reply:hover {
-            opacity: 1;
-        }
+        .cancel-reply:hover { opacity: 1; }
 
-        .chat-message-username {
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 5px;
-            font-size: 13px;
-        }
-
-        .chat-message-text {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            word-wrap: break-word;
-        }
+        .chat-message-username { font-weight: 600; color: var(--primary); margin-bottom: 5px; font-size: 13px; }
+        .chat-message-text { color: rgba(255, 255, 255, 0.9); font-size: 14px; word-wrap: break-word; }
 
         .chat-message-image {
             max-width: 100%;
@@ -1159,48 +688,19 @@
             transition: transform 0.2s;
         }
 
-        .chat-message-image:hover {
-            transform: scale(1.02);
-        }
-
-        .chat-message-time {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: 5px;
-        }
+        .chat-message-image:hover { transform: scale(1.02); }
+        .chat-message-time { font-size: 11px; color: rgba(255, 255, 255, 0.4); margin-top: 5px; }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .chat-status {
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 10px;
-        }
+        .chat-status { text-align: center; padding: 10px; font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 10px; }
+        .chat-status.connected { color: #10b981; }
+        .chat-status.error { color: #ef4444; }
 
-        .chat-status.connected {
-            color: #10b981;
-        }
-
-        .chat-status.error {
-            color: #ef4444;
-        }
-
-        .chat-input-container {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
+        .chat-input-container { display: flex; gap: 10px; align-items: center; }
 
         .chat-input-container input:disabled,
         .chat-input-container button:disabled,
@@ -1224,14 +724,9 @@
             color: white;
         }
 
-        .image-upload-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-        }
+        .image-upload-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary); }
 
-        #imageInput {
-            display: none;
-        }
+        #imageInput { display: none; }
 
         .image-preview {
             display: none;
@@ -1242,9 +737,7 @@
             position: relative;
         }
 
-        .image-preview.active {
-            display: block;
-        }
+        .image-preview.active { display: block; }
 
         .remove-image {
             position: absolute;
@@ -1274,14 +767,9 @@
             font-style: italic;
         }
 
-        .typing-indicator.active {
-            display: block;
-        }
+        .typing-indicator.active { display: block; }
 
-        .typing-dots {
-            display: inline-block;
-            margin-left: 5px;
-        }
+        .typing-dots { display: inline-block; margin-left: 5px; }
 
         .typing-dots span {
             display: inline-block;
@@ -1293,23 +781,12 @@
             animation: typingDot 1.4s infinite;
         }
 
-        .typing-dots span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dots span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
         @keyframes typingDot {
-            0%, 60%, 100% {
-                opacity: 0.3;
-                transform: translateY(0);
-            }
-            30% {
-                opacity: 1;
-                transform: translateY(-4px);
-            }
+            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-4px); }
         }
 
         .spam-warning {
@@ -1328,25 +805,170 @@
             transition: all 0.3s ease;
         }
 
-        .spam-warning.active {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-            pointer-events: all;
+        .spam-warning.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: all; }
+        .spam-warning-text { font-size: 20px; font-weight: 700; color: white; text-align: center; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
+
+        .slur-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(20, 25, 35, 0.98);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 35px 45px;
+            z-index: 10010;
+            box-shadow: 0 10px 50px rgba(124, 77, 255, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 320px;
         }
 
-        .spam-warning-text {
-            font-size: 20px;
+        .slur-warning.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: all; }
+
+        .slur-warning-icon { font-size: 40px; margin-bottom: 15px; }
+
+        .slur-warning-title {
+            font-size: 22px;
             font-weight: 700;
             color: white;
+            margin-bottom: 10px;
+        }
+
+        .slur-warning-text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .slur-warning-timer {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary);
+            font-family: 'Courier New', monospace;
+        }
+
+        .name-request-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 10020;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .name-request-modal.active { display: flex; }
+
+        .name-request-content {
+            background: rgba(20, 25, 35, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 35px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
             text-align: center;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .name-request-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 15px;
+        }
+
+        .name-request-text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .name-request-text strong { color: var(--primary); }
+
+        .name-request-buttons { display: flex; gap: 12px; justify-content: center; }
+
+        .name-req-btn {
+            padding: 12px 30px;
+            border-radius: 10px;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .name-req-btn.allow { background: var(--primary); color: white; }
+        .name-req-btn.allow:hover { opacity: 0.85; transform: translateY(-2px); }
+        .name-req-btn.deny { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .name-req-btn.deny:hover { background: rgba(239, 68, 68, 0.3); border-color: #ef4444; transform: translateY(-2px); }
+
+        .name-waiting-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 10020;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .name-waiting-overlay.active { display: flex; }
+
+        .name-waiting-content {
+            background: rgba(20, 25, 35, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .name-waiting-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .name-waiting-title { font-size: 20px; font-weight: 700; color: rgba(255, 255, 255, 0.9); margin-bottom: 10px; }
+        .name-waiting-text { font-size: 14px; color: rgba(255, 255, 255, 0.55); line-height: 1.6; }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 48px; }
+            .system-panel { left: 15px; bottom: 15px; min-width: 240px; padding: 15px 20px; }
+            .system-stat { font-size: 12px; margin-bottom: 10px; }
+            .games-header { flex-wrap: wrap; }
+            .games-search { width: 100%; max-width: none; }
+            .games-list { grid-template-columns: 1fr; }
+            .time-display { font-size: 16px; }
+            .footer { bottom: 15px; right: 15px; }
         }
     </style>
 </head>
 <body>
     <div class="time-display" id="timeDisplay">12:00 AM</div>
     <canvas id="particleCanvas"></canvas>
-    
+
     <div class="system-panel">
         <div class="system-panel-header">SYSTEM PANEL</div>
         <div class="system-stat">
@@ -1374,16 +996,13 @@
             <span class="system-stat-value uptime" id="uptimeDisplay">00:00:00</span>
         </div>
     </div>
-    
-   
+
     <button class="dashboard-btn" onclick="toggleDashboard()">
         <i class="fas fa-bars"></i>
     </button>
-    
-   
+
     <div class="dashboard-overlay" id="dashboardOverlay" onclick="closeDashboard()"></div>
-    
-    <!-- Dashboard Sidebar -->
+
     <div class="dashboard-sidebar" id="dashboardSidebar">
         <div class="dashboard-header">Dashboard</div>
         <div class="dashboard-menu-item" onclick="openProxyFromDashboard()">
@@ -1422,7 +1041,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="corner-buttons">
         <button class="corner-btn" onclick="openChat()">
             <i class="fas fa-comments"></i>
@@ -1430,11 +1049,11 @@
         </button>
         <button class="corner-btn" onclick="openLatestUpdate()"><i class="fas fa-bell"></i></button>
     </div>
-    
+
     <div class="container">
         <h1 class="logo">DESRITORY V2</h1>
         <div class="typing-text" id="typingText"></div>
-        
+
         <div class="footer">
             <span class="random-text" id="randomText"></span>
             <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
@@ -1526,15 +1145,10 @@
                 <button class="close-btn" onclick="closeChat()">×</button>
             </div>
             <div class="chat-status" id="chatStatus">Connecting...</div>
-            <div id="chatMessages" style="flex: 1; overflow-y: auto; padding: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 10px; margin-bottom: 15px; min-height: 400px;">
-            </div>
+            <div id="chatMessages" style="flex: 1; overflow-y: auto; padding: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 10px; margin-bottom: 15px; min-height: 400px;"></div>
             <div id="typingIndicator" class="typing-indicator">
                 <span id="typingUsers"></span>
-                <span class="typing-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
+                <span class="typing-dots"><span></span><span></span><span></span></span>
             </div>
             <div id="replyingToBar" class="replying-to-bar">
                 Replying to <strong id="replyingToUser"></strong>
@@ -1549,7 +1163,7 @@
                     <i class="fas fa-image"></i>
                 </label>
                 <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)">
-                <input type="text" id="chatInput" placeholder="Type a message..." style="flex: 1; padding: 12px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: white; font-size: 14px; outline: none;" onkeypress="handleChatKeyPress(event)" oninput="handleTyping()">
+                <input type="text" id="chatInput" placeholder="Type a message... (try :sob: or :heart:)" style="flex: 1; padding: 12px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: white; font-size: 14px; outline: none;" onkeypress="handleChatKeyPress(event)" oninput="handleTyping()">
                 <button onclick="sendMessage()" style="padding: 12px 30px; background: var(--primary); border: none; border-radius: 10px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s;">Send</button>
             </div>
         </div>
@@ -1557,6 +1171,34 @@
 
     <div class="spam-warning" id="spamWarning">
         <div class="spam-warning-text" id="spamWarningText">Hey, stop spamming!!</div>
+    </div>
+
+    <div class="slur-warning" id="slurWarning">
+        <div class="slur-warning-icon">🚫</div>
+        <div class="slur-warning-title">Not allowed.</div>
+        <div class="slur-warning-text">Sorry, this isn't allowed.</div>
+        <div class="slur-warning-timer" id="slurTimer">10</div>
+    </div>
+
+    <div class="name-request-modal" id="nameRequestModal">
+        <div class="name-request-content">
+            <div class="name-request-title">Someone wants your name</div>
+            <div class="name-request-text" id="nameRequestText">
+                <strong id="nameRequesterDisplay"></strong> wants to use the name <strong id="nameRequestedDisplay"></strong>. Do you allow this?
+            </div>
+            <div class="name-request-buttons">
+                <button class="name-req-btn allow" onclick="respondToNameRequest(true)">Allow</button>
+                <button class="name-req-btn deny" onclick="respondToNameRequest(false)">Deny</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="name-waiting-overlay" id="nameWaitingOverlay">
+        <div class="name-waiting-content">
+            <div class="name-waiting-spinner"></div>
+            <div class="name-waiting-title">Waiting for approval...</div>
+            <div class="name-waiting-text" id="nameWaitingText">The user with that name has been notified. Waiting for their response...</div>
+        </div>
     </div>
 
     <div class="games-page" id="gamesPage">
@@ -1577,9 +1219,7 @@
         <div class="games-list" id="appsList"></div>
     </div>
 
-    <!-- PROXY PAGE -->
     <div class="proxy-page" id="proxyPage">
-        <!-- Browser bar (shown when browsing) -->
         <div class="games-header" id="proxyBrowserBar" style="display:none;">
             <button onclick="closeProxyBrowser()" style="padding:10px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.85);cursor:pointer;font-size:14px;margin-left:75px;white-space:nowrap;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">🏠 Home</button>
             <div style="display:flex;gap:8px;align-items:center;flex:1;">
@@ -1592,19 +1232,16 @@
             <button onclick="closeProxy()" style="padding:10px 20px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.85);cursor:pointer;font-size:14px;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">← Exit</button>
         </div>
 
-        <!-- Custom home screen -->
         <div id="proxyHome" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:40px 20px;text-align:center;">
             <button onclick="closeProxy()" style="position:absolute;top:20px;left:20px;padding:10px 18px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.85);cursor:pointer;font-size:14px;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">← Back</button>
             <div>
                 <div style="font-family:'Poppins',sans-serif;font-size:52px;font-weight:900;letter-spacing:3px;background:linear-gradient(135deg,var(--light) 0%,var(--primary) 40%,var(--accent) 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradientShift 6s ease infinite;">Desritory Proxy</div>
                 <div style="font-size:18px;color:rgba(255,255,255,0.55);margin-top:8px;letter-spacing:1px;">Welcome to Freedom.</div>
             </div>
-
             <div style="width:100%;max-width:580px;display:flex;gap:10px;">
                 <input id="proxySearchInput" type="text" placeholder="Search or enter a URL..." onkeypress="handleProxySearch(event)" style="flex:1;padding:16px 22px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.18);border-radius:12px;color:white;font-size:16px;outline:none;font-family:'Inter',sans-serif;transition:all 0.3s;" onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px var(--glow)'" onblur="this.style.borderColor='rgba(255,255,255,0.18)';this.style.boxShadow='none'">
                 <button onclick="launchProxy()" style="padding:16px 28px;background:var(--primary);border:none;border-radius:12px;color:white;font-size:16px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Go</button>
             </div>
-
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;width:100%;max-width:580px;">
                 <div onclick="launchProxyUrl('https://google.com')" style="padding:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;cursor:pointer;transition:all 0.3s;display:flex;flex-direction:column;align-items:center;gap:8px;" onmouseover="this.style.background='rgba(255,255,255,0.11)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.transform='translateY(0)'">
                     <span style="font-size:26px;">🔍</span><span style="font-size:13px;color:rgba(255,255,255,0.75);">Google</span>
@@ -1625,11 +1262,9 @@
                     <span style="font-size:26px;">🐦</span><span style="font-size:13px;color:rgba(255,255,255,0.75);">Twitter / X</span>
                 </div>
             </div>
-
             <div style="font-size:12px;color:rgba(255,255,255,0.25);margin-top:10px;">Powered by Scramjet</div>
         </div>
 
-        <!-- Browser iframe (hidden until a site is loaded) -->
         <iframe id="proxyIframe" style="width:100%;height:calc(100vh - 73px);border:none;display:none;"></iframe>
     </div>
 
@@ -1639,11 +1274,9 @@
     </div>
 
     <script type="module">
-        
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-        import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp, push, onChildAdded, onChildChanged, onChildRemoved, limitToLast, query, remove } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+        import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp, push, onChildAdded, onChildChanged, onChildRemoved, limitToLast, query, remove, get } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
 
-        
         const firebaseConfig = {
             apiKey: "AIzaSyCtWJWMhHL3ZZ8cyG6oYLJLLWRpqLHrdA",
             authDomain: "desritory-chat.firebaseapp.com",
@@ -1656,23 +1289,21 @@
 
         let isFirebaseInitialized = false;
         let database = null;
-        let messagesRef, typingRef, presenceRef;
+        let messagesRef, typingRef, presenceRef, activeNamesRef, nameRequestsRef;
 
-        
         try {
             const app = initializeApp(firebaseConfig);
             database = getDatabase(app);
             messagesRef = ref(database, 'messages');
             typingRef = ref(database, 'typing');
             presenceRef = ref(database, 'presence');
+            activeNamesRef = ref(database, 'activeNames');
+            nameRequestsRef = ref(database, 'nameRequests');
             isFirebaseInitialized = true;
-            console.log('Firebase initialized successfully');
-            
-            
+
             initializePresence();
         } catch (error) {
             console.error('Firebase initialization error:', error);
-            
             updateActiveUsers();
             setInterval(updateActiveUsers, 10000);
             updateChatStatus('error', 'Firebase not configured');
@@ -1680,71 +1311,44 @@
 
         function initializePresence() {
             if (!isFirebaseInitialized) return;
-            
-            
+
             const currentUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            
             const userPresenceRef = ref(database, `presence/${currentUserId}`);
             const presenceRefAll = ref(database, 'presence');
-            
-            
-            set(userPresenceRef, {
-                online: true,
-                lastSeen: serverTimestamp()
-            }).catch(err => console.error('Error setting presence:', err));
-            
-            
+
+            set(userPresenceRef, { online: true, lastSeen: serverTimestamp() }).catch(err => console.error(err));
             onDisconnect(userPresenceRef).remove();
-            
-            
+
             setInterval(() => {
                 if (isFirebaseInitialized) {
-                    set(userPresenceRef, {
-                        online: true,
-                        lastSeen: serverTimestamp()
-                    }).catch(err => console.error('Error updating presence:', err));
+                    set(userPresenceRef, { online: true, lastSeen: serverTimestamp() }).catch(err => console.error(err));
                 }
             }, 30000);
-            
-            
+
             onValue(presenceRefAll, (snapshot) => {
                 const presenceData = snapshot.val();
-                if (presenceData) {
-                    const activeUsers = Object.keys(presenceData).length;
-                    updateActiveUsersCount(activeUsers);
-                } else {
-                    updateActiveUsersCount(0);
-                }
+                updateActiveUsersCount(presenceData ? Object.keys(presenceData).length : 0);
             });
         }
 
         function updateActiveUsersCount(count) {
             const usersElement = document.getElementById('usersActive');
-            if (usersElement) {
-                usersElement.textContent = count;
-            }
+            if (usersElement) usersElement.textContent = count;
         }
 
-        
         function updateActiveUsers() {
-            const users = Math.floor(Math.random() * 16) + 20; 
-            document.getElementById('usersActive').textContent = users;
+            document.getElementById('usersActive').textContent = Math.floor(Math.random() * 16) + 20;
         }
 
-        
         window.firebaseChat = {
             sendMessage: (username, text, imageUrl = null, replyTo = null) => {
                 if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
-                const messageData = {
-                    username: username,
-                    text: text,
-                    timestamp: serverTimestamp()
-                };
+                const messageData = { username, text, timestamp: serverTimestamp() };
                 if (imageUrl) messageData.imageUrl = imageUrl;
                 if (replyTo) messageData.replyTo = replyTo;
                 return push(messagesRef, messageData);
             },
-            listenToMessages: (callback) => {
+            listenToMessages: (callback, onRemoved) => {
                 if (!isFirebaseInitialized) return;
                 const recentMessages = query(messagesRef, limitToLast(50));
                 onChildAdded(recentMessages, (snapshot) => {
@@ -1752,83 +1356,174 @@
                     message.id = snapshot.key;
                     callback(message);
                 });
+                if (onRemoved) {
+                    onChildRemoved(messagesRef, (snapshot) => {
+                        onRemoved(snapshot.key);
+                    });
+                }
+            },
+            deleteMessage: (messageId) => {
+                if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
+                return remove(ref(database, 'messages/' + messageId));
             },
             setTyping: (username, isTyping) => {
                 if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
                 const userTypingRef = ref(database, `typing/${username.replace(/[.#$[\]]/g, '_')}`);
                 if (isTyping) {
-                    return set(userTypingRef, {
-                        username: username,
-                        timestamp: serverTimestamp()
-                    });
+                    return set(userTypingRef, { username, timestamp: serverTimestamp() });
                 } else {
                     return remove(userTypingRef);
                 }
             },
             listenToTyping: (callback) => {
                 if (!isFirebaseInitialized) return;
-                
-                onChildAdded(typingRef, (snapshot) => {
+                onChildAdded(typingRef, (snapshot) => { const d = snapshot.val(); if (d) callback(d.username, true); });
+                onChildChanged(typingRef, (snapshot) => { const d = snapshot.val(); if (d) callback(d.username, true); });
+                onChildRemoved(typingRef, (snapshot) => { const d = snapshot.val(); if (d) callback(d.username, false); });
+            },
+            isInitialized: () => isFirebaseInitialized,
+            checkNameAvailable: async (name) => {
+                if (!isFirebaseInitialized) return { available: true };
+                const safeName = name.replace(/[.#$[\]]/g, '_').toLowerCase();
+                const nameRef = ref(database, `activeNames/${safeName}`);
+                const snapshot = await get(nameRef);
+                if (!snapshot.exists()) return { available: true };
+                const data = snapshot.val();
+                const now = Date.now();
+                if (now - data.lastSeen > 120000) {
+                    await remove(nameRef);
+                    return { available: true };
+                }
+                return { available: false, ownerId: data.ownerId };
+            },
+            claimName: (name, ownerId) => {
+                if (!isFirebaseInitialized) return Promise.resolve();
+                const safeName = name.replace(/[.#$[\]]/g, '_').toLowerCase();
+                const nameRef = ref(database, `activeNames/${safeName}`);
+                return set(nameRef, { ownerId, lastSeen: serverTimestamp(), displayName: name });
+            },
+            keepNameAlive: (name, ownerId) => {
+                if (!isFirebaseInitialized) return;
+                const safeName = name.replace(/[.#$[\]]/g, '_').toLowerCase();
+                const nameRef = ref(database, `activeNames/${safeName}`);
+                set(nameRef, { ownerId, lastSeen: serverTimestamp(), displayName: name }).catch(() => {});
+            },
+            releaseName: (name) => {
+                if (!isFirebaseInitialized) return;
+                const safeName = name.replace(/[.#$[\]]/g, '_').toLowerCase();
+                remove(ref(database, `activeNames/${safeName}`)).catch(() => {});
+            },
+            sendNameRequest: (requestId, requesterTemp, desiredName, targetOwnerId) => {
+                if (!isFirebaseInitialized) return Promise.reject();
+                const reqRef = ref(database, `nameRequests/${requestId}`);
+                return set(reqRef, { requesterTemp, desiredName, targetOwnerId, status: 'pending', timestamp: serverTimestamp() });
+            },
+            listenNameRequest: (requestId, callback) => {
+                if (!isFirebaseInitialized) return;
+                const reqRef = ref(database, `nameRequests/${requestId}`);
+                onValue(reqRef, (snapshot) => { if (snapshot.exists()) callback(snapshot.val()); });
+            },
+            listenForIncomingNameRequests: (ownerId, callback) => {
+                if (!isFirebaseInitialized) return;
+                onChildAdded(nameRequestsRef, (snapshot) => {
                     const data = snapshot.val();
-                    if (data) callback(data.username, true);
-                });
-                
-                onChildChanged(typingRef, (snapshot) => {
-                    const data = snapshot.val();
-                    if (data) callback(data.username, true);
-                });
-                
-                onChildRemoved(typingRef, (snapshot) => {
-                    const data = snapshot.val();
-                    if (data) callback(data.username, false);
+                    if (data && data.targetOwnerId === ownerId && data.status === 'pending') {
+                        callback(snapshot.key, data);
+                    }
                 });
             },
-            isInitialized: () => isFirebaseInitialized
+            respondToNameRequest: (requestId, approved) => {
+                if (!isFirebaseInitialized) return Promise.reject();
+                const reqRef = ref(database, `nameRequests/${requestId}`);
+                return set(reqRef, { status: approved ? 'approved' : 'denied', timestamp: serverTimestamp() });
+            },
+            cleanupNameRequest: (requestId) => {
+                if (!isFirebaseInitialized) return;
+                remove(ref(database, `nameRequests/${requestId}`)).catch(() => {});
+            }
         };
 
         function updateChatStatus(status, text) {
             const statusEl = document.getElementById('chatStatus');
-            if (statusEl) {
-                statusEl.className = 'chat-status ' + status;
-                statusEl.textContent = text;
-            }
+            if (statusEl) { statusEl.className = 'chat-status ' + status; statusEl.textContent = text; }
         }
 
         if (isFirebaseInitialized) {
             updateChatStatus('connected', '🟢 Connected - Real-time chat active');
         }
 
-        
         const startTime = Date.now();
-        
+
         function updateUptime() {
-            const now = Date.now();
-            const uptimeMs = now - startTime;
-            const hours = Math.floor(uptimeMs / 3600000);
-            const minutes = Math.floor((uptimeMs % 3600000) / 60000);
-            const seconds = Math.floor((uptimeMs % 60000) / 1000);
-            
-            const uptimeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            document.getElementById('uptimeDisplay').textContent = uptimeString;
+            const uptimeMs = Date.now() - startTime;
+            const h = Math.floor(uptimeMs / 3600000);
+            const m = Math.floor((uptimeMs % 3600000) / 60000);
+            const s = Math.floor((uptimeMs % 60000) / 1000);
+            document.getElementById('uptimeDisplay').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
-        
-        
+
         setInterval(updateUptime, 1000);
         updateUptime();
-        
-        
+
         window.updateActiveUsersCount = updateActiveUsersCount;
     </script>
 
     <script>
+        const EMOJI_SHORTCUTS = {
+            ':sob:': '😭', ':cry:': '😢', ':smile:': '😊', ':laugh:': '😂', ':lol:': '😂',
+            ':rofl:': '🤣', ':heart:': '❤️', ':broken_heart:': '💔', ':fire:': '🔥',
+            ':100:': '💯', ':thumbsup:': '👍', ':thumbsdown:': '👎', ':ok:': '👌',
+            ':wave:': '👋', ':clap:': '👏', ':pray:': '🙏', ':skull:': '💀', ':eyes:': '👀',
+            ':thinking:': '🤔', ':shrug:': '🤷', ':facepalm:': '🤦', ':wink:': '😉',
+            ':sunglasses:': '😎', ':cool:': '😎', ':angry:': '😠', ':rage:': '😤',
+            ':sad:': '😞', ':pensive:': '😔', ':shocked:': '😱', ':scream:': '😱',
+            ':sweat:': '😅', ':nervous:': '😬', ':smirk:': '😏', ':tongue:': '😛',
+            ':kiss:': '😘', ':love:': '🥰', ':sparkles:': '✨', ':star:': '⭐',
+            ':rainbow:': '🌈', ':sun:': '☀️', ':moon:': '🌙', ':snowflake:': '❄️',
+            ':pizza:': '🍕', ':burger:': '🍔', ':taco:': '🌮', ':cat:': '🐱',
+            ':dog:': '🐶', ':penguin:': '🐧', ':frog:': '🐸', ':ghost:': '👻',
+            ':alien:': '👽', ':robot:': '🤖', ':poop:': '💩', ':clown:': '🤡',
+            ':crown:': '👑', ':gem:': '💎', ':rocket:': '🚀', ':boom:': '💥',
+            ':party:': '🎉', ':tada:': '🎉', ':music:': '🎵', ':headphones:': '🎧',
+            ':coffee:': '☕', ':gaming:': '🎮', ':sus:': '📮', ':pepe:': '🐸',
+            ':nerd:': '🤓', ':monocle:': '🧐', ':dead:': '💀', ':based:': '😎',
+            ':goat:': '🐐', ':real:': '💯', ':cap:': '🧢', ':nocap:': '💯',
+        };
+
+        const SLUR_PATTERNS = [
+            /\bn[i!1|]+[g9]+[e3]+r/gi, /\bn[i!1|]+g{2,}/gi, /\bn[i!1|]gg[ae3]/gi,
+            /\bf[a@]+g{2,}[o0]t/gi, /\bf[a@]+g[s$]/gi, /\bfagg?[o0]t/gi,
+            /\bfag\b/gi,
+            /\bk[i!1]+k[e3]/gi, /\bsp[i!1]+c/gi, /\bch[i!1]+nk/gi,
+            /\bw[e3]+tb[a@]+ck/gi, /\bcr[a@]+ck[e3]+r/gi, /\br[e3]+t[a@]+rd/gi,
+            /\bc[o0]+[o0]+n/gi, /\bj[i!1]+gg[a@]+b[o0]+[o0]/gi,
+            /\bs[a@]+ndN[i!1]+gg[e3]+r/gi, /\btr[a@]+nn[yi]/gi,
+            /\bsh[e3]m[a@]+l[e3]/gi,
+            /\bn1gger/gi, /\bn1gg3r/gi, /\br3gg1n\b/gi,
+            /[a-z0-9]nigger/gi,
+            /[a-z0-9]n1gger/gi,
+            /[a-z0-9]n1gg3r/gi,
+        ];
+
+        function containsSlur(text) {
+            return SLUR_PATTERNS.some(pattern => pattern.test(text));
+        }
+
+        function applyEmojiShortcuts(text) {
+            let result = text;
+            for (const [shortcut, emoji] of Object.entries(EMOJI_SHORTCUTS)) {
+                const escaped = shortcut.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                result = result.replace(new RegExp(escaped, 'gi'), emoji);
+            }
+            return result;
+        }
 
         function updateTime() {
             const now = new Date();
             let hours = now.getHours();
             const minutes = now.getMinutes();
             const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
+            hours = hours % 12 || 12;
             const minutesStr = minutes < 10 ? '0' + minutes : minutes;
             document.getElementById('timeDisplay').textContent = hours + ':' + minutesStr + ' ' + ampm;
         }
@@ -1836,7 +1531,7 @@
         setInterval(updateTime, 1000);
 
         const IMAGES = {
-            jhbetr: 'https://i.imgur.com/IZ0wJQb.jpeg', 
+            jhbetr: 'https://i.imgur.com/IZ0wJQb.jpeg',
             minecraft: 'https://i.imgur.com/ppi20I9.png',
             gd: 'https://i.imgur.com/fpc76U0.jpeg',
             lacey: 'https://i.imgur.com/KEYn8gZ.png',
@@ -1895,55 +1590,23 @@
 
         function getTypingPhrases() {
             const hour = new Date().getHours();
-            
             if (hour >= 0 && hour < 5) {
-                return [
-                    "you're up late",
-                    "hi night owl",
-                    "go to sleep.",
-                    "you got school in the morning (probably)",
-                    "why are you awake"
-                ];
-            }
-            else if (hour >= 7 && hour < 9) {
-                return [
-                    "you're up early",
-                    "goodmorning",
-                    "wow its morning"
-                ];
-            }
-            else {
-                return [
-                    "browse games",
-                    "desritory",
-                    "Have fun using Desritory!",
-                    "proxy soon",
-                    "AI coming soon...",
-                    "Welcome to Freedom.",
-                    "Hello",
-                    "Haiiiii :333"
-                ];
+                return ["you're up late", "hi night owl", "go to sleep.", "you got school in the morning (probably)", "why are you awake"];
+            } else if (hour >= 7 && hour < 9) {
+                return ["you're up early", "goodmorning", "wow its morning"];
+            } else {
+                return ["browse games", "desritory", "Have fun using Desritory!", "proxy soon", "AI coming soon...", "Welcome to Freedom.", "Hello", "Haiiiii :333"];
             }
         }
 
         function setTypingText() {
-            const typingElement = document.getElementById('typingText');
             const phrases = getTypingPhrases();
-            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-            typingElement.textContent = randomPhrase;
+            document.getElementById('typingText').textContent = phrases[Math.floor(Math.random() * phrases.length)];
         }
 
         const themeNames = {
-            purple: 'Purple',
-            green: 'Green',
-            blue: 'Blue',
-            red: 'Red',
-            pink: 'Pink',
-            spooky: 'Spooky',
-            sky: 'Sky',
-            yellow: 'Yellow',
-            galaxy: 'Galaxy',
-            blackwhite: 'Slate'
+            purple: 'Purple', green: 'Green', blue: 'Blue', red: 'Red', pink: 'Pink',
+            spooky: 'Spooky', sky: 'Sky', yellow: 'Yellow', galaxy: 'Galaxy', blackwhite: 'Slate'
         };
 
         const themes = {
@@ -1967,24 +1630,14 @@
         function createParticles() {
             const canvas = document.getElementById('particleCanvas');
             const ctx = canvas.getContext('2d');
-            
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            
-            window.addEventListener('resize', () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            });
-            
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
             const particles = [];
-            const particleCount = 80;
             const mouse = { x: null, y: null, radius: 150 };
-            
-            window.addEventListener('mousemove', (e) => {
-                mouse.x = e.x;
-                mouse.y = e.y;
-            });
-            
+            window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
@@ -1993,15 +1646,12 @@
                     this.speedX = (Math.random() - 0.5) * 0.5;
                     this.speedY = (Math.random() - 0.5) * 0.5;
                 }
-                
                 update() {
                     this.x += this.speedX;
                     this.y += this.speedY;
-                    
                     if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
                     if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
                 }
-                
                 draw() {
                     ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
                     ctx.shadowBlur = 2;
@@ -2012,118 +1662,88 @@
                     ctx.shadowBlur = 0;
                 }
             }
-            
-            function init() {
-                particles.length = 0;
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push(new Particle());
-                }
-            }
-            
+
+            for (let i = 0; i < 80; i++) particles.push(new Particle());
+
             function connect() {
                 const particlesNearMouse = new Set();
-                const particleColor1 = getComputedStyle(document.documentElement).getPropertyValue('--particle-color-1').trim();
-                const particleColor2 = getComputedStyle(document.documentElement).getPropertyValue('--particle-color-2').trim();
-                
+                const c1 = getComputedStyle(document.documentElement).getPropertyValue('--particle-color-1').trim();
+                const c2 = getComputedStyle(document.documentElement).getPropertyValue('--particle-color-2').trim();
+
                 for (let a = 0; a < particles.length; a++) {
                     if (mouse.x !== null && mouse.y !== null) {
                         const dx = particles[a].x - mouse.x;
                         const dy = particles[a].y - mouse.y;
                         const distance = Math.sqrt(dx * dx + dy * dy);
-                        
                         if (distance < mouse.radius) {
                             particlesNearMouse.add(a);
                             const opacity = 1 - (distance / mouse.radius);
-                            ctx.strokeStyle = particleColor2.replace('0.6', String(opacity * 0.75));
+                            ctx.strokeStyle = c2.replace('0.6', String(opacity * 0.75));
                             ctx.lineWidth = 1.8;
-                            ctx.shadowBlur = 3;
-                            ctx.shadowColor = particleColor2.replace('0.6', '0.3');
                             ctx.beginPath();
                             ctx.moveTo(particles[a].x, particles[a].y);
                             ctx.lineTo(mouse.x, mouse.y);
                             ctx.stroke();
-                            ctx.shadowBlur = 0;
                         }
                     }
                 }
-                
+
                 for (let a = 0; a < particles.length; a++) {
                     for (let b = a + 1; b < particles.length; b++) {
                         if (particlesNearMouse.has(a) && particlesNearMouse.has(b)) {
                             const dx = particles[a].x - particles[b].x;
                             const dy = particles[a].y - particles[b].y;
                             const distance = Math.sqrt(dx * dx + dy * dy);
-                            
                             if (distance < 120) {
                                 const opacity = 1 - (distance / 120);
-                                ctx.strokeStyle = particleColor1.replace('0.8', String(opacity * 0.45));
+                                ctx.strokeStyle = c1.replace('0.8', String(opacity * 0.45));
                                 ctx.lineWidth = 1.3;
-                                ctx.shadowBlur = 2;
-                                ctx.shadowColor = particleColor1.replace('0.8', '0.2');
                                 ctx.beginPath();
                                 ctx.moveTo(particles[a].x, particles[a].y);
                                 ctx.lineTo(particles[b].x, particles[b].y);
                                 ctx.stroke();
-                                ctx.shadowBlur = 0;
                             }
                         }
                     }
                 }
             }
-            
+
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                for (let particle of particles) {
-                    particle.update();
-                    particle.draw();
-                }
-                
+                for (let p of particles) { p.update(); p.draw(); }
                 connect();
                 requestAnimationFrame(animate);
             }
-            
-            init();
+
             animate();
         }
 
         function setRandomText() {
-            const randomText = randomTexts[Math.floor(Math.random() * randomTexts.length)];
-            document.getElementById('randomText').textContent = randomText;
+            document.getElementById('randomText').textContent = randomTexts[Math.floor(Math.random() * randomTexts.length)];
         }
 
         function changeTheme(colorName) {
             const theme = themes[colorName];
             if (!theme) return;
-            
+
             localStorage.setItem('desritory-theme', colorName);
-            
             document.getElementById('currentTheme').textContent = themeNames[colorName];
-            
-            const bgGradient = `linear-gradient(135deg, ${theme.bgBase} 0%, ${theme.primary}18 50%, ${theme.bgBase} 100%)`;
-            document.body.style.background = bgGradient;
-            
+
+            document.body.style.background = `linear-gradient(135deg, ${theme.bgBase} 0%, ${theme.primary}18 50%, ${theme.bgBase} 100%)`;
             document.documentElement.style.setProperty('--primary', theme.primary);
             document.documentElement.style.setProperty('--secondary', theme.secondary);
             document.documentElement.style.setProperty('--accent', theme.accent);
             document.documentElement.style.setProperty('--light', theme.light);
             document.documentElement.style.setProperty('--glow', theme.glow);
-            
             updateParticleColors(theme);
-            
-            const gamesPage = document.getElementById('gamesPage');
-            if (gamesPage) {
-                gamesPage.style.background = `rgb(${parseInt(theme.bgBase.slice(1,3), 16)}, ${parseInt(theme.bgBase.slice(3,5), 16)}, ${parseInt(theme.bgBase.slice(5,7), 16)})`;
-            }
-            const appsPage = document.getElementById('appsPage');
-            if (appsPage) {
-                appsPage.style.background = `rgb(${parseInt(theme.bgBase.slice(1,3), 16)}, ${parseInt(theme.bgBase.slice(3,5), 16)}, ${parseInt(theme.bgBase.slice(5,7), 16)})`;
-            }
-            const proxyPage = document.getElementById('proxyPage');
-            if (proxyPage) {
-                proxyPage.style.background = `rgb(${parseInt(theme.bgBase.slice(1,3), 16)}, ${parseInt(theme.bgBase.slice(3,5), 16)}, ${parseInt(theme.bgBase.slice(5,7), 16)})`;
-            }
-            
+
+            ['gamesPage', 'appsPage', 'proxyPage'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.background = `rgb(${parseInt(theme.bgBase.slice(1,3),16)}, ${parseInt(theme.bgBase.slice(3,5),16)}, ${parseInt(theme.bgBase.slice(5,7),16)})`;
+                }
+            });
+
             const logo = document.querySelector('.logo');
             if (logo) {
                 logo.style.background = `linear-gradient(135deg, ${theme.light} 0%, ${theme.primary} 25%, ${theme.accent} 50%, ${theme.secondary} 75%, ${theme.light} 100%)`;
@@ -2132,45 +1752,38 @@
                 logo.style.webkitTextFillColor = 'transparent';
                 logo.style.backgroundClip = 'text';
             }
-            
+
             document.querySelectorAll('.modal-content').forEach(modal => {
                 modal.style.background = `linear-gradient(135deg, ${theme.bgBase}f2 0%, ${theme.primary}15 50%, ${theme.bgBase}f2 100%)`;
                 modal.style.borderColor = `${theme.primary}40`;
             });
-            
-            const dashboardSidebar = document.getElementById('dashboardSidebar');
-            if (dashboardSidebar) {
-                dashboardSidebar.style.background = `linear-gradient(180deg, ${theme.bgBase}f2 0%, ${theme.primary}12 50%, ${theme.bgBase}f2 100%)`;
-                dashboardSidebar.style.borderColor = `${theme.primary}40`;
+
+            const sidebar = document.getElementById('dashboardSidebar');
+            if (sidebar) {
+                sidebar.style.background = `linear-gradient(180deg, ${theme.bgBase}f2 0%, ${theme.primary}12 50%, ${theme.bgBase}f2 100%)`;
+                sidebar.style.borderColor = `${theme.primary}40`;
             }
-            
-            document.querySelectorAll('.games-header').forEach(header => {
-                header.style.background = `linear-gradient(135deg, ${theme.bgBase}f2 0%, ${theme.primary}15 50%, ${theme.bgBase}f2 100%)`;
-                header.style.borderColor = `${theme.primary}30`;
+
+            document.querySelectorAll('.games-header').forEach(h => {
+                h.style.background = `linear-gradient(135deg, ${theme.bgBase}f2 0%, ${theme.primary}15 50%, ${theme.bgBase}f2 100%)`;
+                h.style.borderColor = `${theme.primary}30`;
             });
-            
+
             const themeSelector = document.getElementById('themeSelector');
-            if (themeSelector) {
-                themeSelector.value = colorName;
-            }
+            if (themeSelector) themeSelector.value = colorName;
         }
 
-        function openSettings() { 
-            document.getElementById('settingsModal').classList.add('active');
-        }
-        function closeSettings() { 
-            document.getElementById('settingsModal').classList.remove('active'); 
-        }
+        function openSettings() { document.getElementById('settingsModal').classList.add('active'); }
+        function closeSettings() { document.getElementById('settingsModal').classList.remove('active'); }
         function openLatestUpdate() { document.getElementById('latestUpdateModal').classList.add('active'); }
         function closeLatestUpdate() { document.getElementById('latestUpdateModal').classList.remove('active'); }
-        
+
         function toggleStealthMode() {
-            const currentStealth = localStorage.getItem('desritory-stealth') === 'true';
-            const newStealth = !currentStealth;
-            localStorage.setItem('desritory-stealth', newStealth);
-            
+            const current = localStorage.getItem('desritory-stealth') === 'true';
+            const newVal = !current;
+            localStorage.setItem('desritory-stealth', newVal);
             const stealthStatus = document.getElementById('stealthStatus');
-            if (newStealth) {
+            if (newVal) {
                 document.title = 'Google';
                 const favicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
                 favicon.type = 'image/x-icon';
@@ -2182,22 +1795,14 @@
             } else {
                 document.title = 'Desritory V2';
                 const favicon = document.querySelector("link[rel*='icon']");
-                if (favicon) {
-                    favicon.href = '';
-                }
+                if (favicon) favicon.href = '';
                 stealthStatus.textContent = 'Disabled';
                 stealthStatus.style.color = 'var(--light)';
             }
-            
             closeDashboard();
         }
-        
-        // PROXY PAGE FUNCTIONS
-        const SCRAMJET_URL = 'https://scramjet-app-production-a204.up.railway.app';
 
-        function showProxyPage() {
-            document.getElementById('proxyPage').classList.add('active');
-        }
+        const SCRAMJET_URL = 'https://scramjet-app-production-a204.up.railway.app';
 
         function closeProxy() {
             document.getElementById('proxyPage').classList.remove('active');
@@ -2227,65 +1832,35 @@
                     finalUrl = 'https://www.google.com/search?q=' + encodeURIComponent(url);
                 }
             }
-
-            // Load Scramjet with the URL passed as a hash so it handles routing itself
             const iframe = document.getElementById('proxyIframe');
             iframe.src = `${SCRAMJET_URL}#${encodeURIComponent(finalUrl)}`;
             iframe.style.display = 'block';
-
             document.getElementById('proxyHome').style.display = 'none';
             document.getElementById('proxyBrowserBar').style.display = 'flex';
             document.getElementById('proxyUrlBar').value = finalUrl;
         }
 
-        function handleProxySearch(event) {
-            if (event.key === 'Enter') launchProxy();
-        }
-
-        function handleProxyUrlBar(event) {
-            if (event.key === 'Enter') goToProxyUrl();
-        }
-
-        function goToProxyUrl() {
-            const input = document.getElementById('proxyUrlBar').value.trim();
-            if (input) launchProxyUrl(input);
-        }
-
-        function refreshProxy() {
-            const iframe = document.getElementById('proxyIframe');
-            iframe.src = iframe.src;
-        }
-
-        function proxyGoBack() {
-            document.getElementById('proxyIframe').contentWindow.history.back();
-        }
-
-        function proxyGoForward() {
-            document.getElementById('proxyIframe').contentWindow.history.forward();
-        }
+        function handleProxySearch(event) { if (event.key === 'Enter') launchProxy(); }
+        function handleProxyUrlBar(event) { if (event.key === 'Enter') goToProxyUrl(); }
+        function goToProxyUrl() { const input = document.getElementById('proxyUrlBar').value.trim(); if (input) launchProxyUrl(input); }
+        function refreshProxy() { const iframe = document.getElementById('proxyIframe'); iframe.src = iframe.src; }
+        function proxyGoBack() { document.getElementById('proxyIframe').contentWindow.history.back(); }
+        function proxyGoForward() { document.getElementById('proxyIframe').contentWindow.history.forward(); }
 
         function openProxyFromDashboard() {
             closeDashboard();
-
             document.querySelector('.dashboard-btn').style.display = 'none';
 
             let proxyContainer = document.getElementById('proxyContainer');
             if (!proxyContainer) {
                 proxyContainer = document.createElement('div');
                 proxyContainer.id = 'proxyContainer';
-                proxyContainer.style.cssText = `
-                    position: fixed;
-                    top: 0; left: 0; right: 0; bottom: 0;
-                    background: #1a2332;
-                    z-index: 10000;
-                    display: flex;
-                    flex-direction: column;
-                `;
+                proxyContainer.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:#1a2332;z-index:10000;display:flex;flex-direction:column;';
                 document.body.appendChild(proxyContainer);
             }
 
             proxyContainer.innerHTML = `
-                <iframe src="https://scramjet-app-production-a204.up.railway.app" style="width:100%;height:100%;border:none;"></iframe>
+                <iframe src="https://scramjet-app-production-a204.up.railway.app" style="width:100%;height:100%;border:none;background:white;"></iframe>
                 <button onclick="closeProxyContainer()" style="position:fixed;top:20px;left:20px;width:50px;height:50px;background:rgba(0,0,0,0.8);border:2px solid var(--primary);border-radius:12px;color:white;cursor:pointer;z-index:10001;backdrop-filter:blur(10px);font-size:20px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;box-shadow:0 5px 20px rgba(0,0,0,0.5);" onmouseover="this.style.background='rgba(124,77,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.8)';this.style.transform='translateY(0)'">
                     <i class="fas fa-arrow-left"></i>
                 </button>
@@ -2294,12 +1869,13 @@
         }
 
         function closeProxyContainer() {
-            const proxyContainer = document.getElementById('proxyContainer');
-            if (proxyContainer) proxyContainer.remove();
+            const c = document.getElementById('proxyContainer');
+            if (c) c.remove();
             document.querySelector('.dashboard-btn').style.display = 'flex';
         }
-        
+
         let username = localStorage.getItem('desritory-username') || '';
+        let myOwnerId = localStorage.getItem('desritory-ownerid') || '';
         let isChatOpen = false;
         let messageIds = new Set();
         let messagesCache = {};
@@ -2312,6 +1888,16 @@
         let messageHistory = [];
         let spamWarningCount = 0;
         let spamWarningTimeout = null;
+        let slurTimeoutId = null;
+        let slurTimerInterval = null;
+        let nameKeepAliveInterval = null;
+        let pendingNameRequestId = null;
+        let pendingNameRequestResolve = null;
+
+        if (!myOwnerId) {
+            myOwnerId = 'owner_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('desritory-ownerid', myOwnerId);
+        }
 
         function updateNotificationBadge() {
             const badge = document.getElementById('chatNotificationBadge');
@@ -2323,30 +1909,127 @@
             }
         }
 
-        function openChat() {
-            if (!username) {
-                username = prompt('Enter your username:');
-                if (!username) {
-                    username = 'Anonymous' + Math.floor(Math.random() * 1000);
-                }
-                localStorage.setItem('desritory-username', username);
+        async function resolveUsername(desiredName) {
+            if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return desiredName;
+
+            const result = await window.firebaseChat.checkNameAvailable(desiredName);
+
+            if (result.available) {
+                await window.firebaseChat.claimName(desiredName, myOwnerId);
+                return desiredName;
             }
-            
+
+            if (result.ownerId === myOwnerId) {
+                return desiredName;
+            }
+
+            return new Promise((resolve) => {
+                pendingNameRequestResolve = resolve;
+                const requestId = 'req_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                pendingNameRequestId = requestId;
+
+                document.getElementById('nameWaitingOverlay').classList.add('active');
+                document.getElementById('nameWaitingText').textContent = `Waiting for the current holder of "${desiredName}" to respond...`;
+
+                window.firebaseChat.sendNameRequest(requestId, myOwnerId, desiredName, result.ownerId);
+
+                window.firebaseChat.listenNameRequest(requestId, (data) => {
+                    if (data.status === 'approved') {
+                        document.getElementById('nameWaitingOverlay').classList.remove('active');
+                        window.firebaseChat.claimName(desiredName, myOwnerId);
+                        window.firebaseChat.cleanupNameRequest(requestId);
+                        pendingNameRequestId = null;
+                        pendingNameRequestResolve = null;
+                        resolve(desiredName);
+                    } else if (data.status === 'denied') {
+                        document.getElementById('nameWaitingOverlay').classList.remove('active');
+                        window.firebaseChat.cleanupNameRequest(requestId);
+                        pendingNameRequestId = null;
+                        pendingNameRequestResolve = null;
+                        const altName = desiredName + Math.floor(Math.random() * 9000 + 1000);
+                        alert(`Your request to use "${desiredName}" was denied. You'll be assigned "${altName}" instead.`);
+                        window.firebaseChat.claimName(altName, myOwnerId);
+                        resolve(altName);
+                    }
+                });
+
+                setTimeout(() => {
+                    if (pendingNameRequestResolve) {
+                        document.getElementById('nameWaitingOverlay').classList.remove('active');
+                        window.firebaseChat.cleanupNameRequest(requestId);
+                        pendingNameRequestId = null;
+                        pendingNameRequestResolve = null;
+                        const altName = desiredName + Math.floor(Math.random() * 9000 + 1000);
+                        alert(`No response received. You'll be assigned "${altName}" instead.`);
+                        window.firebaseChat.claimName(altName, myOwnerId);
+                        resolve(altName);
+                    }
+                }, 30000);
+            });
+        }
+
+        let pendingIncomingRequestId = null;
+        let pendingIncomingData = null;
+
+        function listenForNameRequests() {
+            if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return;
+            window.firebaseChat.listenForIncomingNameRequests(myOwnerId, (requestId, data) => {
+                if (pendingIncomingRequestId) return;
+                pendingIncomingRequestId = requestId;
+                pendingIncomingData = data;
+
+                document.getElementById('nameRequesterDisplay').textContent = 'Someone';
+                document.getElementById('nameRequestedDisplay').textContent = data.desiredName;
+                document.getElementById('nameRequestModal').classList.add('active');
+            });
+        }
+
+        function respondToNameRequest(approved) {
+            document.getElementById('nameRequestModal').classList.remove('active');
+            if (pendingIncomingRequestId) {
+                window.firebaseChat.respondToNameRequest(pendingIncomingRequestId, approved);
+                pendingIncomingRequestId = null;
+                pendingIncomingData = null;
+            }
+        }
+
+        async function openChat() {
+            if (!username) {
+                let desiredName = prompt('Enter your username:');
+                if (!desiredName) desiredName = 'Anonymous' + Math.floor(Math.random() * 1000);
+
+                if (window.firebaseChat && window.firebaseChat.isInitialized()) {
+                    username = await resolveUsername(desiredName);
+                } else {
+                    username = desiredName;
+                }
+
+                localStorage.setItem('desritory-username', username);
+
+                if (nameKeepAliveInterval) clearInterval(nameKeepAliveInterval);
+                nameKeepAliveInterval = setInterval(() => {
+                    if (window.firebaseChat && window.firebaseChat.isInitialized() && username) {
+                        window.firebaseChat.keepNameAlive(username, myOwnerId);
+                    }
+                }, 60000);
+
+                listenForNameRequests();
+            }
+
             isChatOpen = true;
             document.getElementById('chatModal').classList.add('active');
-            
             unreadMessageCount = 0;
             lastReadTimestamp = Date.now();
             updateNotificationBadge();
-            
+
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
-                window.firebaseChat.listenToMessages(displayMessage);
+                window.firebaseChat.listenToMessages(displayMessage, removeMessageFromDOM);
                 window.firebaseChat.listenToTyping(handleTypingUpdate);
             } else {
                 document.getElementById('chatStatus').className = 'chat-status error';
                 document.getElementById('chatStatus').textContent = 'Chat unavailable';
             }
-            
+
             setTimeout(() => {
                 const chatMessages = document.getElementById('chatMessages');
                 chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -2358,9 +2041,7 @@
             document.getElementById('chatModal').classList.remove('active');
             cancelReply();
             removeImage();
-            
             lastReadTimestamp = Date.now();
-            
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
                 window.firebaseChat.setTyping(username, false);
             }
@@ -2390,10 +2071,10 @@
             document.getElementById('imageInput').value = '';
         }
 
-        function replyToMessage(messageId, username) {
-            replyingToMessage = { id: messageId, username: username };
+        function replyToMessage(messageId, msgUsername) {
+            replyingToMessage = { id: messageId, username: msgUsername };
             document.getElementById('replyingToBar').classList.add('active');
-            document.getElementById('replyingToUser').textContent = username;
+            document.getElementById('replyingToUser').textContent = msgUsername;
             document.getElementById('chatInput').focus();
         }
 
@@ -2404,20 +2085,12 @@
 
         function handleTyping() {
             if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return;
-            
             const input = document.getElementById('chatInput');
             const isTyping = input.value.trim().length > 0;
-            
-            if (typingTimeout) {
-                clearTimeout(typingTimeout);
-            }
-            
+            if (typingTimeout) clearTimeout(typingTimeout);
             if (isTyping) {
                 window.firebaseChat.setTyping(username, true);
-                
-                typingTimeout = setTimeout(() => {
-                    window.firebaseChat.setTyping(username, false);
-                }, 3000);
+                typingTimeout = setTimeout(() => { window.firebaseChat.setTyping(username, false); }, 3000);
             } else {
                 window.firebaseChat.setTyping(username, false);
             }
@@ -2425,86 +2098,53 @@
 
         function handleTypingUpdate(typingUsername, isTyping) {
             if (typingUsername === username) return;
-            
-            if (isTyping) {
-                currentlyTypingUsers.add(typingUsername);
-            } else {
-                currentlyTypingUsers.delete(typingUsername);
-            }
-            
+            if (isTyping) currentlyTypingUsers.add(typingUsername);
+            else currentlyTypingUsers.delete(typingUsername);
             updateTypingIndicator();
         }
 
         function updateTypingIndicator() {
             const indicator = document.getElementById('typingIndicator');
             const usersElement = document.getElementById('typingUsers');
-            
-            if (currentlyTypingUsers.size === 0) {
-                indicator.classList.remove('active');
-                return;
-            }
-            
+            if (currentlyTypingUsers.size === 0) { indicator.classList.remove('active'); return; }
             indicator.classList.add('active');
-            
             const users = Array.from(currentlyTypingUsers);
-            if (users.length === 1) {
-                usersElement.textContent = `${users[0]} is typing`;
-            } else if (users.length === 2) {
-                usersElement.textContent = `${users[0]} and ${users[1]} are typing`;
-            } else {
-                usersElement.textContent = `${users[0]}, ${users[1]}, and ${users.length - 2} other${users.length - 2 > 1 ? 's' : ''} are typing`;
-            }
+            if (users.length === 1) usersElement.textContent = `${users[0]} is typing`;
+            else if (users.length === 2) usersElement.textContent = `${users[0]} and ${users[1]} are typing`;
+            else usersElement.textContent = `${users[0]}, ${users[1]}, and ${users.length - 2} other${users.length - 2 > 1 ? 's' : ''} are typing`;
         }
 
         function checkForSpam(message) {
             const now = Date.now();
             const trimmedMessage = message.trim().toLowerCase();
-            
-            messageHistory.push({
-                text: trimmedMessage,
-                timestamp: now
-            });
-            
+            messageHistory.push({ text: trimmedMessage, timestamp: now });
             messageHistory = messageHistory.filter(msg => now - msg.timestamp < 3000);
-            
-            const sameMessageCount = messageHistory.filter(msg => msg.text === trimmedMessage).length;
-            
-            if (sameMessageCount >= 5) {
+            if (messageHistory.filter(msg => msg.text === trimmedMessage).length >= 5) {
                 showSpamWarning();
                 return true;
             }
-            
             return false;
         }
 
         function showSpamWarning() {
             const warningEl = document.getElementById('spamWarning');
             const warningTextEl = document.getElementById('spamWarningText');
-            
             const chatInput = document.getElementById('chatInput');
             const sendButton = document.querySelector('.chat-input-container button[onclick="sendMessage()"]');
             const imageUploadBtn = document.querySelector('.image-upload-btn');
-            
+
             if (chatInput) chatInput.disabled = true;
             if (sendButton) sendButton.disabled = true;
             if (imageUploadBtn) imageUploadBtn.classList.add('disabled');
-            
+
             spamWarningCount++;
-            
-            if (spamWarningCount === 1) {
-                warningTextEl.textContent = "Can you please not spam?";
-            } else if (spamWarningCount === 2) {
-                warningTextEl.textContent = "you're very annoying";
-            } else {
-                warningTextEl.textContent = "what is wrong with you";
-            }
-            
+            if (spamWarningCount === 1) warningTextEl.textContent = "Can you please not spam?";
+            else if (spamWarningCount === 2) warningTextEl.textContent = "you're very annoying";
+            else warningTextEl.textContent = "what is wrong with you";
+
             warningEl.classList.add('active');
-            
-            if (spamWarningTimeout) {
-                clearTimeout(spamWarningTimeout);
-            }
-            
+
+            if (spamWarningTimeout) clearTimeout(spamWarningTimeout);
             spamWarningTimeout = setTimeout(() => {
                 warningEl.classList.remove('active');
                 if (chatInput) chatInput.disabled = false;
@@ -2513,82 +2153,135 @@
             }, 5000);
         }
 
+        function showSlurWarning() {
+            const slurEl = document.getElementById('slurWarning');
+            const timerEl = document.getElementById('slurTimer');
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.querySelector('.chat-input-container button[onclick="sendMessage()"]');
+            const imageUploadBtn = document.querySelector('.image-upload-btn');
+
+            if (chatInput) { chatInput.value = ''; chatInput.disabled = true; }
+            if (sendButton) sendButton.disabled = true;
+            if (imageUploadBtn) imageUploadBtn.classList.add('disabled');
+
+            let seconds = 10;
+            timerEl.textContent = seconds;
+            slurEl.classList.add('active');
+
+            if (slurTimerInterval) clearInterval(slurTimerInterval);
+            if (slurTimeoutId) clearTimeout(slurTimeoutId);
+
+            slurTimerInterval = setInterval(() => {
+                seconds--;
+                timerEl.textContent = seconds;
+                if (seconds <= 0) clearInterval(slurTimerInterval);
+            }, 1000);
+
+            slurTimeoutId = setTimeout(() => {
+                slurEl.classList.remove('active');
+                if (chatInput) chatInput.disabled = false;
+                if (sendButton) sendButton.disabled = false;
+                if (imageUploadBtn) imageUploadBtn.classList.remove('disabled');
+            }, 10000);
+        }
+
         function sendMessage() {
             const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            
-            if ((message && message.length > 0) || selectedImageBase64) {
-                if (message && checkForSpam(message)) {
-                    return;
-                }
-                
-                if (window.firebaseChat && window.firebaseChat.isInitialized()) {
-                    const replyTo = replyingToMessage ? {
-                        id: replyingToMessage.id,
-                        username: replyingToMessage.username,
-                        text: messagesCache[replyingToMessage.id]?.text || ''
-                    } : null;
-                    
-                    window.firebaseChat.setTyping(username, false);
-                    if (typingTimeout) {
-                        clearTimeout(typingTimeout);
-                    }
-                    
-                    window.firebaseChat.sendMessage(username, message, selectedImageBase64, replyTo)
-                        .then(() => {
-                            input.value = '';
-                            cancelReply();
-                            removeImage();
-                        })
-                        .catch((error) => {
-                            console.error('Error sending message:', error);
-                            alert('Failed to send message.');
-                        });
-                } else {
-                    alert('Chat not connected.');
-                }
+            let message = input.value.trim();
+
+            if ((!message || message.length === 0) && !selectedImageBase64) return;
+
+            if (message && containsSlur(message)) {
+                showSlurWarning();
+                return;
             }
+
+            if (message) {
+                message = applyEmojiShortcuts(message);
+            }
+
+            if (message && checkForSpam(message)) return;
+
+            if (window.firebaseChat && window.firebaseChat.isInitialized()) {
+                const replyTo = replyingToMessage ? {
+                    id: replyingToMessage.id,
+                    username: replyingToMessage.username,
+                    text: messagesCache[replyingToMessage.id]?.text || ''
+                } : null;
+
+                window.firebaseChat.setTyping(username, false);
+                if (typingTimeout) clearTimeout(typingTimeout);
+
+                window.firebaseChat.sendMessage(username, message, selectedImageBase64, replyTo)
+                    .then(() => {
+                        input.value = '';
+                        cancelReply();
+                        removeImage();
+                    })
+                    .catch(() => { alert('Failed to send message.'); });
+            } else {
+                alert('Chat not connected.');
+            }
+        }
+
+        function removeMessageFromDOM(messageId) {
+            const el = document.querySelector('[data-message-id="' + messageId + '"]');
+            if (el) {
+                el.style.transition = 'opacity 0.3s, transform 0.3s';
+                el.style.opacity = '0';
+                el.style.transform = 'translateX(-10px)';
+                setTimeout(() => el.remove(), 300);
+            }
+            delete messagesCache[messageId];
+        }
+
+        function deleteMessage(messageId) {
+            if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return;
+            window.firebaseChat.deleteMessage(messageId).catch(() => { alert('Failed to delete message.'); });
         }
 
         function displayMessage(message) {
             const msgId = `${message.timestamp}-${message.username}-${message.text}`;
-            
             if (messageIds.has(msgId)) return;
             messageIds.add(msgId);
             messagesCache[message.id] = message;
-            
+
             if (!isChatOpen && message.username !== username && message.timestamp > lastReadTimestamp) {
                 unreadMessageCount++;
                 updateNotificationBadge();
             }
-            
+
             if (!isChatOpen) return;
-            
+
             const chatMessages = document.getElementById('chatMessages');
             const shouldScroll = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < 100;
-            
+
             const messageDiv = document.createElement('div');
             messageDiv.className = 'chat-message';
-            
+
             let replyHTML = '';
             if (message.replyTo) {
-                replyHTML = `
-                    <div class="chat-reply-indicator">
-                        <strong>@${escapeHtml(message.replyTo.username)}</strong>: ${escapeHtml(message.replyTo.text.substring(0, 50))}${message.replyTo.text.length > 50 ? '...' : ''}
-                    </div>
-                `;
+                replyHTML = `<div class="chat-reply-indicator"><strong>@${escapeHtml(message.replyTo.username)}</strong>: ${escapeHtml(message.replyTo.text.substring(0, 50))}${message.replyTo.text.length > 50 ? '...' : ''}</div>`;
             }
-            
+
             let imageHTML = '';
             if (message.imageUrl) {
                 imageHTML = `<img src="${message.imageUrl}" class="chat-message-image" onclick="window.open('${message.imageUrl}', '_blank')">`;
             }
-            
+
+            messageDiv.setAttribute('data-message-id', message.id);
+
+            const isOwnMessage = message.username === username;
+            const deleteBtn = isOwnMessage
+                ? `<button class="chat-action-btn" onclick="deleteMessage('${message.id}')" style="margin-left:5px;background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);" onmouseover="this.style.background='rgba(239,68,68,0.7)'" onmouseout="this.style.background='rgba(239,68,68,0.15)'"><i class="fas fa-trash"></i></button>`
+                : '';
+
             messageDiv.innerHTML = `
                 <div class="chat-actions">
                     <button class="chat-action-btn" onclick="replyToMessage('${message.id}', '${escapeHtml(message.username)}')">
                         <i class="fas fa-reply"></i> Reply
                     </button>
+                    ${deleteBtn}
                 </div>
                 ${replyHTML}
                 <div class="chat-message-username">${escapeHtml(message.username)}</div>
@@ -2596,23 +2289,14 @@
                 ${imageHTML}
                 <div class="chat-message-time">${formatTimestamp(message.timestamp)}</div>
             `;
-            
+
             chatMessages.appendChild(messageDiv);
-            
-            while (chatMessages.children.length > 100) {
-                chatMessages.removeChild(chatMessages.firstChild);
-            }
-            
-            if (shouldScroll) {
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+            while (chatMessages.children.length > 100) chatMessages.removeChild(chatMessages.firstChild);
+            if (shouldScroll) chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         function handleChatKeyPress(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                sendMessage();
-            }
+            if (event.key === 'Enter') { event.preventDefault(); sendMessage(); }
         }
 
         function escapeHtml(text) {
@@ -2624,13 +2308,9 @@
         function formatTimestamp(timestamp) {
             if (!timestamp) return '';
             try {
-                const date = new Date(timestamp);
-                return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            } catch (e) {
-                return '';
-            }
+                return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } catch (e) { return ''; }
         }
-        
 
         function toggleCloak() {
             const toggle = document.getElementById('cloakToggle');
@@ -2648,80 +2328,47 @@
                 document.title = 'Desritory';
             }
         }
-        
+
         function togglePanic() {
             const toggle = document.getElementById('panicToggle');
             toggle.classList.toggle('active');
-            const enabled = toggle.classList.contains('active');
-            localStorage.setItem('desritory-panic', enabled);
+            localStorage.setItem('desritory-panic', toggle.classList.contains('active'));
         }
-        
+
         function toggleParticles() {
             const toggle = document.getElementById('particlesToggle');
             toggle.classList.toggle('active');
             const enabled = toggle.classList.contains('active');
             localStorage.setItem('desritory-particles', enabled);
-            
-            const canvas = document.getElementById('particleCanvas');
-            if (enabled) {
-                canvas.style.display = 'block';
-            } else {
-                canvas.style.display = 'none';
-            }
+            document.getElementById('particleCanvas').style.display = enabled ? 'block' : 'none';
         }
-        
+
         function toggleDashboard() {
-            const sidebar = document.getElementById('dashboardSidebar');
-            const overlay = document.getElementById('dashboardOverlay');
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
+            document.getElementById('dashboardSidebar').classList.toggle('active');
+            document.getElementById('dashboardOverlay').classList.toggle('active');
         }
-        
+
         function closeDashboard() {
-            const sidebar = document.getElementById('dashboardSidebar');
-            const overlay = document.getElementById('dashboardOverlay');
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
+            document.getElementById('dashboardSidebar').classList.remove('active');
+            document.getElementById('dashboardOverlay').classList.remove('active');
         }
-        
-        function openGamesFromDashboard() {
-            closeDashboard();
-            showGamesPage();
-        }
-        
-        function openAppsFromDashboard() {
-            closeDashboard();
-            showAppsPage();
-        }
-        
-        function openSettingsFromDashboard() {
-            closeDashboard();
-            openSettings();
-        }
-        
+
+        function openGamesFromDashboard() { closeDashboard(); showGamesPage(); }
+        function openAppsFromDashboard() { closeDashboard(); showAppsPage(); }
+        function openSettingsFromDashboard() { closeDashboard(); openSettings(); }
+
         function showGamesPage() {
             const loadingScreen = document.getElementById('loadingScreen');
             const loadingText = document.getElementById('loadingText');
-            const gamesPage = document.getElementById('gamesPage');
-            
             const isSpecialLoad = Math.random() < 1/20;
-            
-            if (isSpecialLoad) {
-                loadingText.textContent = 'probably fine';
-            } else {
-                loadingText.textContent = 'Loading games...';
-            }
-            
+            loadingText.textContent = isSpecialLoad ? 'probably fine' : 'Loading games...';
             loadingScreen.classList.add('active');
-            
-            const loadTime = isSpecialLoad ? 3000 : 1000;
-            
             setTimeout(() => {
                 loadingScreen.classList.remove('active');
-                gamesPage.classList.add('active');
-            }, loadTime);
+                document.getElementById('gamesPage').classList.add('active');
+            }, isSpecialLoad ? 3000 : 1000);
         }
-        
+
         function closeGames() {
             document.getElementById('gamesPage').classList.remove('active');
             document.getElementById('gamesSearch').value = '';
@@ -2730,168 +2377,115 @@
 
         function showAppsPage() {
             const loadingScreen = document.getElementById('loadingScreen');
-            const loadingText = document.getElementById('loadingText');
-            const appsPage = document.getElementById('appsPage');
-            loadingText.textContent = 'Loading apps...';
+            document.getElementById('loadingText').textContent = 'Loading apps...';
             loadingScreen.classList.add('active');
             setTimeout(() => {
                 loadingScreen.classList.remove('active');
-                appsPage.classList.add('active');
+                document.getElementById('appsPage').classList.add('active');
             }, 1000);
         }
-        
+
         function closeApps() {
             document.getElementById('appsPage').classList.remove('active');
             document.getElementById('appsSearch').value = '';
             renderApps();
         }
-        
+
         function renderGames(filter = '') {
             const gamesList = document.getElementById('gamesList');
             gamesList.innerHTML = '';
-            const filteredGames = games.filter(game => game.name.toLowerCase().includes(filter.toLowerCase()) || game.category.toLowerCase().includes(filter.toLowerCase()));
-            filteredGames.forEach(game => {
-                const gameItem = document.createElement('div');
-                gameItem.className = 'game-item';
-                gameItem.innerHTML = `<div class="game-icon"><img src="${game.icon}" alt="${game.name}"></div><div class="game-info"><div class="game-name">${game.name}</div><div class="game-category">${game.category}</div></div>`;
-                gameItem.onclick = () => openGame(game.name, game.url);
-                gamesList.appendChild(gameItem);
+            const filtered = games.filter(g => g.name.toLowerCase().includes(filter.toLowerCase()) || g.category.toLowerCase().includes(filter.toLowerCase()));
+            filtered.forEach(game => {
+                const item = document.createElement('div');
+                item.className = 'game-item';
+                item.innerHTML = `<div class="game-icon"><img src="${game.icon}" alt="${game.name}"></div><div class="game-info"><div class="game-name">${game.name}</div><div class="game-category">${game.category}</div></div>`;
+                item.onclick = () => openGame(game.name, game.url);
+                gamesList.appendChild(item);
             });
         }
 
         function renderApps(filter = '') {
             const appsList = document.getElementById('appsList');
             appsList.innerHTML = '';
-            const filteredApps = apps.filter(app => app.name.toLowerCase().includes(filter.toLowerCase()) || app.category.toLowerCase().includes(filter.toLowerCase()));
-            if (filteredApps.length === 0) {
-                appsList.innerHTML = '<div style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.5);">No apps available yet. Check back soon!</div>';
+            const filtered = apps.filter(a => a.name.toLowerCase().includes(filter.toLowerCase()) || a.category.toLowerCase().includes(filter.toLowerCase()));
+            if (filtered.length === 0) {
+                appsList.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.5);">No apps available yet. Check back soon!</div>';
                 return;
             }
-            filteredApps.forEach(app => {
-                const appItem = document.createElement('div');
-                appItem.className = 'game-item';
-                appItem.innerHTML = `<div class="game-icon"><img src="${app.icon}" alt="${app.name}"></div><div class="game-info"><div class="game-name">${app.name}</div><div class="game-category">${app.category}</div></div>`;
-                appItem.onclick = () => openApp(app.name, app.url);
-                appsList.appendChild(appItem);
+            filtered.forEach(app => {
+                const item = document.createElement('div');
+                item.className = 'game-item';
+                item.innerHTML = `<div class="game-icon"><img src="${app.icon}" alt="${app.name}"></div><div class="game-info"><div class="game-name">${app.name}</div><div class="game-category">${app.category}</div></div>`;
+                item.onclick = () => openApp(app.name, app.url);
+                appsList.appendChild(item);
             });
         }
-        
+
         function openGame(name, url) {
             const loadingScreen = document.getElementById('loadingScreen');
-            const loadingText = document.getElementById('loadingText');
-            loadingText.textContent = `Loading ${name}...`;
+            document.getElementById('loadingText').textContent = `Loading ${name}...`;
             loadingScreen.classList.add('active');
-            setTimeout(() => {
-                loadingScreen.classList.remove('active');
-                showGameIframe(name, url);
-            }, 500);
+            setTimeout(() => { loadingScreen.classList.remove('active'); showGameIframe(name, url); }, 500);
         }
 
         function openApp(name, url) {
             const loadingScreen = document.getElementById('loadingScreen');
-            const loadingText = document.getElementById('loadingText');
-            loadingText.textContent = `Loading ${name}...`;
+            document.getElementById('loadingText').textContent = `Loading ${name}...`;
             loadingScreen.classList.add('active');
-            setTimeout(() => {
-                loadingScreen.classList.remove('active');
-                showAppIframe(name, url);
-            }, 500);
+            setTimeout(() => { loadingScreen.classList.remove('active'); showAppIframe(name, url); }, 500);
         }
 
         function showGameIframe(name, url) {
             document.getElementById('gamesPage').classList.remove('active');
-            
             document.querySelector('.dashboard-btn').style.display = 'none';
-            
-            let gameContainer = document.getElementById('gameContainer');
-            if (!gameContainer) {
-                gameContainer = document.createElement('div');
-                gameContainer.id = 'gameContainer';
-                gameContainer.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: #1a2332;
-                    z-index: 10000;
-                    display: flex;
-                    flex-direction: column;
-                `;
-                document.body.appendChild(gameContainer);
+            let container = document.getElementById('gameContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'gameContainer';
+                container.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:#1a2332;z-index:10000;display:flex;flex-direction:column;';
+                document.body.appendChild(container);
             }
-            
-            gameContainer.innerHTML = `
-                <iframe id="gameIframe" src="${url}" style="width: 100%; height: 100%; border: none; background: white;"></iframe>
-                <button onclick="closeGameIframe()" style="position: fixed; top: 20px; left: 20px; width: 50px; height: 50px; background: rgba(0, 0, 0, 0.8); border: 2px solid var(--primary); border-radius: 12px; color: white; cursor: pointer; z-index: 10001; backdrop-filter: blur(10px); font-size: 20px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);" onmouseover="this.style.background='rgba(124, 77, 255, 0.3)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0, 0, 0, 0.8)'; this.style.transform='translateY(0)'">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
+            container.innerHTML = `
+                <iframe id="gameIframe" src="${url}" style="width:100%;height:100%;border:none;background:white;"></iframe>
+                <button onclick="closeGameIframe()" style="position:fixed;top:20px;left:20px;width:50px;height:50px;background:rgba(0,0,0,0.8);border:2px solid var(--primary);border-radius:12px;color:white;cursor:pointer;z-index:10001;backdrop-filter:blur(10px);font-size:20px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;box-shadow:0 5px 20px rgba(0,0,0,0.5);" onmouseover="this.style.background='rgba(124,77,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.8)';this.style.transform='translateY(0)'"><i class="fas fa-arrow-left"></i></button>
             `;
-            
-            gameContainer.style.display = 'flex';
+            container.style.display = 'flex';
         }
 
         function showAppIframe(name, url) {
             document.getElementById('appsPage').classList.remove('active');
-            
             document.querySelector('.dashboard-btn').style.display = 'none';
-            
-            let gameContainer = document.getElementById('gameContainer');
-            if (!gameContainer) {
-                gameContainer = document.createElement('div');
-                gameContainer.id = 'gameContainer';
-                gameContainer.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: #1a2332;
-                    z-index: 10000;
-                    display: flex;
-                    flex-direction: column;
-                `;
-                document.body.appendChild(gameContainer);
+            let container = document.getElementById('gameContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'gameContainer';
+                container.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:#1a2332;z-index:10000;display:flex;flex-direction:column;';
+                document.body.appendChild(container);
             }
-            
-            gameContainer.innerHTML = `
-                <iframe id="gameIframe" src="${url}" style="width: 100%; height: 100%; border: none; background: white;"></iframe>
-                <button onclick="closeAppIframe()" style="position: fixed; top: 20px; left: 20px; width: 50px; height: 50px; background: rgba(0, 0, 0, 0.8); border: 2px solid var(--primary); border-radius: 12px; color: white; cursor: pointer; z-index: 10001; backdrop-filter: blur(10px); font-size: 20px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);" onmouseover="this.style.background='rgba(124, 77, 255, 0.3)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0, 0, 0, 0.8)'; this.style.transform='translateY(0)'">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
+            container.innerHTML = `
+                <iframe id="gameIframe" src="${url}" style="width:100%;height:100%;border:none;background:white;"></iframe>
+                <button onclick="closeAppIframe()" style="position:fixed;top:20px;left:20px;width:50px;height:50px;background:rgba(0,0,0,0.8);border:2px solid var(--primary);border-radius:12px;color:white;cursor:pointer;z-index:10001;backdrop-filter:blur(10px);font-size:20px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;box-shadow:0 5px 20px rgba(0,0,0,0.5);" onmouseover="this.style.background='rgba(124,77,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(0,0,0,0.8)';this.style.transform='translateY(0)'"><i class="fas fa-arrow-left"></i></button>
             `;
-            
-            gameContainer.style.display = 'flex';
+            container.style.display = 'flex';
         }
 
         function closeGameIframe() {
-            const gameContainer = document.getElementById('gameContainer');
-            if (gameContainer) {
-                gameContainer.remove();
-            }
-            
+            const c = document.getElementById('gameContainer');
+            if (c) c.remove();
             document.querySelector('.dashboard-btn').style.display = 'flex';
-            
             document.getElementById('gamesPage').classList.add('active');
         }
 
         function closeAppIframe() {
-            const gameContainer = document.getElementById('gameContainer');
-            if (gameContainer) {
-                gameContainer.remove();
-            }
-            
+            const c = document.getElementById('gameContainer');
+            if (c) c.remove();
             document.querySelector('.dashboard-btn').style.display = 'flex';
-            
             document.getElementById('appsPage').classList.add('active');
         }
 
-        function openInNewTab(url) {
-            window.open(url, '_blank');
-        }
-        
         document.getElementById('gamesSearch').addEventListener('input', (e) => renderGames(e.target.value));
         document.getElementById('appsSearch').addEventListener('input', (e) => renderApps(e.target.value));
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeDashboard();
@@ -2903,39 +2497,35 @@
             }
             if (e.key === "'" && localStorage.getItem('desritory-panic') === 'true') window.location.href = 'https://google.com';
         });
-        
+
         createParticles();
         setRandomText();
         renderGames();
         renderApps();
         setTypingText();
-        
+
         if (Math.random() < 1/10000) {
             const logo = document.querySelector('.logo');
             logo.style.transform = 'rotate(180deg)';
             logo.style.transition = 'transform 1s ease';
-            console.log('Wow! You got a 1/10000 chance of this happening!!');
         }
-        
+
         const CURRENT_VERSION = '2.0.0';
         const savedVersion = localStorage.getItem('desritory-version');
-        
         if (savedVersion !== CURRENT_VERSION) {
             const savedUsername = localStorage.getItem('desritory-username');
+            const savedOwnerId = localStorage.getItem('desritory-ownerid');
             localStorage.clear();
-            if (savedUsername) {
-                localStorage.setItem('desritory-username', savedUsername);
-            }
+            if (savedUsername) localStorage.setItem('desritory-username', savedUsername);
+            if (savedOwnerId) localStorage.setItem('desritory-ownerid', savedOwnerId);
             localStorage.setItem('desritory-version', CURRENT_VERSION);
-            
             window.location.reload(true);
         }
-        
+
         const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite';
         changeTheme(savedTheme);
-        
+
         const savedStealth = localStorage.getItem('desritory-stealth') === 'true';
-        const stealthStatus = document.getElementById('stealthStatus');
         if (savedStealth) {
             document.title = 'Google';
             const favicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
@@ -2943,10 +2533,10 @@
             favicon.rel = 'shortcut icon';
             favicon.href = 'https://www.google.com/favicon.ico';
             document.getElementsByTagName('head')[0].appendChild(favicon);
-            stealthStatus.textContent = 'Enabled';
-            stealthStatus.style.color = '#10b981';
+            document.getElementById('stealthStatus').textContent = 'Enabled';
+            document.getElementById('stealthStatus').style.color = '#10b981';
         }
-        
+
         if (localStorage.getItem('desritory-cloak') === 'true') {
             document.getElementById('cloakToggle').classList.add('active');
             toggleCloak();
@@ -2957,6 +2547,13 @@
         if (localStorage.getItem('desritory-particles') === 'false') {
             document.getElementById('particlesToggle').classList.remove('active');
             document.getElementById('particleCanvas').style.display = 'none';
+        }
+
+        if (username && window.firebaseChat && window.firebaseChat.isInitialized()) {
+            listenForNameRequests();
+            nameKeepAliveInterval = setInterval(() => {
+                window.firebaseChat.keepNameAlive(username, myOwnerId);
+            }, 60000);
         }
     </script>
 </body>
