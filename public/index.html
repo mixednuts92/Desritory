@@ -1903,7 +1903,12 @@
         async function resolveUsername(desiredName) {
             if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return desiredName;
 
-            const result = await window.firebaseChat.checkNameAvailable(desiredName);
+            let result;
+            try {
+                result = await window.firebaseChat.checkNameAvailable(desiredName);
+            } catch (e) {
+                return desiredName;
+            }
 
             if (result.available) {
                 await window.firebaseChat.claimName(desiredName, myOwnerId);
@@ -2003,6 +2008,10 @@
 
                         listenForNameRequests();
                         openChatModal();
+                    }).catch(() => {
+                        username = desiredName;
+                        localStorage.setItem('desritory-username', username);
+                        openChatModal();
                     });
                 } else {
                     username = desiredName;
@@ -2023,8 +2032,11 @@
             updateNotificationBadge();
 
             if (window.firebaseChat && window.firebaseChat.isInitialized()) {
-                window.firebaseChat.listenToMessages(displayMessage);
-                window.firebaseChat.listenToTyping(handleTypingUpdate);
+                if (!chatListenersAttached) {
+                    chatListenersAttached = true;
+                    window.firebaseChat.listenToMessages(displayMessage);
+                    window.firebaseChat.listenToTyping(handleTypingUpdate);
+                }
             } else {
                 document.getElementById('chatStatus').className = 'chat-status error';
                 document.getElementById('chatStatus').textContent = 'Chat unavailable';
