@@ -40,8 +40,6 @@
             pointer-events: none;
             z-index: -1;
         }
-
-        /* ===== DESKTOP ===== */
         #desktop {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -88,8 +86,6 @@
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
-
-        /* ===== APP GRID ===== */
         .app-grid {
             display: grid;
             grid-template-columns: repeat(5, 100px);
@@ -165,8 +161,6 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.15); }
         }
-
-        /* ===== TASKBAR ===== */
         #taskbar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -269,8 +263,6 @@
         }
 
         .taskbar-icon-btn:hover { background: rgba(255,255,255,0.12); color: white; border-color: rgba(255,255,255,0.15); }
-
-        /* ===== WINDOWS ===== */
         .os-window {
             position: fixed;
             background: rgba(14, 18, 30, 0.96);
@@ -344,11 +336,7 @@
             overflow: auto;
             position: relative;
         }
-
-        /* ===== PROXY WINDOW ===== */
         .proxy-iframe { width: 100%; height: 100%; border: none; background: #1a2332; }
-
-        /* ===== SETTINGS WINDOW ===== */
         .settings-content { padding: 24px; }
         .settings-section { margin-bottom: 24px; }
 
@@ -435,8 +423,6 @@
 
         .se-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .se-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
-
-        /* ===== GAMES WINDOW ===== */
         .games-window-header {
             padding: 14px 16px;
             display: flex;
@@ -487,8 +473,6 @@
         .game-card-info { flex: 1; min-width: 0; }
         .game-card-name { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .game-card-cat { font-size: 11px; color: rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* ===== CHAT WINDOW ===== */
         .chat-body { display: flex; flex-direction: column; height: 100%; }
 
         .chat-status-bar {
@@ -665,8 +649,6 @@
         }
 
         .img-upload-btn:hover { background: rgba(255,255,255,0.1); color: white; border-color: var(--primary); }
-
-        /* ===== LATEST UPDATE WINDOW ===== */
         .update-content { padding: 24px; }
 
         .update-version {
@@ -688,8 +670,6 @@
             color: rgba(255,255,255,0.7);
             line-height: 1.8;
         }
-
-        /* ===== FULLSCREEN OVERLAY ===== */
         #fullscreenOverlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -734,8 +714,6 @@
         }
 
         #fullscreenIframe { width: 100%; flex: 1; border: none; }
-
-        /* ===== MODALS ===== */
         .overlay-modal {
             display: none;
             position: fixed;
@@ -792,8 +770,6 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ===== WARNINGS ===== */
         .floating-warning {
             position: fixed;
             top: 50%; left: 50%;
@@ -822,8 +798,6 @@
         #slurWarning .slur-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
         #slurWarning .slur-text { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
         #slurWarning .slur-timer { font-size: 30px; font-weight: 900; color: var(--primary); font-family: 'Syne', monospace; }
-
-        /* ===== LOADING SCREEN ===== */
         #loadingScreen {
             display: none;
             position: fixed;
@@ -838,8 +812,6 @@
 
         .loader { width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         .loading-text { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: rgba(255,255,255,0.85); }
-
-        /* ===== SYSTEM TRAY ===== */
         #systemTray {
             position: fixed;
             bottom: 60px;
@@ -898,8 +870,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-
-        /* ===== SCROLLBARS ===== */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
@@ -945,6 +915,10 @@
         <div class="app-icon" ondblclick="toggleStealthMode()" onclick="selectIcon(this)">
             <div class="app-icon-box" id="stealthIconBox">🕵️</div>
             <span class="app-icon-label" id="stealthIconLabel">Stealth</span>
+        </div>
+        <div class="app-icon" ondblclick="openFullscreen('Blooket Bot','Blooket_Bot.html')" onclick="selectIcon(this)">
+            <div class="app-icon-box">🤖</div>
+            <span class="app-icon-label">Blooket Bot</span>
         </div>
     </div>
 </div>
@@ -1401,6 +1375,28 @@
         /\bs[a@]+ndN[i!1]+gg[e3]+r/gi,/\btr[a@]+nn[yi]/gi,/\bsh[e3]m[a@]+l[e3]/gi,
         /\bn1gger/gi,/\bn1gg3r/gi,/\br3gg1n\b/gi,
         /[a-z0-9]nigger/gi,/[a-z0-9]n1gger/gi,/[a-z0-9]n1gg3r/gi,
+        /\bn+[i!1|]+g+[e3]+r+s?\b/gi,
+        /\bn[i!1|]+g{2,}[a@]+\b/gi,
+        /\bn[i!1|]+g[a@]\b/gi,
+        /\bni+g+a+\b/gi,
+        /\bn[i!1|]+g[g]+[e3]+r/gi,
+        /\bn[!1i|]+g{1,}[e3@a]+r/gi,
+        /\bni\.g+[e3]+r/gi,
+        /\bn[-_][i!1|][-_]g[-_]g[-_][e3][-_]r/gi,
+        /\bn[i!1|]+g\s*g\s*[e3]\s*r/gi,
+        /\b[n]+[i1!|]+[g]+[g]+[e3a@]+[r]+\b/gi,
+        /\bniglet/gi,
+        /\bnigl[e3]t/gi,
+        /\bn[i!1]+gnog/gi,
+        /\bnigg(?:er|a|ah|az|uh|ette|ers|as)/gi,
+        /\bn[i!1|]+qq[e3]+r/gi,
+        /\bn[i!1|]+[9g]+[9g]+[e3a@]+[r7]/gi,
+        /[*#$%^&@!]{0,3}n[i!1|]+g+[e3a@]+r[*#$%^&@!]{0,3}/gi,
+        /\bn[^a-z]{0,2}[i!1|][^a-z]{0,2}g[^a-z]{0,2}g[^a-z]{0,2}[e3a@][^a-z]{0,2}r/gi,
+        /\b(ni|n1|n!)(g+|9+)(er|a|ah|3r|4|uh)\b/gi,
+        /\bnword\b/gi,
+        /\bthe\s+n[\s\-]+word/gi,
+        /n[\s\-_.*]+[i!1|][\s\-_.*]+g[\s\-_.*]+g[\s\-_.*]+[e3a@][\s\-_.*]+r/gi,
     ];
 
     const SEARCH_ENGINES = {
@@ -1454,6 +1450,7 @@
 
     const apps = [
         {name:'YouTube',icon:'https://i.imgur.com/BqC7P4i.png',url:'https://youtube.com',category:'Video streaming'},
+        {name:'Blooket Bot',icon:'🤖',url:'Blooket_Bot.html',category:'Blooket cheats & bots'},
     ];
 
     const themeNames = {
@@ -1974,7 +1971,22 @@
         else usersEl.textContent = `${users[0]}, ${users[1]}, and ${users.length - 2} more are typing`;
     }
 
-    function containsSlur(text) { return SLUR_PATTERNS.some(p => p.test(text)); }
+    function normalizeText(text) {
+        return text
+            .toLowerCase()
+            .replace(/[!1|]/g, 'i')
+            .replace(/[e3]/g, 'e')
+            .replace(/[a@4]/g, 'a')
+            .replace(/[o0]/g, 'o')
+            .replace(/[s$5]/g, 's')
+            .replace(/\s+/g, '')
+            .replace(/[.\-_*]/g, '');
+    }
+
+    function containsSlur(text) {
+        const normalized = normalizeText(text);
+        return SLUR_PATTERNS.some(p => { p.lastIndex = 0; return p.test(text) || p.test(normalized); });
+    }
 
     function applyEmojiShortcuts(text) {
         let result = text;
