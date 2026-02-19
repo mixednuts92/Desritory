@@ -276,14 +276,18 @@
             backdrop-filter: blur(20px);
             min-width: 300px;
             min-height: 200px;
-            animation: windowOpen 0.2s cubic-bezier(0.34, 1.4, 0.64, 1);
+            animation: windowOpen 0.18s cubic-bezier(0.34, 1.4, 0.64, 1);
         }
 
         .os-window.visible { display: flex; }
 
         @keyframes windowOpen {
-            from { opacity: 0; transform: scale(0.92) translateY(10px); }
+            from { opacity: 0; transform: scale(0.94) translateY(8px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes windowClose {
+            from { opacity: 1; transform: scale(1) translateY(0); }
+            to { opacity: 0; transform: scale(0.94) translateY(8px); }
         }
 
         .window-titlebar {
@@ -1491,9 +1495,13 @@
 
     function openWindow(id) {
         const win = document.getElementById(id);
+        win.style.animation = 'none';
         win.style.display = 'flex';
         win.classList.add('visible');
         win.style.zIndex = ++windowZIndex;
+        // trigger reflow then animate
+        void win.offsetWidth;
+        win.style.animation = 'windowOpen 0.18s cubic-bezier(0.34, 1.4, 0.64, 1) forwards';
         openWindows.add(id);
         updateTaskbar();
         makeDraggable(win);
@@ -1501,8 +1509,12 @@
 
     function closeWindow(id) {
         const win = document.getElementById(id);
-        win.classList.remove('visible');
-        setTimeout(() => { win.style.display = 'none'; }, 200);
+        win.style.animation = 'windowClose 0.15s cubic-bezier(0.4, 0, 0.6, 1) forwards';
+        setTimeout(() => {
+            win.classList.remove('visible');
+            win.style.display = 'none';
+            win.style.animation = '';
+        }, 150);
         openWindows.delete(id);
         minimizedWindows.delete(id);
         updateTaskbar();
@@ -1510,7 +1522,11 @@
 
     function minimizeWindow(id) {
         const win = document.getElementById(id);
-        win.style.display = 'none';
+        win.style.animation = 'windowClose 0.15s cubic-bezier(0.4, 0, 0.6, 1) forwards';
+        setTimeout(() => {
+            win.style.display = 'none';
+            win.style.animation = '';
+        }, 150);
         minimizedWindows.set(id, true);
         openWindows.add(id);
         updateTaskbar();
@@ -1603,6 +1619,7 @@
 
         win.addEventListener('mousedown', () => { win.style.zIndex = ++windowZIndex; });
     }
+
 
     document.querySelectorAll('.os-window').forEach(win => makeDraggable(win));
 
