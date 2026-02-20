@@ -4,410 +4,764 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desritory V3</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary: #7c4dff;
-            --secondary: #9333ea;
-            --accent: #a855f7;
-            --light: #c084fc;
-            --glow: rgba(120, 70, 220, 0.4);
-            --bg: #0f1520;
-            --bg2: #141b2d;
-            --glass: rgba(255,255,255,0.05);
-            --glass-border: rgba(255,255,255,0.1);
-            --particle-color-1: rgba(124, 77, 255, 0.8);
-            --particle-color-2: rgba(168, 85, 247, 0.6);
+            --primary-dim: rgba(124,77,255,0.15);
+            --primary-glow: rgba(124,77,255,0.3);
+            --bg: #0d0d10;
+            --bg2: #111116;
+            --bg3: #16161d;
+            --surface: rgba(255,255,255,0.04);
+            --surface-hover: rgba(255,255,255,0.07);
+            --border: rgba(255,255,255,0.07);
+            --border-hover: rgba(255,255,255,0.14);
+            --text: rgba(255,255,255,0.9);
+            --text-dim: rgba(255,255,255,0.45);
+            --text-faint: rgba(255,255,255,0.22);
+            --sidebar-w: 72px;
+            --statusbar-h: 36px;
         }
 
         body {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Outfit', sans-serif;
             background: var(--bg);
-            color: white;
+            color: var(--text);
             overflow: hidden;
             height: 100vh;
             width: 100vw;
             user-select: none;
         }
 
-        #particleCanvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
 
-        #desktop {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            bottom: 52px;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .desktop-logo {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(42px, 6vw, 80px);
-            font-weight: 800;
-            letter-spacing: 6px;
-            background: linear-gradient(135deg, var(--light) 0%, var(--primary) 30%, var(--accent) 60%, var(--secondary) 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 8s ease infinite, floatLogo 5s ease-in-out infinite;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .desktop-subtitle {
-            font-size: 13px;
-            color: rgba(255,255,255,0.3);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 48px;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes floatLogo {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .app-grid {
+        #layout {
             display: grid;
-            grid-template-columns: repeat(5, 110px);
-            gap: 24px 32px;
-            justify-content: center;
+            grid-template-columns: var(--sidebar-w) 1fr;
+            grid-template-rows: 1fr var(--statusbar-h);
+            height: 100vh;
         }
 
-        .app-icon {
+        #sidebar {
+            grid-row: 1 / 3;
+            background: var(--bg2);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            position: relative;
+            padding: 14px 0;
+            gap: 2px;
+            z-index: 100;
         }
 
-        .app-icon-box {
-            width: 82px;
-            height: 82px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
+        .sidebar-logo {
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 34px;
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            backdrop-filter: blur(12px);
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        .app-icon:hover .app-icon-box {
-            transform: scale(1.12) translateY(-6px);
-            background: rgba(255,255,255,0.1);
-            border-color: var(--primary);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.4), 0 0 24px var(--glow);
-        }
-
-        .app-icon:active .app-icon-box {
-            transform: scale(0.95);
-        }
-
-        .app-icon.focused .app-icon-box {
-            background: rgba(124,77,255,0.25);
-            border-color: var(--primary);
-        }
-
-        .app-icon-label {
-            font-size: 12px;
-            color: rgba(255,255,255,0.75);
-            font-weight: 500;
-            text-align: center;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-            letter-spacing: 0.3px;
-        }
-
-        .app-badge {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            min-width: 20px;
-            height: 20px;
-            background: linear-gradient(135deg, #ff3b30, #ff453a);
-            border: 2px solid var(--bg);
-            border-radius: 10px;
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 0 5px;
-            animation: notificationPulse 2s ease-in-out infinite;
-        }
-
-        .app-badge.active { display: flex; }
-
-        @keyframes notificationPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        /* ---- TASKBAR ---- */
-        #taskbar {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 52px;
-            background: rgba(10, 13, 22, 0.92);
-            backdrop-filter: blur(24px);
-            border-top: 1px solid rgba(255,255,255,0.08);
-            z-index: 9000;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            gap: 8px;
-        }
-
-        .taskbar-start {
-            width: 36px;
-            height: 36px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 16px;
-            flex-shrink: 0;
-            box-shadow: 0 2px 12px var(--glow);
+            transition: transform 0.2s;
         }
 
-        .taskbar-start:hover { transform: scale(1.08); opacity: 0.9; }
+        .sidebar-logo:hover { transform: scale(1.1); }
 
-        .taskbar-divider {
-            width: 1px;
-            height: 24px;
-            background: rgba(255,255,255,0.1);
-            margin: 0 4px;
-            flex-shrink: 0;
-        }
-
-        .taskbar-apps {
-            display: flex;
-            gap: 4px;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .taskbar-app-btn {
-            height: 36px;
-            padding: 0 12px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 8px;
-            color: rgba(255,255,255,0.75);
-            font-size: 12px;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
-
-        .taskbar-app-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-        .taskbar-app-btn.active { background: rgba(124,77,255,0.25); border-color: var(--primary); color: white; }
-        .taskbar-app-btn .tb-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
-        .taskbar-app-btn .tb-emoji { font-size: 14px; }
-
-        .taskbar-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-left: auto;
-            flex-shrink: 0;
-        }
-
-        .taskbar-time {
-            font-family: 'Syne', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.9);
-            letter-spacing: 0.5px;
-            cursor: default;
-        }
-
-        .taskbar-icon-btn {
+        .sidebar-divider {
             width: 32px;
-            height: 32px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 13px;
-            color: rgba(255,255,255,0.7);
-            position: relative;
+            height: 1px;
+            background: var(--border);
+            margin: 6px 0;
+            flex-shrink: 0;
         }
 
-        .taskbar-icon-btn:hover { background: rgba(255,255,255,0.12); color: white; border-color: rgba(255,255,255,0.15); }
-
-        /* ---- WINDOWS ---- */
-        .os-window {
-            position: fixed;
-            background: rgba(14, 18, 30, 0.96);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 14px;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
-            z-index: 5000;
-            display: none;
+        .nav-item {
+            width: 52px;
+            height: 52px;
+            display: flex;
             flex-direction: column;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-            min-width: 300px;
-            min-height: 200px;
-            transition: box-shadow 0.2s;
-        }
-
-        .os-window.visible { display: flex; animation: windowOpen 0.22s cubic-bezier(0.34, 1.4, 0.64, 1); }
-        .os-window.closing { animation: windowClose 0.18s cubic-bezier(0.4, 0, 0.6, 1) forwards; }
-        .os-window.window-focused {
-            box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08), 0 0 30px var(--glow);
-            border-color: rgba(255,255,255,0.18);
-        }
-
-        @keyframes windowOpen {
-            from { opacity: 0; transform: scale(0.92) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        @keyframes windowClose {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.9) translateY(8px); }
-        }
-
-        .window-titlebar {
-            height: 42px;
-            background: rgba(255,255,255,0.04);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            align-items: center;
-            padding: 0 14px;
-            gap: 10px;
-            cursor: move;
-            flex-shrink: 0;
-        }
-
-        /* macOS-style window controls */
-        .window-controls {
-            display: flex;
-            gap: 6px;
-        }
-
-        .wc-btn {
-            width: 13px;
-            height: 13px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            transition: all 0.15s;
-            flex-shrink: 0;
-            position: relative;
-            display: flex;
             align-items: center;
             justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            transition: all 0.18s;
+            position: relative;
+            color: var(--text-dim);
+            flex-shrink: 0;
         }
 
-        .wc-btn .wc-icon {
-            font-size: 8px;
-            opacity: 0;
-            transition: opacity 0.15s;
+        .nav-item:hover {
+            background: var(--surface-hover);
+            border-color: var(--border-hover);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: var(--primary-dim);
+            border-color: rgba(124,77,255,0.3);
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 17px;
             line-height: 1;
         }
 
-        .window-controls:hover .wc-btn .wc-icon { opacity: 1; }
-
-        .wc-close { background: #ff5f57; box-shadow: 0 0 0 1px rgba(0,0,0,0.2); }
-        .wc-close:hover { background: #ff3b30; }
-        .wc-min { background: #febc2e; box-shadow: 0 0 0 1px rgba(0,0,0,0.2); }
-        .wc-min:hover { background: #f0a200; }
-        .wc-max { background: #28c840; box-shadow: 0 0 0 1px rgba(0,0,0,0.2); }
-        .wc-max:hover { background: #22a030; }
-
-        .window-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 13px;
+        .nav-item span {
+            font-size: 9px;
             font-weight: 600;
-            color: rgba(255,255,255,0.8);
-            flex: 1;
-            text-align: center;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            line-height: 1;
         }
 
-        /* Resize handles */
-        .resize-handle {
+        .nav-item::after {
+            content: attr(data-tip);
             position: absolute;
-            z-index: 10;
+            left: calc(100% + 10px);
+            background: var(--bg3);
+            border: 1px solid var(--border-hover);
+            color: var(--text);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: all 0.15s;
+            z-index: 9999;
         }
-        .resize-se { width: 14px; height: 14px; bottom: 0; right: 0; cursor: se-resize; }
-        .resize-s { height: 5px; bottom: 0; left: 14px; right: 14px; cursor: s-resize; }
-        .resize-e { width: 5px; top: 14px; right: 0; bottom: 14px; cursor: e-resize; }
-        .resize-w { width: 5px; top: 14px; left: 0; bottom: 14px; cursor: w-resize; }
-        .resize-n { height: 5px; top: 0; left: 14px; right: 14px; cursor: n-resize; }
-        .resize-ne { width: 14px; height: 14px; top: 0; right: 0; cursor: ne-resize; }
-        .resize-sw { width: 14px; height: 14px; bottom: 0; left: 0; cursor: sw-resize; }
-        .resize-nw { width: 14px; height: 14px; top: 0; left: 0; cursor: nw-resize; }
 
-        .window-content {
+        .nav-item:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: 6px; right: 6px;
+            min-width: 16px; height: 16px;
+            background: #ef4444;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            color: white;
+            border: 1.5px solid var(--bg2);
+        }
+
+        .nav-badge.show { display: flex; }
+
+        .sidebar-spacer { flex: 1; }
+
+        #main {
+            grid-column: 2;
+            grid-row: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        #statusbar {
+            grid-column: 2;
+            grid-row: 2;
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 6px #22c55e;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+        .status-sep {
+            color: var(--text-faint);
+        }
+
+        .status-spacer { flex: 1; }
+
+        .status-time {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        #homeScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 8px;
+            background: transparent;
+        }
+
+        .home-wordmark {
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .home-wordmark span { color: var(--primary); }
+
+        .home-sub {
+            font-size: 13px;
+            color: var(--text-faint);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        .home-cards {
+            display: flex;
+            gap: 10px;
+        }
+
+        .home-card {
+            width: 100px;
+            height: 90px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.18s;
+            color: var(--text-dim);
+        }
+
+        .home-card:hover {
+            background: var(--surface-hover);
+            border-color: var(--border-hover);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .home-card i { font-size: 22px; }
+        .home-card span { font-size: 11px; font-weight: 600; }
+
+        .panel {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            animation: panelIn 0.2s ease;
+        }
+
+        .panel.active { display: flex; }
+
+        @keyframes panelIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-header {
+            height: 52px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 12px;
+            flex-shrink: 0;
+            background: var(--bg);
+        }
+
+        .panel-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .panel-search {
             flex: 1;
-            overflow: auto;
+            max-width: 300px;
+            padding: 7px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            color: var(--text);
+            font-size: 13px;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            transition: all 0.18s;
+            margin-left: auto;
+        }
+
+        .panel-search:focus {
+            border-color: var(--primary);
+            background: var(--primary-dim);
+        }
+
+        .panel-search::placeholder { color: var(--text-faint); }
+
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            background: transparent;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .game-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.22s cubic-bezier(0.34, 1.3, 0.64, 1);
+            overflow: hidden;
             position: relative;
         }
 
-        /* ---- SETTINGS ---- */
-        .settings-content {
-            padding: 24px;
+        .game-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.22s;
+            z-index: 0;
+            pointer-events: none;
         }
 
-        .settings-section { margin-bottom: 24px; }
+        .game-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 0 1px var(--primary);
+        }
 
-        .settings-label {
+        .game-card:hover::before { opacity: 0.07; }
+
+        .game-card-thumb {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            background: var(--bg3);
+        }
+
+        .game-card-info {
+            padding: 10px 12px 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-card-icon {
+            display: none;
+        }
+
+        .game-card-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-card-cat {
             font-size: 11px;
+            color: var(--text-faint);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .proxy-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            height: 100%;
+            background: transparent;
+        }
+
+        .proxy-search-row {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .proxy-input {
+            flex: 1;
+            padding: 11px 15px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            transition: all 0.18s;
+        }
+
+        .proxy-input:focus { border-color: var(--primary); background: var(--primary-dim); }
+        .proxy-input::placeholder { color: var(--text-faint); }
+
+        .proxy-go {
+            padding: 11px 22px;
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: opacity 0.18s;
+        }
+
+        .proxy-go:hover { opacity: 0.82; }
+
+        .proxy-quick {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .proxy-quick-link {
+            padding: 11px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.18s;
+        }
+
+        .proxy-quick-link:hover { background: var(--surface-hover); border-color: var(--border-hover); transform: translateY(-1px); }
+        .proxy-quick-link span:first-child { font-size: 20px; }
+        .proxy-quick-link span:last-child { font-size: 11px; color: var(--text-dim); font-weight: 500; }
+
+        .proxy-iframe { width: 100%; height: 100%; border: none; display: none; }
+
+        .chat-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-setup-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            height: 100%;
+            padding: 40px 24px;
+        }
+
+        .chat-setup-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .chat-setup-sub {
+            font-size: 12px;
+            color: var(--text-faint);
+            margin-top: -8px;
+        }
+
+        .setup-input {
+            width: 100%;
+            max-width: 280px;
+            padding: 11px 15px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            text-align: center;
+            transition: all 0.18s;
+        }
+
+        .setup-input:focus { border-color: var(--primary); }
+        .setup-input::placeholder { color: var(--text-faint); }
+
+        .setup-btn {
+            padding: 11px 36px;
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: opacity 0.18s;
+        }
+
+        .setup-btn:hover { opacity: 0.82; }
+
+        .chat-status {
+            padding: 7px 16px;
+            font-size: 11px;
+            color: var(--text-faint);
+            border-bottom: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .chat-status.connected { color: #22c55e; }
+        .chat-status.error { color: #ef4444; }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .chat-msg {
+            padding: 9px 12px;
+            background: var(--surface);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            animation: msgIn 0.18s ease;
+            position: relative;
+            transition: all 0.15s;
+        }
+
+        .chat-msg:hover {
+            background: var(--surface-hover);
+            border-color: var(--border);
+        }
+
+        .chat-msg:hover .msg-actions { opacity: 1; }
+        .chat-msg:hover .msg-time { opacity: 1; }
+
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .msg-actions {
+            position: absolute;
+            top: 6px; right: 8px;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .msg-reply-btn {
+            background: var(--surface-hover);
+            border: 1px solid var(--border-hover);
+            border-radius: 5px;
+            padding: 3px 8px;
+            font-size: 10px;
+            color: var(--text);
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.15s;
+        }
+
+        .msg-reply-btn:hover { background: var(--primary-dim); border-color: var(--primary); color: var(--primary); }
+
+        .msg-reply-bar {
+            background: var(--primary-dim);
+            border-left: 2px solid var(--primary);
+            padding: 4px 8px;
+            margin-bottom: 5px;
+            border-radius: 3px;
+            font-size: 11px;
+            color: var(--text-faint);
+        }
+
+        .msg-reply-bar strong { color: var(--primary); }
+
+        .msg-username {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 2px;
+        }
+
+        .msg-text { font-size: 13px; color: var(--text); word-break: break-word; }
+        .msg-image { max-width: 100%; max-height: 180px; border-radius: 6px; margin-top: 6px; cursor: pointer; }
+
+        .msg-time {
+            font-size: 10px;
+            color: var(--text-faint);
+            margin-top: 3px;
+            opacity: 0;
+            transition: opacity 0.15s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .typing-bar {
+            padding: 5px 16px;
+            font-size: 11px;
+            color: var(--text-faint);
+            display: none;
+        }
+
+        .typing-bar.on { display: block; }
+
+        .typing-dots span {
+            display: inline-block;
+            width: 3px; height: 3px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin: 0 1px;
+            animation: td 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes td { 0%,60%,100%{opacity:0.2;transform:translateY(0)} 30%{opacity:1;transform:translateY(-3px)} }
+
+        .reply-bar {
+            display: none;
+            background: var(--primary-dim);
+            border-left: 2px solid var(--primary);
+            padding: 6px 12px;
+            margin: 0 12px 4px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-faint);
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .reply-bar.on { display: block; }
+
+        .cancel-reply {
+            position: absolute;
+            right: 8px; top: 50%;
+            transform: translateY(-50%);
+            background: none; border: none;
+            color: var(--text-faint); cursor: pointer;
+            font-size: 14px; transition: color 0.15s;
+        }
+
+        .cancel-reply:hover { color: var(--text); }
+
+        .img-preview-wrap { padding: 0 12px 6px; }
+
+        .img-preview { display: none; max-width: 100px; max-height: 70px; border-radius: 6px; }
+        .img-preview.on { display: block; }
+
+        .chat-input-row {
+            padding: 10px 12px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .img-btn {
+            width: 34px; height: 34px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            color: var(--text-faint);
+            font-size: 13px;
+            transition: all 0.18s;
+        }
+
+        .img-btn:hover { background: var(--surface-hover); border-color: var(--border-hover); color: var(--text); }
+
+        .chat-input {
+            flex: 1;
+            padding: 8px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            color: var(--text);
+            font-size: 13px;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            transition: border-color 0.18s;
+        }
+
+        .chat-input:focus { border-color: var(--primary); }
+        .chat-input::placeholder { color: var(--text-faint); }
+
+        .send-btn {
+            padding: 8px 16px;
+            background: var(--primary);
+            border: none;
+            border-radius: 7px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: opacity 0.18s;
+        }
+
+        .send-btn:hover { opacity: 0.82; }
+
+        .settings-body { padding: 20px; }
+
+        .s-section { margin-bottom: 24px; }
+
+        .s-label {
+            font-size: 10px;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
-            margin-bottom: 12px;
+            color: var(--text-faint);
+            margin-bottom: 10px;
         }
 
-        /* Color swatch theme picker */
-        .theme-swatches {
+        .theme-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            gap: 7px;
         }
 
         .theme-swatch {
@@ -415,1133 +769,598 @@
             flex-direction: column;
             align-items: center;
             gap: 5px;
+            padding: 9px 5px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 9px;
             cursor: pointer;
-            padding: 8px 4px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.07);
-            transition: all 0.2s;
-            background: rgba(255,255,255,0.03);
+            transition: all 0.18s;
         }
 
-        .theme-swatch:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
+        .theme-swatch:hover { background: var(--surface-hover); border-color: var(--border-hover); transform: translateY(-1px); }
+        .theme-swatch.active { border-color: var(--primary); background: var(--primary-dim); }
 
-        .theme-swatch.active {
-            border-color: var(--primary);
-            background: rgba(255,255,255,0.08);
-            box-shadow: 0 0 12px var(--glow);
-        }
-
-        .swatch-circle {
-            width: 28px;
-            height: 28px;
+        .swatch-dot {
+            width: 22px; height: 22px;
             border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.15);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,255,255,0.12);
         }
 
-        .swatch-label {
-            font-size: 10px;
-            color: rgba(255,255,255,0.55);
-            font-weight: 500;
-            text-align: center;
-        }
+        .swatch-name { font-size: 9px; color: var(--text-faint); font-weight: 600; }
+        .theme-swatch.active .swatch-name { color: var(--text); }
 
-        .theme-swatch.active .swatch-label { color: rgba(255,255,255,0.9); }
-
-        .se-grid {
+        .se-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 7px;
         }
 
         .se-btn {
-            padding: 9px 10px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 9px;
-            color: rgba(255,255,255,0.6);
-            font-size: 13px;
-            font-family: 'DM Sans', sans-serif;
+            padding: 9px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-dim);
+            font-size: 12px;
+            font-family: 'Outfit', sans-serif;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.18s;
             text-align: center;
+            font-weight: 500;
         }
 
-        .se-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-        .se-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .se-btn:hover { background: var(--surface-hover); color: var(--text); }
+        .se-btn.active { background: var(--primary-dim); border-color: rgba(124,77,255,0.3); color: var(--primary); }
 
         .toggle-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 14px;
-            background: rgba(255,255,255,0.04);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            border: 1px solid rgba(255,255,255,0.07);
+            padding: 11px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: background 0.18s;
         }
 
-        .toggle-row-label { font-size: 14px; color: rgba(255,255,255,0.8); }
+        .toggle-row:hover { background: var(--surface-hover); }
+        .toggle-row-label { font-size: 13px; color: var(--text); }
 
-        .toggle-switch {
+        .toggle {
+            width: 40px; height: 22px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 11px;
             position: relative;
-            width: 44px;
-            height: 24px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.25s;
             flex-shrink: 0;
         }
 
-        .toggle-switch.active { background: var(--primary); }
+        .toggle.on { background: var(--primary); }
 
-        .toggle-slider {
+        .toggle-knob {
             position: absolute;
             top: 3px; left: 3px;
-            width: 18px; height: 18px;
+            width: 16px; height: 16px;
             background: white;
             border-radius: 50%;
-            transition: transform 0.3s;
+            transition: transform 0.25s;
         }
 
-        .toggle-switch.active .toggle-slider { transform: translateX(20px); }
+        .toggle.on .toggle-knob { transform: translateX(18px); }
 
-        /* ---- GAMES ---- */
-        .games-window-header {
-            padding: 14px 16px;
-            display: flex;
-            gap: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-            flex-shrink: 0;
-        }
+        .update-body { padding: 24px; }
 
-        .games-search-input {
-            flex: 1;
-            padding: 9px 14px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: white;
-            font-size: 13px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .games-search-input:focus { border-color: var(--primary); background: rgba(255,255,255,0.08); }
-        .games-search-input::placeholder { color: rgba(255,255,255,0.3); }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
-            padding: 14px;
-        }
-
-        .game-card {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .game-card:hover { background: rgba(255,255,255,0.09); border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-
-        .game-card-icon { width: 48px; height: 48px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
-
-        .game-card-info { flex: 1; min-width: 0; }
-        .game-card-name { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .game-card-cat { font-size: 11px; color: rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* ---- CHAT ---- */
-        .chat-body {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        /* Inline username setup screen */
-        .chat-setup-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            padding: 40px 30px;
-            height: 100%;
-        }
-
-        .chat-setup-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 22px;
+        .update-ver {
+            font-size: 38px;
             font-weight: 700;
-            text-align: center;
-        }
-
-        .chat-setup-subtitle {
-            font-size: 13px;
-            color: rgba(255,255,255,0.45);
-            text-align: center;
-            margin-top: -12px;
-        }
-
-        .chat-setup-input {
-            width: 100%;
-            max-width: 300px;
-            padding: 12px 16px;
-            background: rgba(255,255,255,0.07);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 10px;
-            color: white;
-            font-size: 15px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .chat-setup-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--glow); }
-        .chat-setup-input::placeholder { color: rgba(255,255,255,0.3); }
-
-        .chat-setup-btn {
-            padding: 12px 40px;
-            background: var(--primary);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .chat-setup-btn:hover { opacity: 0.85; transform: translateY(-1px); }
-
-        .chat-status-bar {
-            padding: 8px 14px;
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            flex-shrink: 0;
-        }
-
-        .chat-status-bar.connected { color: #10b981; }
-        .chat-status-bar.error { color: #ef4444; }
-
-        .chat-messages-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .chat-msg {
-            padding: 10px 13px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 10px;
-            animation: msgSlide 0.2s ease;
-            position: relative;
-            transition: background 0.2s;
-        }
-
-        .chat-msg:hover { background: rgba(255,255,255,0.08); }
-        .chat-msg:hover .chat-msg-actions { opacity: 1; }
-        .chat-msg:hover .chat-msg-time { opacity: 1; }
-
-        @keyframes msgSlide {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .chat-msg-actions { position: absolute; top: 6px; right: 8px; opacity: 0; transition: opacity 0.15s; }
-
-        .chat-action-btn {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 5px;
-            padding: 3px 7px;
-            font-size: 11px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.15s;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .chat-action-btn:hover { background: var(--primary); }
-
-        .chat-reply-indicator {
-            background: rgba(124,77,255,0.15);
-            border-left: 2px solid var(--primary);
-            padding: 4px 8px;
-            margin-bottom: 5px;
-            border-radius: 4px;
-            font-size: 11px;
-            color: rgba(255,255,255,0.6);
-        }
-
-        .chat-reply-indicator strong { color: var(--primary); }
-
-        .chat-msg-username { font-weight: 600; color: var(--primary); font-size: 12px; margin-bottom: 3px; }
-        .chat-msg-text { font-size: 13px; color: rgba(255,255,255,0.88); word-wrap: break-word; }
-        .chat-msg-image { max-width: 100%; max-height: 200px; border-radius: 8px; margin-top: 8px; cursor: pointer; transition: transform 0.15s; }
-        .chat-msg-image:hover { transform: scale(1.02); }
-
-        /* Timestamps shown on hover */
-        .chat-msg-time {
-            font-size: 10px;
-            color: rgba(255,255,255,0.3);
-            margin-top: 4px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .typing-indicator {
-            display: none;
-            padding: 6px 14px;
-            font-size: 11px;
-            color: rgba(255,255,255,0.5);
-            font-style: italic;
-        }
-
-        .typing-indicator.active { display: block; }
-
-        .typing-dots span {
-            display: inline-block;
-            width: 3px; height: 3px;
-            margin: 0 2px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: typingDot 1.4s infinite;
-        }
-
-        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes typingDot {
-            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
-            30% { opacity: 1; transform: translateY(-3px); }
-        }
-
-        .replying-to-bar {
-            display: none;
-            background: rgba(124,77,255,0.12);
-            border-left: 2px solid var(--primary);
-            padding: 6px 12px;
-            margin: 0 12px 6px;
-            border-radius: 5px;
-            font-size: 12px;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .replying-to-bar.active { display: block; }
-
-        .cancel-reply {
-            position: absolute;
-            right: 8px; top: 50%;
-            transform: translateY(-50%);
-            background: none; border: none;
-            color: rgba(255,255,255,0.5);
-            cursor: pointer; font-size: 14px;
-            transition: color 0.15s;
-        }
-
-        .cancel-reply:hover { color: white; }
-
-        .image-preview-bar {
-            padding: 0 12px 8px;
-            flex-shrink: 0;
-        }
-
-        .image-preview {
-            display: none;
-            max-width: 120px;
-            max-height: 80px;
-            border-radius: 8px;
-        }
-
-        .image-preview.active { display: block; }
-
-        .chat-input-bar {
-            padding: 10px 12px;
-            border-top: 1px solid rgba(255,255,255,0.07);
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .chat-text-input {
-            flex: 1;
-            padding: 9px 14px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: white;
-            font-size: 13px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .chat-text-input:focus { border-color: var(--primary); }
-        .chat-text-input::placeholder { color: rgba(255,255,255,0.3); }
-
-        .chat-send-btn {
-            padding: 9px 18px;
-            background: var(--primary);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .chat-send-btn:hover { opacity: 0.85; }
-
-        .img-upload-btn {
-            width: 36px; height: 36px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.2s; color: rgba(255,255,255,0.6);
-            font-size: 14px;
-        }
-
-        .img-upload-btn:hover { background: rgba(255,255,255,0.1); color: white; border-color: var(--primary); }
-
-        /* ---- PROXY ---- */
-        .proxy-home {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            padding: 30px 24px;
-            height: 100%;
-        }
-
-        .proxy-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, var(--light), var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-align: center;
-        }
-
-        .proxy-search-row {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            max-width: 520px;
-        }
-
-        .proxy-search-input {
-            flex: 1;
-            padding: 12px 16px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 10px;
-            color: white;
-            font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .proxy-search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--glow); }
-        .proxy-search-input::placeholder { color: rgba(255,255,255,0.3); }
-
-        .proxy-go-btn {
-            padding: 12px 22px;
-            background: var(--primary);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .proxy-go-btn:hover { opacity: 0.85; }
-
-        .proxy-quick-links {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: 100%;
-            max-width: 520px;
-        }
-
-        .proxy-quick-link {
-            padding: 12px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .proxy-quick-link:hover { background: rgba(255,255,255,0.09); border-color: var(--primary); transform: translateY(-2px); }
-        .proxy-quick-link span:first-child { font-size: 22px; }
-        .proxy-quick-link span:last-child { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 500; }
-
-        .proxy-iframe { width: 100%; height: 100%; border: none; display: none; }
-
-        /* ---- UPDATE ---- */
-        .update-content { padding: 24px; }
-
-        .update-version {
-            font-family: 'Syne', sans-serif;
-            font-size: 36px;
-            font-weight: 800;
             color: var(--primary);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .update-subtitle { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+        .update-sub { font-size: 13px; color: var(--text-faint); margin-bottom: 18px; }
 
         .update-notes {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 10px;
             padding: 16px;
             font-size: 13px;
-            color: rgba(255,255,255,0.7);
-            line-height: 1.8;
+            color: var(--text-dim);
+            line-height: 1.9;
         }
 
-        /* ---- FULLSCREEN ---- */
         #fullscreenOverlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0; left: var(--sidebar-w); right: 0; bottom: var(--statusbar-h);
             background: var(--bg);
-            z-index: 8000;
+            z-index: 9000;
             display: none;
             flex-direction: column;
         }
 
         #fullscreenOverlay.active { display: flex; }
 
-        .fullscreen-bar {
-            height: 48px;
-            background: rgba(10,13,22,0.95);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+        .fs-bar {
+            height: 44px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             padding: 0 16px;
-            gap: 10px;
+            gap: 12px;
             flex-shrink: 0;
+            background: var(--bg2);
         }
 
-        .fullscreen-back-btn {
-            padding: 7px 16px;
-            background: rgba(255,255,255,0.07);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 7px;
-            color: rgba(255,255,255,0.8);
+        .fs-back {
+            padding: 6px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-dim);
             cursor: pointer;
-            font-size: 13px;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.2s;
+            font-size: 12px;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.18s;
         }
 
-        .fullscreen-back-btn:hover { background: rgba(255,255,255,0.12); color: white; }
+        .fs-back:hover { background: var(--surface-hover); color: var(--text); }
 
-        .fullscreen-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 14px;
+        .fs-title {
+            font-size: 13px;
             font-weight: 600;
-            color: rgba(255,255,255,0.7);
+            color: var(--text-dim);
         }
 
         #fullscreenIframe { width: 100%; flex: 1; border: none; }
 
-        /* ---- MODALS ---- */
-        .overlay-modal {
+        #loadingScreen {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
-            z-index: 15000;
+            inset: 0;
+            background: rgba(13,13,16,0.95);
+            z-index: 10000;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        .overlay-modal.active { display: flex; }
+        #loadingScreen.on { display: flex; }
 
-        .overlay-modal-box {
-            background: rgba(14,18,30,0.98);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 18px;
-            padding: 32px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-        }
-
-        .overlay-modal-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-        .overlay-modal-text { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 24px; line-height: 1.6; }
-        .overlay-modal-text strong { color: var(--primary); }
-
-        .modal-btn-row { display: flex; gap: 10px; justify-content: center; }
-
-        .modal-btn {
-            padding: 10px 28px;
-            border-radius: 9px;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.2s;
-        }
-
-        .modal-btn.primary { background: var(--primary); color: white; }
-        .modal-btn.primary:hover { opacity: 0.85; }
-        .modal-btn.secondary { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.15); }
-        .modal-btn.secondary:hover { background: rgba(239,68,68,0.25); border-color: #ef4444; }
-
-        .waiting-spinner {
+        .loader-ring {
             width: 44px; height: 44px;
-            border: 3px solid rgba(255,255,255,0.1);
+            border: 2px solid var(--surface-hover);
             border-top-color: var(--primary);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 18px;
+            animation: spin 0.9s linear infinite;
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ---- FLOATING WARNINGS ---- */
-        .floating-warning {
+        .loading-text {
+            font-size: 14px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .modal-overlay {
+            display: none;
             position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            z-index: 12000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.on { display: flex; }
+
+        .modal-box {
+            background: var(--bg3);
+            border: 1px solid var(--border-hover);
             border-radius: 14px;
-            padding: 28px 36px;
-            z-index: 16000;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s;
+            padding: 28px;
+            max-width: 380px;
+            width: 90%;
             text-align: center;
         }
 
-        .floating-warning.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: all; }
+        .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+        .modal-text { font-size: 13px; color: var(--text-dim); margin-bottom: 22px; line-height: 1.6; }
+        .modal-text strong { color: var(--primary); }
 
-        #spamWarning { background: rgba(239,68,68,0.95); border: 2px solid #dc2626; }
-        #spamWarningText { font-size: 18px; font-weight: 700; color: white; }
+        .modal-btns { display: flex; gap: 8px; justify-content: center; }
 
-        #slurWarning {
-            background: rgba(14,18,30,0.98);
-            border: 2px solid var(--primary);
-            box-shadow: 0 10px 50px var(--glow);
-        }
-
-        #slurWarning .slur-icon { font-size: 36px; margin-bottom: 12px; }
-        #slurWarning .slur-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-        #slurWarning .slur-text { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
-        #slurWarning .slur-timer { font-size: 30px; font-weight: 900; color: var(--primary); font-family: 'Syne', monospace; }
-
-        /* ---- LOADING ---- */
-        #loadingScreen {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(14,18,30,0.97);
-            z-index: 12000;
-            align-items: center; justify-content: center;
-            flex-direction: column; gap: 20px;
-        }
-
-        #loadingScreen.active { display: flex; }
-
-        .loader { width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        .loading-text { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: rgba(255,255,255,0.85); }
-
-        /* ---- SYSTEM TRAY ---- */
-        #systemTray {
-            position: fixed;
-            bottom: 60px;
-            right: 16px;
-            width: 260px;
-            background: rgba(14,18,30,0.97);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 14px;
-            padding: 18px;
-            z-index: 9500;
-            display: none;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
-            backdrop-filter: blur(20px);
-        }
-
-        #systemTray.visible { display: block; }
-
-        .tray-header {
-            font-family: 'Syne', sans-serif;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.35);
-            margin-bottom: 14px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-        }
-
-        .tray-stat {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+        .modal-btn {
+            padding: 9px 24px;
+            border-radius: 8px;
+            border: none;
             font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.18s;
         }
 
-        .tray-stat-label { color: rgba(255,255,255,0.5); }
-        .tray-stat-value { font-weight: 600; font-family: 'Syne', sans-serif; }
-        .tray-stat-value.green { color: #10b981; }
-        .tray-stat-value.purple { color: var(--accent); }
-        .tray-stat-value.blue { color: #60a5fa; }
-        .tray-stat-value.yellow { color: #fbbf24; }
+        .modal-btn.primary { background: var(--primary); color: white; }
+        .modal-btn.primary:hover { opacity: 0.82; }
+        .modal-btn.secondary { background: var(--surface-hover); color: var(--text-dim); border: 1px solid var(--border); }
+        .modal-btn.secondary:hover { border-color: #ef4444; color: #ef4444; }
 
-        .status-dot {
-            display: inline-block;
-            width: 7px; height: 7px;
+        .spinner {
+            width: 40px; height: 40px;
+            border: 2px solid var(--surface-hover);
+            border-top-color: var(--primary);
             border-radius: 50%;
-            background: #10b981;
-            margin-right: 5px;
-            animation: pulse 2s ease-in-out infinite;
-            box-shadow: 0 0 8px #10b981;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 16px;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .floating-warn {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.92);
+            border-radius: 12px;
+            padding: 22px 30px;
+            z-index: 14000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s;
+            text-align: center;
         }
 
-        ::-webkit-scrollbar { width: 5px; }
+        .floating-warn.on { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: all; }
+
+        #spamWarn { background: rgba(239,68,68,0.97); border: 1.5px solid #dc2626; }
+        #spamWarnText { font-size: 16px; font-weight: 700; color: white; }
+
+        #slurWarn {
+            background: var(--bg3);
+            border: 1.5px solid var(--primary);
+            box-shadow: 0 0 40px var(--primary-glow);
+        }
+
+        #slurWarn .sw-icon { font-size: 32px; margin-bottom: 10px; }
+        #slurWarn .sw-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        #slurWarn .sw-text { font-size: 13px; color: var(--text-dim); margin-bottom: 10px; }
+        #slurWarn .sw-timer { font-size: 28px; font-weight: 900; color: var(--primary); font-family: 'JetBrains Mono', monospace; }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            display: block;
+        }
+
+        #layout { position: relative; z-index: 1; background: transparent; }
+        #sidebar { background: rgba(17,17,22,0.88) !important; backdrop-filter: blur(14px); }
+        #main { background: transparent !important; }
+        #statusbar { background: rgba(17,17,22,0.88) !important; backdrop-filter: blur(14px); }
+        .panel-header { background: rgba(13,13,16,0.6) !important; backdrop-filter: blur(8px); }
+        .panel { background: transparent; }
+
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+        ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
+
+        .nav-item.stealth-on {
+            background: rgba(124,77,255,0.1);
+            border-color: rgba(124,77,255,0.2);
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
 
-<canvas id="particleCanvas"></canvas>
+<canvas id="bgCanvas"></canvas>
 
-<div id="desktop">
-    <div class="desktop-logo" id="desktopLogo">DESRITORY V3</div>
-    <div class="desktop-subtitle" id="desktopSubtitle">Welcome back</div>
+<div id="layout">
 
-    <div class="app-grid">
-        <div class="app-icon" ondblclick="openWindow('proxyWindow')" onclick="selectIcon(this)">
-            <div class="app-icon-box">🛡️</div>
-            <span class="app-icon-label">Proxy</span>
-        </div>
-        <div class="app-icon" ondblclick="openGamesWindow()" onclick="selectIcon(this)">
-            <div class="app-icon-box">🎮</div>
-            <span class="app-icon-label">Games</span>
-        </div>
-        <div class="app-icon" ondblclick="openAppsWindow()" onclick="selectIcon(this)">
-            <div class="app-icon-box">📱</div>
-            <span class="app-icon-label">Apps</span>
-        </div>
-        <div class="app-icon" ondblclick="openChat()" onclick="selectIcon(this)">
-            <div class="app-icon-box" id="chatIconBox">
-                💬
-                <span class="app-badge" id="chatNotificationBadge">0</span>
-            </div>
-            <span class="app-icon-label">Chat</span>
-        </div>
-        <div class="app-icon" ondblclick="openWindow('settingsWindow')" onclick="selectIcon(this)">
-            <div class="app-icon-box">⚙️</div>
-            <span class="app-icon-label">Settings</span>
-        </div>
-        <div class="app-icon" ondblclick="openWindow('updateWindow')" onclick="selectIcon(this)">
-            <div class="app-icon-box">🔔</div>
-            <span class="app-icon-label">Updates</span>
-        </div>
-        <div class="app-icon" ondblclick="toggleStealthMode()" onclick="selectIcon(this)">
-            <div class="app-icon-box" id="stealthIconBox">🕵️</div>
-            <span class="app-icon-label" id="stealthIconLabel">Stealth</span>
-        </div>
-    </div>
-</div>
+    <nav id="sidebar">
+        <div class="sidebar-logo" onclick="showPanel('home')" title="Desritory">🛡</div>
 
-<div id="taskbar">
-    <div class="taskbar-start" onclick="toggleSystemTray()" title="System Info">
-        <i class="fas fa-layer-group"></i>
-    </div>
-    <div class="taskbar-divider"></div>
-    <div class="taskbar-apps" id="taskbarApps"></div>
-    <div class="taskbar-right">
-        <div class="taskbar-icon-btn" onclick="openChat()" title="Chat">
+        <div class="nav-item active" id="nav-home" onclick="showPanel('home')" data-tip="Home">
+            <i class="fas fa-house"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" id="nav-proxy" onclick="showPanel('proxy')" data-tip="Proxy">
+            <i class="fas fa-shield-halved"></i>
+            <span>Proxy</span>
+        </div>
+        <div class="nav-item" id="nav-games" onclick="showPanel('games')" data-tip="Games">
+            <i class="fas fa-gamepad"></i>
+            <span>Games</span>
+        </div>
+        <div class="nav-item" id="nav-apps" onclick="showPanel('apps')" data-tip="Apps">
+            <i class="fas fa-grid-2"></i>
+            <span>Apps</span>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="nav-item" id="nav-chat" onclick="showPanel('chat')" data-tip="Chat">
             <i class="fas fa-comments"></i>
+            <span>Chat</span>
+            <div class="nav-badge" id="chatBadge">0</div>
         </div>
-        <div class="taskbar-icon-btn" onclick="toggleStealthMode()" title="Stealth Mode" id="tbStealthBtn">
+
+        <div class="sidebar-spacer"></div>
+
+        <div class="nav-item" id="nav-stealth" onclick="toggleStealth()" data-tip="Stealth Mode">
             <i class="fas fa-user-secret"></i>
+            <span>Stealth</span>
         </div>
-        <div class="taskbar-time" id="timeDisplay">12:00 AM</div>
-    </div>
-</div>
+        <div class="nav-item" id="nav-updates" onclick="showPanel('updates')" data-tip="Updates">
+            <i class="fas fa-bell"></i>
+            <span>Updates</span>
+        </div>
+        <div class="nav-item" id="nav-settings" onclick="showPanel('settings')" data-tip="Settings">
+            <i class="fas fa-gear"></i>
+            <span>Settings</span>
+        </div>
+    </nav>
 
-<div id="systemTray">
-    <div class="tray-header">System Panel</div>
-    <div class="tray-stat">
-        <span class="tray-stat-label">Status</span>
-        <span class="tray-stat-value green"><span class="status-dot"></span>Online</span>
-    </div>
-    <div class="tray-stat">
-        <span class="tray-stat-label">Users Active</span>
-        <span class="tray-stat-value purple" id="usersActive">--</span>
-    </div>
-    <div class="tray-stat">
-        <span class="tray-stat-label">Stealth</span>
-        <span class="tray-stat-value purple" id="stealthStatus">Disabled</span>
-    </div>
-    <div class="tray-stat">
-        <span class="tray-stat-label">Theme</span>
-        <span class="tray-stat-value blue" id="currentTheme">Slate</span>
-    </div>
-    <div class="tray-stat">
-        <span class="tray-stat-label">Version</span>
-        <span class="tray-stat-value blue">3.0.0</span>
-    </div>
-    <div class="tray-stat">
-        <span class="tray-stat-label">Uptime</span>
-        <span class="tray-stat-value yellow" id="uptimeDisplay">00:00:00</span>
-    </div>
-</div>
+    <main id="main">
 
-<!-- PROXY WINDOW -->
-<div class="os-window" id="proxyWindow" style="width:780px;height:560px;top:60px;left:50%;transform:translateX(-50%);">
-    <div class="window-titlebar" id="proxyWindowBar">
-        <div class="window-controls">
-            <button class="wc-btn wc-close" title="Close" onclick="closeWindow('proxyWindow')"><span class="wc-icon">✕</span></button>
-            <button class="wc-btn wc-min" title="Minimize" onclick="minimizeWindow('proxyWindow')"><span class="wc-icon">─</span></button>
-            <button class="wc-btn wc-max" title="Maximize" onclick="maximizeWindow('proxyWindow')"><span class="wc-icon">⊕</span></button>
-        </div>
-        <div class="window-title">Desritory Proxy</div>
-        <div style="width:40px;"></div>
-    </div>
-    <div class="resize-handle resize-se"></div>
-    <div class="resize-handle resize-s"></div>
-    <div class="resize-handle resize-e"></div>
-    <div class="resize-handle resize-w"></div>
-    <div class="resize-handle resize-n"></div>
-    <div class="resize-handle resize-ne"></div>
-    <div class="resize-handle resize-sw"></div>
-    <div class="resize-handle resize-nw"></div>
-    <div class="window-content">
-        <div class="proxy-home" id="proxyHome">
-            <div class="proxy-title">Desritory Proxy</div>
-            <p style="font-size:14px;color:rgba(255,255,255,0.4);">Welcome to Freedom.</p>
-            <div class="proxy-search-row">
-                <input id="proxySearchInput" class="proxy-search-input" type="text" placeholder="Search or enter a URL..." onkeypress="handleProxySearch(event)">
-                <button class="proxy-go-btn" onclick="launchProxy()">Go</button>
-            </div>
-            <div class="proxy-quick-links">
-                <div class="proxy-quick-link" onclick="launchProxyUrl('https://google.com')"><span>🔍</span><span>Google</span></div>
-                <div class="proxy-quick-link" onclick="launchProxyUrl('https://youtube.com')"><span>▶️</span><span>YouTube</span></div>
-                <div class="proxy-quick-link" onclick="launchProxyUrl('https://discord.com')"><span>💬</span><span>Discord</span></div>
-                <div class="proxy-quick-link" onclick="launchProxyUrl('https://github.com')"><span>🤖</span><span>Github</span></div>
-                <div class="proxy-quick-link" onclick="launchProxyUrl('https://spotify.com')"><span>🎵</span><span>Spotify</span></div>
-                <div class="proxy-quick-link" onclick="launchProxyUrl('https://twitter.com')"><span>🐦</span><span>Twitter/X</span></div>
-            </div>
-            <p style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:8px;">Powered by Scramjet</p>
-        </div>
-        <iframe id="proxyIframe" class="proxy-iframe"></iframe>
-    </div>
-</div>
-
-<!-- GAMES WINDOW -->
-<div class="os-window" id="gamesWindow" style="width:680px;height:480px;top:80px;left:80px;">
-    <div class="window-titlebar" id="gamesWindowBar">
-        <div class="window-controls">
-            <button class="wc-btn wc-close" title="Close" onclick="closeWindow('gamesWindow')"><span class="wc-icon">✕</span></button>
-            <button class="wc-btn wc-min" title="Minimize" onclick="minimizeWindow('gamesWindow')"><span class="wc-icon">─</span></button>
-            <button class="wc-btn wc-max" title="Maximize" onclick="maximizeWindow('gamesWindow')"><span class="wc-icon">⊕</span></button>
-        </div>
-        <div class="window-title">Games</div>
-        <div style="width:40px;"></div>
-    </div>
-    <div class="resize-handle resize-se"></div>
-    <div class="resize-handle resize-s"></div>
-    <div class="resize-handle resize-e"></div>
-    <div class="resize-handle resize-w"></div>
-    <div class="resize-handle resize-n"></div>
-    <div class="resize-handle resize-ne"></div>
-    <div class="resize-handle resize-sw"></div>
-    <div class="resize-handle resize-nw"></div>
-    <div class="games-window-header">
-        <input type="text" class="games-search-input" id="gamesSearch" placeholder="🔍  Search games..." oninput="renderGames(this.value)">
-    </div>
-    <div class="window-content">
-        <div class="games-grid" id="gamesList"></div>
-    </div>
-</div>
-
-<!-- APPS WINDOW -->
-<div class="os-window" id="appsWindow" style="width:680px;height:480px;top:80px;left:120px;">
-    <div class="window-titlebar" id="appsWindowBar">
-        <div class="window-controls">
-            <button class="wc-btn wc-close" title="Close" onclick="closeWindow('appsWindow')"><span class="wc-icon">✕</span></button>
-            <button class="wc-btn wc-min" title="Minimize" onclick="minimizeWindow('appsWindow')"><span class="wc-icon">─</span></button>
-            <button class="wc-btn wc-max" title="Maximize" onclick="maximizeWindow('appsWindow')"><span class="wc-icon">⊕</span></button>
-        </div>
-        <div class="window-title">Apps</div>
-        <div style="width:40px;"></div>
-    </div>
-    <div class="resize-handle resize-se"></div>
-    <div class="resize-handle resize-s"></div>
-    <div class="resize-handle resize-e"></div>
-    <div class="resize-handle resize-w"></div>
-    <div class="resize-handle resize-n"></div>
-    <div class="resize-handle resize-ne"></div>
-    <div class="resize-handle resize-sw"></div>
-    <div class="resize-handle resize-nw"></div>
-    <div class="games-window-header">
-        <input type="text" class="games-search-input" id="appsSearch" placeholder="🔍  Search apps..." oninput="renderApps(this.value)">
-    </div>
-    <div class="window-content">
-        <div class="games-grid" id="appsList"></div>
-    </div>
-</div>
-
-<!-- CHAT WINDOW -->
-<div class="os-window" id="chatWindow" style="width:480px;height:560px;top:60px;right:60px;">
-    <div class="window-titlebar" id="chatWindowBar">
-        <div class="window-controls">
-            <button class="wc-btn wc-close" title="Close" onclick="closeChat()"><span class="wc-icon">✕</span></button>
-            <button class="wc-btn wc-min" title="Minimize" onclick="minimizeWindow('chatWindow')"><span class="wc-icon">─</span></button>
-            <button class="wc-btn wc-max" title="Maximize" onclick="maximizeWindow('chatWindow')"><span class="wc-icon">⊕</span></button>
-        </div>
-        <div class="window-title">Chat Room</div>
-        <div style="width:40px;"></div>
-    </div>
-    <div class="resize-handle resize-se"></div>
-    <div class="resize-handle resize-s"></div>
-    <div class="resize-handle resize-e"></div>
-    <div class="resize-handle resize-w"></div>
-    <div class="resize-handle resize-n"></div>
-    <div class="resize-handle resize-ne"></div>
-    <div class="resize-handle resize-sw"></div>
-    <div class="resize-handle resize-nw"></div>
-    <div class="window-content">
-        <!-- Setup screen shown when no username -->
-        <div class="chat-setup-screen" id="chatSetupScreen" style="display:none;">
-            <div style="font-size:48px;">💬</div>
-            <div class="chat-setup-title">Join the Chat</div>
-            <div class="chat-setup-subtitle">Pick a username to get started</div>
-            <input type="text" id="chatSetupInput" class="chat-setup-input" placeholder="Your username..." maxlength="20" onkeypress="handleSetupKeyPress(event)">
-            <button class="chat-setup-btn" onclick="submitUsername()">Join →</button>
-        </div>
-        <div class="chat-body" id="chatBody" style="display:none;">
-            <div class="chat-status-bar" id="chatStatus">Connecting...</div>
-            <div class="chat-messages-area" id="chatMessages"></div>
-            <div class="typing-indicator" id="typingIndicator">
-                <span id="typingUsers"></span>
-                <span class="typing-dots"><span></span><span></span><span></span></span>
-            </div>
-            <div class="replying-to-bar" id="replyingToBar">
-                Replying to <strong id="replyingToUser"></strong>
-                <button class="cancel-reply" onclick="cancelReply()">×</button>
-            </div>
-            <div class="image-preview-bar">
-                <div style="position:relative;display:inline-block;">
-                    <img id="imagePreview" class="image-preview">
-                    <button onclick="removeImage()" style="display:none;position:absolute;top:-5px;right:-5px;background:var(--primary);border:none;border-radius:50%;width:18px;height:18px;color:white;cursor:pointer;font-size:11px;align-items:center;justify-content:center;" class="remove-image">×</button>
-                </div>
-            </div>
-            <div class="chat-input-bar">
-                <label for="imageInput" class="img-upload-btn" title="Upload image"><i class="fas fa-image"></i></label>
-                <input type="file" id="imageInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
-                <input type="text" id="chatInput" class="chat-text-input" placeholder="Type a message... (try :sob: or :heart:)" onkeypress="handleChatKeyPress(event)" oninput="handleTyping()">
-                <button class="chat-send-btn" onclick="sendMessage()">Send</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- SETTINGS WINDOW -->
-<div class="os-window" id="settingsWindow" style="width:460px;height:600px;top:80px;left:50%;transform:translateX(-50%);">
-    <div class="window-titlebar" id="settingsWindowBar">
-        <div class="window-controls">
-            <button class="wc-btn wc-close" title="Close" onclick="closeWindow('settingsWindow')"><span class="wc-icon">✕</span></button>
-            <button class="wc-btn wc-min" title="Minimize" onclick="minimizeWindow('settingsWindow')"><span class="wc-icon">─</span></button>
-            <button class="wc-btn wc-max" title="Maximize" onclick="maximizeWindow('settingsWindow')"><span class="wc-icon">⊕</span></button>
-        </div>
-        <div class="window-title">Settings</div>
-        <div style="width:40px;"></div>
-    </div>
-    <div class="resize-handle resize-se"></div>
-    <div class="resize-handle resize-s"></div>
-    <div class="resize-handle resize-e"></div>
-    <div class="resize-handle resize-w"></div>
-    <div class="resize-handle resize-n"></div>
-    <div class="resize-handle resize-ne"></div>
-    <div class="resize-handle resize-sw"></div>
-    <div class="resize-handle resize-nw"></div>
-    <div class="window-content">
-        <div class="settings-content">
-            <div class="settings-section">
-                <div class="settings-label">Theme</div>
-                <div class="theme-swatches" id="themeSwatches"></div>
-            </div>
-            <div class="settings-section">
-                <div class="settings-label">Search Engine</div>
-                <div class="se-grid">
-                    <button class="se-btn active" id="se-google" onclick="setSearchEngine('google',this)">Google</button>
-                    <button class="se-btn" id="se-bing" onclick="setSearchEngine('bing',this)">Bing</button>
-                    <button class="se-btn" id="se-ddg" onclick="setSearchEngine('ddg',this)">DuckDuckGo</button>
-                    <button class="se-btn" id="se-yahoo" onclick="setSearchEngine('yahoo',this)">Yahoo</button>
-                    <button class="se-btn" id="se-brave" onclick="setSearchEngine('brave',this)">Brave</button>
-                </div>
-            </div>
-            <div class="settings-section">
-                <div class="settings-label">Options</div>
-                <div class="toggle-row">
-                    <span class="toggle-row-label">Tab Cloaking</span>
-                    <div class="toggle-switch" id="cloakToggle" onclick="toggleCloak()"><div class="toggle-slider"></div></div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-row-label">Panic Key (' key)</span>
-                    <div class="toggle-switch" id="panicToggle" onclick="togglePanic()"><div class="toggle-slider"></div></div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-row-label">Show Particles</span>
-                    <div class="toggle-switch active" id="particlesToggle" onclick="toggleParticles()"><div class="toggle-slider"></div></div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-row-label">Notification Sounds</span>
-                    <div class="toggle-switch" id="soundToggle" onclick="toggleSounds()"><div class="toggle-slider"></div></div>
-                </div>
-            </div>
-            <div class="settings-section">
-                <div class="settings-label">Account</div>
-                <div class="toggle-row" style="cursor:pointer;" onclick="changeUsername()">
-                    <span class="toggle-row-label">Change Username <span id="currentUsernameDisplay" style="color:var(--primary);font-size:12px;"></span></span>
-                    <span style="color:rgba(255,255,255,0.4);font-size:13px;">→</span>
+        <div class="panel active" id="panel-home">
+            <div id="homeScreen">
+                <div class="home-wordmark">DESRIT<span>O</span>RY <span style="font-size:0.45em;font-weight:600;color:var(--text-faint);letter-spacing:1px;vertical-align:middle;border:1.5px solid var(--border-hover);border-radius:6px;padding:2px 8px;position:relative;top:-4px;">V4</span></div>
+                <div class="home-sub" id="homeSub">Welcome back</div>
+                <div class="home-cards">
+                    <div class="home-card" onclick="showPanel('proxy')">
+                        <i class="fas fa-shield-halved"></i>
+                        <span>Proxy</span>
+                    </div>
+                    <div class="home-card" onclick="showPanel('games')">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Games</span>
+                    </div>
+                    <div class="home-card" onclick="showPanel('chat')">
+                        <i class="fas fa-comments"></i>
+                        <span>Chat</span>
+                    </div>
+                    <div class="home-card" onclick="showPanel('settings')">
+                        <i class="fas fa-gear"></i>
+                        <span>Settings</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- UPDATE WINDOW -->
-<div class="os-window" id="updateWindow" style="width:400px;height:360px;top:120px;left:50%;transform:translateX(-50%);">
-    <div class="window-titlebar" id="updateWindowBar">
-        <div class="window-controls">
-            <button class="wc-btn wc-close" title="Close" onclick="closeWindow('updateWindow')"><span class="wc-icon">✕</span></button>
-            <button class="wc-btn wc-min" title="Minimize" onclick="minimizeWindow('updateWindow')"><span class="wc-icon">─</span></button>
-            <button class="wc-btn wc-max" title="Maximize" onclick="maximizeWindow('updateWindow')"><span class="wc-icon">⊕</span></button>
-        </div>
-        <div class="window-title">Latest Update</div>
-        <div style="width:40px;"></div>
-    </div>
-    <div class="resize-handle resize-se"></div>
-    <div class="resize-handle resize-s"></div>
-    <div class="resize-handle resize-e"></div>
-    <div class="resize-handle resize-w"></div>
-    <div class="resize-handle resize-n"></div>
-    <div class="window-content">
-        <div class="update-content">
-            <div class="update-version">v3.0.0</div>
-            <div class="update-subtitle">What's new in this update</div>
-            <div class="update-notes">
-                • Welcome to V3!!<br>
-                • Brand new window resizing — drag any edge or corner!<br>
-                • macOS-style window controls (red/yellow/green)<br>
-                • Focused window now glows so you know what's active<br>
-                • Windows animate when closing now too<br>
-                • CHAT UPDATES:<br>
-                • Inline "Join the Chat" screen — no more popups!<br>
-                • Message timestamps hidden by default, shows on hover<br>
-                • Change your username anytime from Settings<br>
-                • SETTINGS UPDATES:<br>
-                • Theme picker is now color swatches (way better imo)<br>
-                • Added notification sounds toggle<br>
-                • Particle system now saves battery when idle<br>
-                • Taskbar shows app icons next to names<br>
-                • that's all, enjoy V3!
+        <div class="panel" id="panel-proxy">
+            <div class="panel-header">
+                <div class="panel-title">Proxy</div>
+                <span style="font-size:11px;color:var(--text-faint);margin-left:auto;font-family:'JetBrains Mono',monospace;">Powered by Scramjet</span>
             </div>
+            <div id="proxyHome" style="flex:1;overflow:hidden;">
+                <div class="proxy-home">
+                    <div style="font-size:13px;color:var(--text-faint);">Browse freely. No restrictions.</div>
+                    <div class="proxy-search-row">
+                        <input id="proxyInput" class="proxy-input" type="text" placeholder="Search or enter a URL..." onkeypress="if(e.key==='Enter')launchProxy()">
+                        <button class="proxy-go" onclick="launchProxy()">Go</button>
+                    </div>
+                    <div class="proxy-quick">
+                        <div class="proxy-quick-link" onclick="launchProxyUrl('https://google.com')"><span>🔍</span><span>Google</span></div>
+                        <div class="proxy-quick-link" onclick="launchProxyUrl('https://youtube.com')"><span>▶️</span><span>YouTube</span></div>
+                        <div class="proxy-quick-link" onclick="launchProxyUrl('https://discord.com')"><span>💬</span><span>Discord</span></div>
+                        <div class="proxy-quick-link" onclick="launchProxyUrl('https://github.com')"><span>🤖</span><span>Github</span></div>
+                        <div class="proxy-quick-link" onclick="launchProxyUrl('https://spotify.com')"><span>🎵</span><span>Spotify</span></div>
+                        <div class="proxy-quick-link" onclick="launchProxyUrl('https://twitter.com')"><span>🐦</span><span>Twitter/X</span></div>
+                    </div>
+                </div>
+            </div>
+            <iframe id="proxyIframe" class="proxy-iframe"></iframe>
+        </div>
+
+        <div class="panel" id="panel-games">
+            <div class="panel-header">
+                <div class="panel-title">Games</div>
+                <input class="panel-search" placeholder="Search games..." oninput="renderGames(this.value)" id="gamesSearch">
+            </div>
+            <div class="panel-body">
+                <div class="games-grid" id="gamesList"></div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-apps">
+            <div class="panel-header">
+                <div class="panel-title">Apps</div>
+                <input class="panel-search" placeholder="Search apps..." oninput="renderApps(this.value)">
+            </div>
+            <div class="panel-body">
+                <div class="games-grid" id="appsList"></div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-chat">
+            <div class="panel-header">
+                <div class="panel-title">Chat Room</div>
+                <div id="chatUserLabel" style="margin-left:auto;font-size:11px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;"></div>
+            </div>
+            <div class="window-content" style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+                <div class="chat-setup-screen" id="chatSetup" style="display:none;">
+                    <div style="font-size:40px;">💬</div>
+                    <div class="chat-setup-title">Join the Chat</div>
+                    <div class="chat-setup-sub">Pick a username to get started</div>
+                    <input type="text" id="chatSetupInput" class="setup-input" placeholder="Your username..." maxlength="20" onkeypress="if(event.key==='Enter')submitUsername()">
+                    <button class="setup-btn" onclick="submitUsername()">Join →</button>
+                </div>
+                <div class="chat-body" id="chatBody" style="display:none;">
+                    <div class="chat-status" id="chatStatus">Connecting...</div>
+                    <div class="chat-messages" id="chatMessages"></div>
+                    <div class="typing-bar" id="typingBar">
+                        <span id="typingUsers"></span>
+                        <span class="typing-dots"><span></span><span></span><span></span></span>
+                    </div>
+                    <div class="reply-bar" id="replyBar">
+                        Replying to <strong id="replyToUser"></strong>
+                        <button class="cancel-reply" onclick="cancelReply()">×</button>
+                    </div>
+                    <div class="img-preview-wrap">
+                        <div style="position:relative;display:inline-block;">
+                            <img id="imgPreview" class="img-preview">
+                            <button onclick="removeImage()" id="removeImgBtn" style="display:none;position:absolute;top:-5px;right:-5px;background:var(--primary);border:none;border-radius:50%;width:16px;height:16px;color:white;cursor:pointer;font-size:10px;align-items:center;justify-content:center;">×</button>
+                        </div>
+                    </div>
+                    <div class="chat-input-row">
+                        <label for="imageInput" class="img-btn" title="Upload image"><i class="fas fa-image"></i></label>
+                        <input type="file" id="imageInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+                        <input type="text" id="chatInput" class="chat-input" placeholder="Message... (try :heart: :fire: :skull:)" onkeypress="handleChatKey(event)" oninput="handleTyping()">
+                        <button class="send-btn" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-settings">
+            <div class="panel-header">
+                <div class="panel-title">Settings</div>
+            </div>
+            <div class="panel-body">
+                <div class="settings-body">
+                    <div class="s-section">
+                        <div class="s-label">Theme</div>
+                        <div class="theme-grid" id="themeGrid"></div>
+                    </div>
+                    <div class="s-section">
+                        <div class="s-label">Search Engine</div>
+                        <div class="se-row">
+                            <button class="se-btn active" id="se-google" onclick="setSE('google',this)">Google</button>
+                            <button class="se-btn" id="se-bing" onclick="setSE('bing',this)">Bing</button>
+                            <button class="se-btn" id="se-ddg" onclick="setSE('ddg',this)">DuckDuckGo</button>
+                            <button class="se-btn" id="se-yahoo" onclick="setSE('yahoo',this)">Yahoo</button>
+                            <button class="se-btn" id="se-brave" onclick="setSE('brave',this)">Brave</button>
+                        </div>
+                    </div>
+                    <div class="s-section">
+                        <div class="s-label">Options</div>
+                        <div class="toggle-row" onclick="toggleCloak()">
+                            <span class="toggle-row-label">Tab Cloaking</span>
+                            <div class="toggle" id="cloakToggle"><div class="toggle-knob"></div></div>
+                        </div>
+                        <div class="toggle-row" onclick="togglePanic()">
+                            <span class="toggle-row-label">Panic Key (' key)</span>
+                            <div class="toggle" id="panicToggle"><div class="toggle-knob"></div></div>
+                        </div>
+                        <div class="toggle-row" onclick="toggleParticles()">
+                            <span class="toggle-row-label">Show Particles</span>
+                            <div class="toggle on" id="particlesToggle"><div class="toggle-knob"></div></div>
+                        </div>
+                        <div class="toggle-row" onclick="toggleSounds()">
+                            <span class="toggle-row-label">Notification Sounds</span>
+                            <div class="toggle" id="soundToggle"><div class="toggle-knob"></div></div>
+                        </div>
+                    </div>
+                    <div class="s-section">
+                        <div class="s-label">Account</div>
+                        <div class="toggle-row" onclick="changeUsername()">
+                            <span class="toggle-row-label">Change Username <span id="usernameDisplay" style="color:var(--primary);font-size:11px;"></span></span>
+                            <span style="color:var(--text-faint);font-size:12px;">→</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-updates">
+            <div class="panel-header">
+                <div class="panel-title">Updates</div>
+            </div>
+            <div class="panel-body">
+                <div class="update-body">
+                    <div class="update-ver">v3.0.0</div>
+                    <div class="update-sub">What's new in this update</div>
+                    <div class="update-notes">
+                        • Welcome to V3!!<br>
+                        • New sidebar navigation — Selenite-style layout<br>
+                        • Status bar with live stats at the bottom<br>
+                        • Panels replace floating windows — cleaner UX<br>
+                        • CHAT UPDATES:<br>
+                        • Inline "Join the Chat" — no more popups!<br>
+                        • Timestamps hidden by default, shows on hover<br>
+                        • Change your username anytime from Settings<br>
+                        • SETTINGS UPDATES:<br>
+                        • Theme picker now color swatches<br>
+                        • Notification sounds toggle<br>
+                        • Particle system saves battery when idle<br>
+                        • that's all, enjoy V3!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="statusbar">
+        <div class="status-item">
+            <div class="status-dot"></div>
+            <span>Online</span>
+        </div>
+        <span class="status-sep">|</span>
+        <div class="status-item">
+            <i class="fas fa-users" style="font-size:10px;"></i>
+            <span id="onlineCount">--</span> online
+        </div>
+        <span class="status-sep">|</span>
+        <div class="status-item" id="stealthStatusBar" style="display:none;">
+            <i class="fas fa-user-secret" style="font-size:10px;color:var(--primary);"></i>
+            <span style="color:var(--primary);">Stealth</span>
+        </div>
+        <div class="status-spacer"></div>
+        <div class="status-item">
+            <span class="status-time" id="timeDisplay">12:00 AM</span>
         </div>
     </div>
 </div>
 
 <div id="fullscreenOverlay">
-    <div class="fullscreen-bar">
-        <button class="fullscreen-back-btn" id="fullscreenBackBtn" onclick="closeFullscreen()">← Back</button>
-        <span class="fullscreen-title" id="fullscreenTitle"></span>
+    <div class="fs-bar">
+        <button class="fs-back" onclick="closeFullscreen()">← Back</button>
+        <span class="fs-title" id="fsTitle"></span>
     </div>
     <iframe id="fullscreenIframe"></iframe>
 </div>
 
 <div id="loadingScreen">
-    <div class="loader"></div>
+    <div class="loader-ring"></div>
     <div class="loading-text" id="loadingText">Loading...</div>
 </div>
 
-<div class="overlay-modal" id="nameRequestModal">
-    <div class="overlay-modal-box">
-        <div class="overlay-modal-title">Someone wants your name</div>
-        <div class="overlay-modal-text">
-            <strong id="nameRequesterDisplay">Someone</strong> wants to use the name <strong id="nameRequestedDisplay"></strong>. Allow this?
-        </div>
-        <div class="modal-btn-row">
+<div class="modal-overlay" id="nameRequestModal">
+    <div class="modal-box">
+        <div class="modal-title">Name Request</div>
+        <div class="modal-text"><strong id="nameRequesterDisplay">Someone</strong> wants to use the name <strong id="nameRequestedDisplay"></strong>. Allow this?</div>
+        <div class="modal-btns">
             <button class="modal-btn primary" onclick="respondToNameRequest(true)">Allow</button>
             <button class="modal-btn secondary" onclick="respondToNameRequest(false)">Deny</button>
         </div>
     </div>
 </div>
 
-<div class="overlay-modal" id="nameWaitingOverlay">
-    <div class="overlay-modal-box">
-        <div class="waiting-spinner"></div>
-        <div class="overlay-modal-title">Waiting for approval...</div>
-        <div class="overlay-modal-text" id="nameWaitingText">The user with that name has been notified.</div>
+<div class="modal-overlay" id="nameWaitingModal">
+    <div class="modal-box">
+        <div class="spinner"></div>
+        <div class="modal-title">Waiting for approval...</div>
+        <div class="modal-text" id="nameWaitingText">The user with that name has been notified.</div>
     </div>
 </div>
 
-<div class="floating-warning" id="spamWarning">
-    <div id="spamWarningText">Hey, stop spamming!!</div>
+<div class="floating-warn" id="spamWarn">
+    <div id="spamWarnText">Hey, stop spamming!!</div>
 </div>
 
-<div class="floating-warning" id="slurWarning">
-    <div class="slur-icon">🚫</div>
-    <div class="slur-title">Not allowed.</div>
-    <div class="slur-text">Sorry, this isn't allowed.</div>
-    <div class="slur-timer" id="slurTimer">10</div>
+<div class="floating-warn" id="slurWarn">
+    <div class="sw-icon">🚫</div>
+    <div class="sw-title">Not allowed.</div>
+    <div class="sw-text">That's not cool. Cooldown:</div>
+    <div class="sw-timer" id="slurTimer">10</div>
 </div>
 
 <script type="module">
@@ -1558,151 +1377,124 @@
         appId: "1:799268069839:web:4bcbfa0389603054bf32ba"
     };
 
-    let isFirebaseInitialized = false;
-    let database = null;
+    let db = null, isInit = false;
     let messagesRef, typingRef, presenceRef, activeNamesRef, nameRequestsRef;
 
     try {
         const app = initializeApp(firebaseConfig);
-        database = getDatabase(app);
-        messagesRef = ref(database, 'messages');
-        typingRef = ref(database, 'typing');
-        presenceRef = ref(database, 'presence');
-        activeNamesRef = ref(database, 'activeNames');
-        nameRequestsRef = ref(database, 'nameRequests');
-        isFirebaseInitialized = true;
-        initializePresence();
-    } catch (error) {
-        console.error('Firebase error:', error);
-        updateChatStatus('error', 'Firebase not configured');
-    }
-
-    function initializePresence() {
-        if (!isFirebaseInitialized) return;
-        const currentUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        const userPresenceRef = ref(database, `presence/${currentUserId}`);
-        set(userPresenceRef, { online: true, lastSeen: serverTimestamp() }).catch(() => {});
-        onDisconnect(userPresenceRef).remove();
-        setInterval(() => {
-            if (isFirebaseInitialized) set(userPresenceRef, { online: true, lastSeen: serverTimestamp() }).catch(() => {});
-        }, 30000);
-        onValue(ref(database, 'presence'), (snapshot) => {
-            const d = snapshot.val();
-            const el = document.getElementById('usersActive');
+        db = getDatabase(app);
+        messagesRef = ref(db, 'messages');
+        typingRef = ref(db, 'typing');
+        presenceRef = ref(db, 'presence');
+        activeNamesRef = ref(db, 'activeNames');
+        nameRequestsRef = ref(db, 'nameRequests');
+        isInit = true;
+        const uid = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        const pRef = ref(db, `presence/${uid}`);
+        set(pRef, { online: true, lastSeen: serverTimestamp() }).catch(() => {});
+        onDisconnect(pRef).remove();
+        setInterval(() => { if (isInit) set(pRef, { online: true, lastSeen: serverTimestamp() }).catch(() => {}); }, 30000);
+        onValue(ref(db, 'presence'), (snap) => {
+            const d = snap.val();
+            const el = document.getElementById('onlineCount');
             if (el) el.textContent = d ? Object.keys(d).length : 0;
         });
+    } catch (e) {
+        console.error('Firebase error:', e);
+        setChatStatus('error', '🔴 Firebase not configured');
     }
 
     window.firebaseChat = {
-        sendMessage: (username, text, imageUrl = null, replyTo = null) => {
-            if (!isFirebaseInitialized) return Promise.reject('Firebase not initialized');
-            const messageData = { username, text, timestamp: serverTimestamp() };
-            if (imageUrl) messageData.imageUrl = imageUrl;
-            if (replyTo) messageData.replyTo = replyTo;
-            return push(messagesRef, messageData);
+        sendMessage: (u, t, img=null, reply=null) => {
+            if (!isInit) return Promise.reject();
+            const d = { username: u, text: t, timestamp: serverTimestamp() };
+            if (img) d.imageUrl = img;
+            if (reply) d.replyTo = reply;
+            return push(messagesRef, d);
         },
-        listenToMessages: (callback) => {
-            if (!isFirebaseInitialized) return;
-            onChildAdded(query(messagesRef, limitToLast(50)), (snapshot) => {
-                const message = snapshot.val();
-                message.id = snapshot.key;
-                callback(message);
+        listenToMessages: (cb) => {
+            if (!isInit) return;
+            onChildAdded(query(messagesRef, limitToLast(50)), (snap) => {
+                const m = snap.val(); m.id = snap.key; cb(m);
             });
         },
-        setTyping: (username, isTyping) => {
-            if (!isFirebaseInitialized) return Promise.reject();
-            const userTypingRef = ref(database, `typing/${username.replace(/[.#$[\]]/g, '_')}`);
-            return isTyping ? set(userTypingRef, { username, timestamp: serverTimestamp() }) : remove(userTypingRef);
+        setTyping: (u, on) => {
+            if (!isInit) return Promise.reject();
+            const r = ref(db, `typing/${u.replace(/[.#$[\]]/g, '_')}`);
+            return on ? set(r, { username: u, timestamp: serverTimestamp() }) : remove(r);
         },
-        listenToTyping: (callback) => {
-            if (!isFirebaseInitialized) return;
-            onChildAdded(typingRef, (s) => { const d = s.val(); if (d) callback(d.username, true); });
-            onChildChanged(typingRef, (s) => { const d = s.val(); if (d) callback(d.username, true); });
-            onChildRemoved(typingRef, (s) => { const d = s.val(); if (d) callback(d.username, false); });
+        listenToTyping: (cb) => {
+            if (!isInit) return;
+            onChildAdded(typingRef, s => { const d = s.val(); if(d) cb(d.username, true); });
+            onChildChanged(typingRef, s => { const d = s.val(); if(d) cb(d.username, true); });
+            onChildRemoved(typingRef, s => { const d = s.val(); if(d) cb(d.username, false); });
         },
-        isInitialized: () => isFirebaseInitialized,
+        isInitialized: () => isInit,
         checkNameAvailable: async (name) => {
-            if (!isFirebaseInitialized) return { available: true };
-            const safeName = name.replace(/[.#$[\]]/g, '_').toLowerCase();
-            const nameRef = ref(database, `activeNames/${safeName}`);
-            const snapshot = await get(nameRef);
-            if (!snapshot.exists()) return { available: true };
-            const data = snapshot.val();
-            if (Date.now() - data.lastSeen > 120000) { await remove(nameRef); return { available: true }; }
-            return { available: false, ownerId: data.ownerId };
+            if (!isInit) return { available: true };
+            const safe = name.replace(/[.#$[\]]/g, '_').toLowerCase();
+            const snap = await get(ref(db, `activeNames/${safe}`));
+            if (!snap.exists()) return { available: true };
+            const d = snap.val();
+            if (Date.now() - d.lastSeen > 120000) { await remove(ref(db, `activeNames/${safe}`)); return { available: true }; }
+            return { available: false, ownerId: d.ownerId };
         },
-        claimName: (name, ownerId) => {
-            if (!isFirebaseInitialized) return Promise.resolve();
-            const safeName = name.replace(/[.#$[\]]/g, '_').toLowerCase();
-            const nameRef = ref(database, `activeNames/${safeName}`);
-            onDisconnect(nameRef).remove();
-            return set(nameRef, { ownerId, lastSeen: serverTimestamp(), displayName: name });
+        claimName: (name, oid) => {
+            if (!isInit) return Promise.resolve();
+            const safe = name.replace(/[.#$[\]]/g, '_').toLowerCase();
+            const r = ref(db, `activeNames/${safe}`);
+            onDisconnect(r).remove();
+            return set(r, { ownerId: oid, lastSeen: serverTimestamp(), displayName: name });
         },
-        keepNameAlive: (name, ownerId) => {
-            if (!isFirebaseInitialized) return;
-            const safeName = name.replace(/[.#$[\]]/g, '_').toLowerCase();
-            set(ref(database, `activeNames/${safeName}`), { ownerId, lastSeen: serverTimestamp(), displayName: name }).catch(() => {});
+        keepNameAlive: (name, oid) => {
+            if (!isInit) return;
+            set(ref(db, `activeNames/${name.replace(/[.#$[\]]/g,'_').toLowerCase()}`), { ownerId: oid, lastSeen: serverTimestamp(), displayName: name }).catch(() => {});
         },
         releaseName: (name) => {
-            if (!isFirebaseInitialized) return;
-            remove(ref(database, `activeNames/${name.replace(/[.#$[\]]/g, '_').toLowerCase()}`)).catch(() => {});
+            if (!isInit) return;
+            remove(ref(db, `activeNames/${name.replace(/[.#$[\]]/g,'_').toLowerCase()}`)).catch(() => {});
         },
-        sendNameRequest: (requestId, requesterTemp, desiredName, targetOwnerId) => {
-            if (!isFirebaseInitialized) return Promise.reject();
-            return set(ref(database, `nameRequests/${requestId}`), { requesterTemp, desiredName, targetOwnerId, status: 'pending', timestamp: serverTimestamp() });
+        sendNameRequest: (rid, reqTemp, desired, targetOid) => {
+            if (!isInit) return Promise.reject();
+            return set(ref(db, `nameRequests/${rid}`), { requesterTemp: reqTemp, desiredName: desired, targetOwnerId: targetOid, status: 'pending', timestamp: serverTimestamp() });
         },
-        listenNameRequest: (requestId, callback) => {
-            if (!isFirebaseInitialized) return;
-            onValue(ref(database, `nameRequests/${requestId}`), (s) => { if (s.exists()) callback(s.val()); });
+        listenNameRequest: (rid, cb) => {
+            if (!isInit) return;
+            onValue(ref(db, `nameRequests/${rid}`), s => { if (s.exists()) cb(s.val()); });
         },
-        listenForIncomingNameRequests: (ownerId, callback) => {
-            if (!isFirebaseInitialized) return;
-            const seenRequests = new Set();
-            onValue(nameRequestsRef, (snapshot) => {
-                snapshot.forEach((child) => {
-                    const data = child.val();
-                    if (data && data.targetOwnerId === ownerId && data.status === 'pending' && !seenRequests.has(child.key)) {
-                        seenRequests.add(child.key);
-                        callback(child.key, data);
+        listenForIncomingNameRequests: (oid, cb) => {
+            if (!isInit) return;
+            const seen = new Set();
+            onValue(nameRequestsRef, snap => {
+                snap.forEach(child => {
+                    const d = child.val();
+                    if (d && d.targetOwnerId === oid && d.status === 'pending' && !seen.has(child.key)) {
+                        seen.add(child.key);
+                        cb(child.key, d);
                     }
                 });
             });
         },
-        respondToNameRequest: (requestId, approved) => {
-            if (!isFirebaseInitialized) return Promise.reject();
-            return set(ref(database, `nameRequests/${requestId}`), { status: approved ? 'approved' : 'denied', timestamp: serverTimestamp() });
+        respondToNameRequest: (rid, approved) => {
+            if (!isInit) return Promise.reject();
+            return set(ref(db, `nameRequests/${rid}`), { status: approved ? 'approved' : 'denied', timestamp: serverTimestamp() });
         },
-        cleanupNameRequest: (requestId) => {
-            if (!isFirebaseInitialized) return;
-            remove(ref(database, `nameRequests/${requestId}`)).catch(() => {});
+        cleanupNameRequest: (rid) => {
+            if (!isInit) return;
+            remove(ref(db, `nameRequests/${rid}`)).catch(() => {});
         }
     };
 
-    function updateChatStatus(status, text) {
+    if (isInit) setChatStatus('connected', '🟢 Connected — Real-time chat active');
+
+    function setChatStatus(cls, txt) {
         const el = document.getElementById('chatStatus');
-        if (el) { el.className = 'chat-status-bar ' + status; el.textContent = text; }
+        if (el) { el.className = 'chat-status ' + cls; el.textContent = txt; }
     }
-
-    if (isFirebaseInitialized) updateChatStatus('connected', '🟢 Connected — Real-time chat active');
-
-    const startTime = Date.now();
-    setInterval(() => {
-        const ms = Date.now() - startTime;
-        const h = Math.floor(ms / 3600000);
-        const m = Math.floor((ms % 3600000) / 60000);
-        const s = Math.floor((ms % 60000) / 1000);
-        const el = document.getElementById('uptimeDisplay');
-        if (el) el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    }, 1000);
-
-    window.updateActiveUsersCount = (count) => {
-        const el = document.getElementById('usersActive');
-        if (el) el.textContent = count;
-    };
 </script>
 
 <script>
-    const EMOJI_SHORTCUTS = {
+    const EMOJI_MAP = {
         ':sob:':'😭',':cry:':'😢',':smile:':'😊',':laugh:':'😂',':lol:':'😂',
         ':rofl:':'🤣',':heart:':'❤️',':broken_heart:':'💔',':fire:':'🔥',
         ':100:':'💯',':thumbsup:':'👍',':thumbsdown:':'👎',':ok:':'👌',
@@ -1729,17 +1521,16 @@
         /\bk[i!1]+k[e3]/gi,/\bsp[i!1]+c/gi,/\bch[i!1]+nk/gi,
         /\bw[e3]+tb[a@]+ck/gi,/\bcr[a@]+ck[e3]+r/gi,/\br[e3]+t[a@]+rd/gi,
         /\bc[o0]+[o0]+n/gi,/\bj[i!1]+gg[a@]+b[o0]+[o0]/gi,
-        /\bs[a@]+ndN[i!1]+gg[e3]+r/gi,/\btr[a@]+nn[yi]/gi,/\bsh[e3]m[a@]+l[e3]/gi,
         /\bn1gger/gi,/\bn1gg3r/gi,/\br3gg1n\b/gi,
         /[a-z0-9]nigger/gi,/[a-z0-9]n1gger/gi,/[a-z0-9]n1gg3r/gi,
     ];
 
     const SEARCH_ENGINES = {
-        google:'https://www.google.com/search?q=%s',
-        bing:'https://www.bing.com/search?q=%s',
-        ddg:'https://duckduckgo.com/?q=%s',
-        yahoo:'https://search.yahoo.com/search?p=%s',
-        brave:'https://search.brave.com/search?q=%s',
+        google: 'https://www.google.com/search?q=%s',
+        bing: 'https://www.bing.com/search?q=%s',
+        ddg: 'https://duckduckgo.com/?q=%s',
+        yahoo: 'https://search.yahoo.com/search?p=%s',
+        brave: 'https://search.brave.com/search?q=%s',
     };
 
     const SCRAMJET_URL = 'https://scramjet-app-production-a204.up.railway.app';
@@ -1760,20 +1551,24 @@
     };
 
     const games = [
+        {name:'Subway Surfers NY',icon:'https://playernation.graphicon.org/resources/semag/subway-surfers-ny/NewYorkIcon.png',url:'https://playernation.graphicon.org/resources/semag/subway-surfers-ny/index.html',category:'Runner'},
+        {name:'GTA Vice City',icon:'https://i.imgur.com/Zli9nme.png',url:'https://playernation.graphicon.org/resources/semag/gtavc/index.html',category:'Action'},
+        {name:'Doki Doki Literature Club',icon:'https://playernation.graphicon.org/resources/semag/ddlc/icons/web-icon.png',url:'https://playernation.graphicon.org/resources/semag/ddlc/index.html',category:'Visual Novel'},
+        {name:'DDLC Plus',icon:'https://i.imgur.com/b8DhT4P.jpeg',url:'https://playernation.graphicon.org/resources/semag/ddlcplus/index.html',category:'Visual Novel'},
         {name:'JHBETR',icon:IMAGES.jhbetr,url:'https://jhbetr.github.io/',category:'amazing game play it'},
         {name:'Minecraft',icon:IMAGES.minecraft,url:'/games/minecraft.html',category:'minecraft'},
         {name:'Geometry Dash',icon:IMAGES.gd,url:'/games/gdlite/index.html',category:'BROKEN AUDIO'},
         {name:'Lacey Games',icon:IMAGES.lacey,url:'/games/laceygames/index.html',category:'lacey games'},
-        {name:'ULTRAKILL',icon:IMAGES.ultrakill,url:'/games/ultrakill/index.html',category:'ultrakill fun'},
+        {name:'ULTRAKILL',icon:IMAGES.ultrakill,url:'/games/ultrakill/index.html',category:'ultrakill'},
         {name:'Five Nights at Epsteins',icon:IMAGES.epstein,url:'/games/epstein.html',category:'Survive Epstein'},
         {name:'FNaF 1',icon:IMAGES.fnaf1,url:'/games/fnaf.html',category:'Fnaf 1'},
         {name:'FNaF 2',icon:IMAGES.fnaf2,url:'/games/fnaf2.html',category:'fnaf 2'},
         {name:'FNaF 3',icon:IMAGES.fnaf3,url:'/games/fnaf3.html',category:'fnaf 3'},
-        {name:'Fnaf 4',icon:IMAGES.fnaf4,url:'/games/fnaf4.html',category:'fnaf 4'},
-        {name:'Fnaf 4 Halloween',icon:IMAGES.fnaf4h,url:'/games/fnaf4h.html',category:'fnaf 4 scarier'},
-        {name:'Fnaf Sister Location',icon:IMAGES.fnafsister,url:'/games/fnafsister.html',category:'scarier fnaf'},
-        {name:'Fnaf Pizza Game',icon:IMAGES.fnafpizza,url:'/games/fnafpizza.html',category:'pizza scary'},
-        {name:'Ultimate Custom Night',icon:IMAGES.fnafucn,url:'/games/fnafucn.html',category:'ultimate custom night'},
+        {name:'FNaF 4',icon:IMAGES.fnaf4,url:'/games/fnaf4.html',category:'fnaf 4'},
+        {name:'FNaF 4 Halloween',icon:IMAGES.fnaf4h,url:'/games/fnaf4h.html',category:'fnaf 4 scarier'},
+        {name:'Sister Location',icon:IMAGES.fnafsister,url:'/games/fnafsister.html',category:'scarier fnaf'},
+        {name:'FNaF Pizza',icon:IMAGES.fnafpizza,url:'/games/fnafpizza.html',category:'pizza scary'},
+        {name:'UCN',icon:IMAGES.fnafucn,url:'/games/fnafucn.html',category:'ultimate custom night'},
         {name:'Class of 09',icon:IMAGES.class,url:'/games/classof09.html',category:'very fun'},
         {name:'Undertale',icon:IMAGES.undertale,url:'/games/UNDERTALE.html',category:'fun game'},
         {name:'Hollow Knight',icon:IMAGES.hollow,url:'/games/hollowknight.html',category:'fire game'},
@@ -1789,240 +1584,35 @@
         {name:'YouTube',icon:'https://i.imgur.com/BqC7P4i.png',url:'https://youtube.com',category:'Video streaming'},
     ];
 
-    // App icon emojis for taskbar
-    const appIcons = {
-        proxyWindow: '🛡️',
-        gamesWindow: '🎮',
-        appsWindow: '📱',
-        chatWindow: '💬',
-        settingsWindow: '⚙️',
-        updateWindow: '🔔',
-    };
-
-    const themeNames = {
-        purple:'Purple',green:'Green',blue:'Blue',red:'Red',pink:'Pink',
-        spooky:'Spooky',sky:'Sky',yellow:'Yellow',galaxy:'Galaxy',blackwhite:'Slate'
-    };
-
     const themes = {
-        purple:{primary:'#7c4dff',secondary:'#9333ea',accent:'#a855f7',light:'#c084fc',glow:'rgba(120,70,220,0.4)',bg:'#0f1520',particleColor1:'rgba(124,77,255,0.8)',particleColor2:'rgba(168,85,247,0.6)'},
-        green:{primary:'#10b981',secondary:'#059669',accent:'#34d399',light:'#6ee7b7',glow:'rgba(16,185,129,0.4)',bg:'#0a1e16',particleColor1:'rgba(16,185,129,0.8)',particleColor2:'rgba(52,211,153,0.6)'},
-        blue:{primary:'#3b82f6',secondary:'#1d4ed8',accent:'#60a5fa',light:'#93c5fd',glow:'rgba(59,130,246,0.4)',bg:'#0a0f1e',particleColor1:'rgba(59,130,246,0.8)',particleColor2:'rgba(96,165,250,0.6)'},
-        red:{primary:'#ef4444',secondary:'#dc2626',accent:'#f87171',light:'#fca5a5',glow:'rgba(239,68,68,0.4)',bg:'#1a0a0a',particleColor1:'rgba(239,68,68,0.8)',particleColor2:'rgba(248,113,113,0.6)'},
-        pink:{primary:'#ec4899',secondary:'#db2777',accent:'#f472b6',light:'#f9a8d4',glow:'rgba(236,72,153,0.4)',bg:'#1a0a14',particleColor1:'rgba(236,72,153,0.8)',particleColor2:'rgba(244,114,182,0.6)'},
-        spooky:{primary:'#ff6b00',secondary:'#ff8c00',accent:'#ffa500',light:'#ffb347',glow:'rgba(255,107,0,0.4)',bg:'#150a04',particleColor1:'rgba(255,107,0,0.8)',particleColor2:'rgba(255,140,0,0.6)'},
-        sky:{primary:'#38bdf8',secondary:'#0ea5e9',accent:'#7dd3fc',light:'#bae6fd',glow:'rgba(56,189,248,0.4)',bg:'#0a1420',particleColor1:'rgba(56,189,248,0.8)',particleColor2:'rgba(125,211,252,0.6)'},
-        yellow:{primary:'#eab308',secondary:'#ca8a04',accent:'#facc15',light:'#fde047',glow:'rgba(234,179,8,0.4)',bg:'#161200',particleColor1:'rgba(234,179,8,0.8)',particleColor2:'rgba(250,204,21,0.6)'},
-        galaxy:{primary:'#9333ea',secondary:'#7c3aed',accent:'#a855f7',light:'#c084fc',glow:'rgba(147,51,234,0.4)',bg:'#060610',particleColor1:'rgba(147,51,234,0.8)',particleColor2:'rgba(168,85,247,0.6)'},
-        blackwhite:{primary:'#888888',secondary:'#666666',accent:'#aaaaaa',light:'#cccccc',glow:'rgba(136,136,136,0.4)',bg:'#0f1520',particleColor1:'rgba(136,136,136,0.8)',particleColor2:'rgba(170,170,170,0.6)'}
+        purple:{primary:'#7c4dff',bg:'#0d0d10',p1:'rgba(124,77,255,0.8)',p2:'rgba(168,85,247,0.6)'},
+        green:{primary:'#10b981',bg:'#040f0a',p1:'rgba(16,185,129,0.8)',p2:'rgba(52,211,153,0.6)'},
+        blue:{primary:'#3b82f6',bg:'#040a14',p1:'rgba(59,130,246,0.8)',p2:'rgba(96,165,250,0.6)'},
+        red:{primary:'#ef4444',bg:'#100606',p1:'rgba(239,68,68,0.8)',p2:'rgba(248,113,113,0.6)'},
+        pink:{primary:'#ec4899',bg:'#100610',p1:'rgba(236,72,153,0.8)',p2:'rgba(244,114,182,0.6)'},
+        spooky:{primary:'#ff6b00',bg:'#0e0600',p1:'rgba(255,107,0,0.8)',p2:'rgba(255,140,0,0.6)'},
+        sky:{primary:'#38bdf8',bg:'#04101a',p1:'rgba(56,189,248,0.8)',p2:'rgba(125,211,252,0.6)'},
+        yellow:{primary:'#eab308',bg:'#100d00',p1:'rgba(234,179,8,0.8)',p2:'rgba(250,204,21,0.6)'},
+        galaxy:{primary:'#9333ea',bg:'#050410',p1:'rgba(147,51,234,0.8)',p2:'rgba(168,85,247,0.6)'},
+        slate:{primary:'#888',bg:'#0d0d10',p1:'rgba(136,136,136,0.8)',p2:'rgba(170,170,170,0.6)'},
     };
 
-    let windowZIndex = 5000;
-    let openWindows = new Set();
-    let minimizedWindows = new Map();
-    let windowOrigSize = new Map();
-    let focusedWindow = null;
+    const themeNames = {purple:'Purple',green:'Green',blue:'Blue',red:'Red',pink:'Pink',spooky:'Spooky',sky:'Sky',yellow:'Yellow',galaxy:'Galaxy',slate:'Slate'};
 
-    function openWindow(id) {
-        const win = document.getElementById(id);
-        win.style.display = 'flex';
-        win.classList.remove('closing');
-        win.classList.add('visible');
-        setFocusedWindow(id);
-        openWindows.add(id);
-        updateTaskbar();
-        makeDraggable(win);
-        makeResizable(win);
-    }
+    let currentPanel = 'home';
 
-    function closeWindow(id) {
-        const win = document.getElementById(id);
-        win.classList.add('closing');
-        setTimeout(() => {
-            win.classList.remove('visible', 'closing');
-            win.style.display = 'none';
-        }, 180);
-        openWindows.delete(id);
-        minimizedWindows.delete(id);
-        if (focusedWindow === id) focusedWindow = null;
-        updateTaskbar();
-    }
+    function showPanel(id) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        const panel = document.getElementById('panel-' + id);
+        if (panel) panel.classList.add('active');
+        const nav = document.getElementById('nav-' + id);
+        if (nav) nav.classList.add('active');
+        currentPanel = id;
 
-    function minimizeWindow(id) {
-        const win = document.getElementById(id);
-        win.classList.add('closing');
-        setTimeout(() => {
-            win.classList.remove('visible', 'closing');
-            win.style.display = 'none';
-        }, 180);
-        minimizedWindows.set(id, true);
-        openWindows.add(id);
-        updateTaskbar();
-    }
-
-    function maximizeWindow(id) {
-        const win = document.getElementById(id);
-        if (win.dataset.maximized === 'true') {
-            const orig = windowOrigSize.get(id);
-            if (orig) {
-                win.style.cssText = orig;
-                win.dataset.maximized = 'false';
-            }
-        } else {
-            windowOrigSize.set(id, win.style.cssText);
-            win.style.position = 'fixed';
-            win.style.top = '0';
-            win.style.left = '0';
-            win.style.right = '0';
-            win.style.bottom = '52px';
-            win.style.width = '100vw';
-            win.style.height = 'calc(100vh - 52px)';
-            win.style.transform = 'none';
-            win.style.borderRadius = '0';
-            win.dataset.maximized = 'true';
+        if (id === 'chat') {
+            openChat();
         }
-    }
-
-    function setFocusedWindow(id) {
-        // Remove focus from previous
-        if (focusedWindow && focusedWindow !== id) {
-            const prev = document.getElementById(focusedWindow);
-            if (prev) prev.classList.remove('window-focused');
-        }
-        focusedWindow = id;
-        const win = document.getElementById(id);
-        if (win) {
-            win.style.zIndex = ++windowZIndex;
-            win.classList.add('window-focused');
-        }
-    }
-
-    function updateTaskbar() {
-        const bar = document.getElementById('taskbarApps');
-        bar.innerHTML = '';
-        openWindows.forEach(id => {
-            const win = document.getElementById(id);
-            if (!win) return;
-            const titleEl = win.querySelector('.window-title');
-            const title = titleEl ? titleEl.textContent : id;
-            const isMinimized = minimizedWindows.get(id);
-            const emoji = appIcons[id] || '🖥️';
-            const btn = document.createElement('button');
-            btn.className = 'taskbar-app-btn' + (!isMinimized && win.style.display !== 'none' ? ' active' : '');
-            btn.innerHTML = `<span class="tb-emoji">${emoji}</span><span class="tb-dot"></span>${title}`;
-            btn.onclick = () => {
-                if (isMinimized || win.style.display === 'none') {
-                    win.style.display = 'flex';
-                    win.classList.add('visible');
-                    minimizedWindows.delete(id);
-                    setFocusedWindow(id);
-                } else if (focusedWindow === id) {
-                    minimizeWindow(id);
-                    return;
-                } else {
-                    setFocusedWindow(id);
-                }
-                updateTaskbar();
-            };
-            bar.appendChild(btn);
-        });
-    }
-
-    function makeDraggable(win) {
-        const titlebar = win.querySelector('.window-titlebar');
-        if (!titlebar || titlebar._draggable) return;
-        titlebar._draggable = true;
-        let startX, startY, startLeft, startTop;
-
-        titlebar.addEventListener('mousedown', (e) => {
-            if (e.target.classList.contains('wc-btn') || e.target.classList.contains('wc-icon')) return;
-            if (win.dataset.maximized === 'true') return;
-            startX = e.clientX;
-            startY = e.clientY;
-            const rect = win.getBoundingClientRect();
-            startLeft = rect.left;
-            startTop = rect.top;
-            win.style.transform = 'none';
-            win.style.left = startLeft + 'px';
-            win.style.top = startTop + 'px';
-            setFocusedWindow(win.id);
-
-            function onMove(e) {
-                win.style.left = (startLeft + e.clientX - startX) + 'px';
-                win.style.top = Math.max(0, startTop + e.clientY - startY) + 'px';
-            }
-
-            function onUp() {
-                document.removeEventListener('mousemove', onMove);
-                document.removeEventListener('mouseup', onUp);
-            }
-
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('mouseup', onUp);
-        });
-
-        win.addEventListener('mousedown', () => setFocusedWindow(win.id));
-    }
-
-    // Window resizing
-    function makeResizable(win) {
-        if (win._resizable) return;
-        win._resizable = true;
-        win.querySelectorAll('.resize-handle').forEach(handle => {
-            handle.addEventListener('mousedown', (e) => {
-                if (win.dataset.maximized === 'true') return;
-                e.preventDefault();
-                e.stopPropagation();
-                const startX = e.clientX;
-                const startY = e.clientY;
-                const rect = win.getBoundingClientRect();
-                const startW = rect.width;
-                const startH = rect.height;
-                const startL = rect.left;
-                const startT = rect.top;
-                win.style.transform = 'none';
-                win.style.left = startL + 'px';
-                win.style.top = startT + 'px';
-                const classes = handle.className;
-
-                function onMove(e) {
-                    const dx = e.clientX - startX;
-                    const dy = e.clientY - startY;
-                    if (classes.includes('resize-e') || classes.includes('resize-se') || classes.includes('resize-ne'))
-                        win.style.width = Math.max(300, startW + dx) + 'px';
-                    if (classes.includes('resize-s') || classes.includes('resize-se') || classes.includes('resize-sw'))
-                        win.style.height = Math.max(200, startH + dy) + 'px';
-                    if (classes.includes('resize-w') || classes.includes('resize-sw') || classes.includes('resize-nw')) {
-                        const newW = Math.max(300, startW - dx);
-                        win.style.width = newW + 'px';
-                        win.style.left = (startL + startW - newW) + 'px';
-                    }
-                    if (classes.includes('resize-n') || classes.includes('resize-ne') || classes.includes('resize-nw')) {
-                        const newH = Math.max(200, startH - dy);
-                        win.style.height = newH + 'px';
-                        win.style.top = (startT + startH - newH) + 'px';
-                    }
-                }
-
-                function onUp() {
-                    document.removeEventListener('mousemove', onMove);
-                    document.removeEventListener('mouseup', onUp);
-                }
-
-                document.addEventListener('mousemove', onMove);
-                document.addEventListener('mouseup', onUp);
-            });
-        });
-    }
-
-    document.querySelectorAll('.os-window').forEach(win => {
-        makeDraggable(win);
-        makeResizable(win);
-    });
-
-    function selectIcon(el) {
-        document.querySelectorAll('.app-icon').forEach(i => i.classList.remove('focused'));
-        el.classList.add('focused');
     }
 
     function updateTime() {
@@ -2031,149 +1621,49 @@
         const m = now.getMinutes();
         const ampm = h >= 12 ? 'PM' : 'AM';
         h = h % 12 || 12;
-        document.getElementById('timeDisplay').textContent = h + ':' + String(m).padStart(2,'0') + ' ' + ampm;
+        document.getElementById('timeDisplay').textContent = `${h}:${String(m).padStart(2,'0')} ${ampm}`;
     }
     updateTime();
     setInterval(updateTime, 1000);
 
-    function setDesktopSubtitle() {
-        const hour = new Date().getHours();
+    function setHomeSub() {
+        const h = new Date().getHours();
         let phrases;
-        if (hour >= 0 && hour < 5) phrases = ["you're up late", "hi night owl", "go to sleep.", "why are you awake"];
-        else if (hour >= 7 && hour < 9) phrases = ["you're up early", "goodmorning", "wow its morning"];
-        else phrases = ["browse games", "desritory", "Have fun!", "Welcome to Freedom.", "Haiiiii :333"];
-        document.getElementById('desktopSubtitle').textContent = phrases[Math.floor(Math.random() * phrases.length)];
+        if (h >= 0 && h < 5) phrases = ["you're up late", "hi night owl", "go to sleep.", "why are you awake"];
+        else if (h >= 7 && h < 9) phrases = ["you're up early", "good morning", "wow it's morning"];
+        else phrases = ["browse games", "have fun!", "welcome to freedom.", "haiiiii :333"];
+        document.getElementById('homeSub').textContent = phrases[Math.floor(Math.random() * phrases.length)];
     }
-    setDesktopSubtitle();
-
-    let trayOpen = false;
-    function toggleSystemTray() {
-        trayOpen = !trayOpen;
-        document.getElementById('systemTray').classList.toggle('visible', trayOpen);
-    }
-
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('#systemTray') && !e.target.closest('.taskbar-start')) {
-            trayOpen = false;
-            document.getElementById('systemTray').classList.remove('visible');
-        }
-    });
-
-    // Theme swatches
-    function buildThemeSwatches() {
-        const container = document.getElementById('themeSwatches');
-        container.innerHTML = '';
-        const saved = localStorage.getItem('desritory-theme') || 'blackwhite';
-        Object.entries(themes).forEach(([key, theme]) => {
-            const el = document.createElement('div');
-            el.className = 'theme-swatch' + (key === saved ? ' active' : '');
-            el.dataset.theme = key;
-            el.innerHTML = `<div class="swatch-circle" style="background:${theme.primary};box-shadow:0 0 10px ${theme.glow};"></div><span class="swatch-label">${themeNames[key]}</span>`;
-            el.onclick = () => {
-                document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
-                el.classList.add('active');
-                changeTheme(key);
-            };
-            container.appendChild(el);
-        });
-    }
-
-    function changeTheme(colorName) {
-        const theme = themes[colorName];
-        if (!theme) return;
-        localStorage.setItem('desritory-theme', colorName);
-        document.getElementById('currentTheme').textContent = themeNames[colorName];
-        document.body.style.background = theme.bg;
-        document.documentElement.style.setProperty('--primary', theme.primary);
-        document.documentElement.style.setProperty('--secondary', theme.secondary);
-        document.documentElement.style.setProperty('--accent', theme.accent);
-        document.documentElement.style.setProperty('--light', theme.light);
-        document.documentElement.style.setProperty('--glow', theme.glow);
-        document.documentElement.style.setProperty('--bg', theme.bg);
-        document.documentElement.style.setProperty('--particle-color-1', theme.particleColor1);
-        document.documentElement.style.setProperty('--particle-color-2', theme.particleColor2);
-        // Update active swatch
-        document.querySelectorAll('.theme-swatch').forEach(s => {
-            s.classList.toggle('active', s.dataset.theme === colorName);
-        });
-    }
-
-    function setSearchEngine(key, btn) {
-        localStorage.setItem('desritory-searchengine', key);
-        document.querySelectorAll('.se-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    }
-
-    function getSearchEngineUrl() {
-        return SEARCH_ENGINES[localStorage.getItem('desritory-searchengine') || 'google'] || SEARCH_ENGINES.google;
-    }
-
-    (function() {
-        const saved = localStorage.getItem('desritory-searchengine') || 'google';
-        const btn = document.getElementById('se-' + saved);
-        if (btn) { document.querySelectorAll('.se-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
-    })();
-
-    function toggleStealthMode() {
-        const current = localStorage.getItem('desritory-stealth') === 'true';
-        const newVal = !current;
-        localStorage.setItem('desritory-stealth', newVal);
-        applyStealthMode(newVal);
-    }
-
-    function applyStealthMode(enabled) {
-        const stealthStatus = document.getElementById('stealthStatus');
-        if (enabled) {
-            document.title = 'Google';
-            const favicon = document.querySelector("link[rel*='icon']") || document.createElement('link');
-            favicon.type = 'image/x-icon'; favicon.rel = 'shortcut icon';
-            favicon.href = 'https://www.google.com/favicon.ico';
-            document.getElementsByTagName('head')[0].appendChild(favicon);
-            if (stealthStatus) stealthStatus.textContent = 'Enabled';
-        } else {
-            document.title = 'Desritory V3';
-            const favicon = document.querySelector("link[rel*='icon']");
-            if (favicon) favicon.href = '';
-            if (stealthStatus) stealthStatus.textContent = 'Disabled';
-        }
-    }
+    setHomeSub();
 
     function launchProxy() {
-        const input = document.getElementById('proxySearchInput').value.trim();
-        if (!input) return;
-        launchProxyUrl(input);
+        const inp = document.getElementById('proxyInput');
+        if (inp) launchProxyUrl(inp.value.trim());
     }
 
     function launchProxyUrl(url) {
+        if (!url) return;
         let finalUrl = url;
         if (!url.startsWith('http://') && !url.startsWith('https://')) {
             if (url.includes('.') && !url.includes(' ')) finalUrl = 'https://' + url;
-            else finalUrl = getSearchEngineUrl().replace('%s', encodeURIComponent(url));
+            else finalUrl = getSE().replace('%s', encodeURIComponent(url));
         }
         const iframe = document.getElementById('proxyIframe');
         iframe.src = `${SCRAMJET_URL}#${encodeURIComponent(finalUrl)}`;
         iframe.style.display = 'block';
         document.getElementById('proxyHome').style.display = 'none';
-        openWindow('proxyWindow');
+        showPanel('proxy');
     }
 
-    function initProxy() {
-        const iframe = document.getElementById('proxyIframe');
-        iframe.src = SCRAMJET_URL;
-        iframe.style.display = 'block';
-        document.getElementById('proxyHome').style.display = 'none';
-    }
+    document.getElementById('proxyInput').addEventListener('keypress', e => { if (e.key === 'Enter') launchProxy(); });
 
-    function handleProxySearch(e) { if (e.key === 'Enter') launchProxy(); }
+    const proxyIframe = document.getElementById('proxyIframe');
+    proxyIframe.src = SCRAMJET_URL;
+    proxyIframe.style.display = 'block';
+    document.getElementById('proxyHome').style.display = 'none';
 
-    function openGamesWindow() {
-        renderGames();
-        openWindow('gamesWindow');
-    }
-
-    function openAppsWindow() {
-        renderApps();
-        openWindow('appsWindow');
+    function getSE() {
+        return SEARCH_ENGINES[localStorage.getItem('desritory-se') || 'google'] || SEARCH_ENGINES.google;
     }
 
     function renderGames(filter = '') {
@@ -2183,7 +1673,12 @@
             .forEach(game => {
                 const card = document.createElement('div');
                 card.className = 'game-card';
-                card.innerHTML = `<img class="game-card-icon" src="${game.icon}" alt="${game.name}"><div class="game-card-info"><div class="game-card-name">${game.name}</div><div class="game-card-cat">${game.category}</div></div>`;
+                card.innerHTML = `
+                    <img class="game-card-thumb" src="${game.icon}" alt="${game.name}" onerror="this.style.background='var(--bg3)'">
+                    <div class="game-card-info">
+                        <div class="game-card-name">${game.name}</div>
+                        <div class="game-card-cat">${game.category}</div>
+                    </div>`;
                 card.onclick = () => openFullscreen(game.name, game.url);
                 list.appendChild(card);
             });
@@ -2194,29 +1689,33 @@
         list.innerHTML = '';
         const filtered = apps.filter(a => a.name.toLowerCase().includes(filter.toLowerCase()));
         if (!filtered.length) {
-            list.innerHTML = '<div style="padding:40px;text-align:center;color:rgba(255,255,255,0.4);">No apps yet. Check back soon!</div>';
+            list.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-faint);">No apps yet.</div>';
             return;
         }
         filtered.forEach(app => {
             const card = document.createElement('div');
             card.className = 'game-card';
-            card.innerHTML = `<img class="game-card-icon" src="${app.icon}" alt="${app.name}"><div class="game-card-info"><div class="game-card-name">${app.name}</div><div class="game-card-cat">${app.category}</div></div>`;
+            card.innerHTML = `
+                <img class="game-card-thumb" src="${app.icon}" alt="${app.name}" onerror="this.style.background='var(--bg3)'">
+                <div class="game-card-info">
+                    <div class="game-card-name">${app.name}</div>
+                    <div class="game-card-cat">${app.category}</div>
+                </div>`;
             card.onclick = () => openFullscreen(app.name, app.url);
             list.appendChild(card);
         });
     }
 
     function openFullscreen(name, url) {
-        const loadingScreen = document.getElementById('loadingScreen');
-        const isSpecialLoad = name === 'Games' && Math.random() < 1/20;
-        document.getElementById('loadingText').textContent = isSpecialLoad ? 'probably fine' : `Loading ${name}...`;
-        loadingScreen.classList.add('active');
+        const ls = document.getElementById('loadingScreen');
+        document.getElementById('loadingText').textContent = `Loading ${name}...`;
+        ls.classList.add('on');
         setTimeout(() => {
-            loadingScreen.classList.remove('active');
-            document.getElementById('fullscreenTitle').textContent = name;
+            ls.classList.remove('on');
+            document.getElementById('fsTitle').textContent = name;
             document.getElementById('fullscreenIframe').src = url;
             document.getElementById('fullscreenOverlay').classList.add('active');
-        }, isSpecialLoad ? 3000 : 600);
+        }, 600);
     }
 
     function closeFullscreen() {
@@ -2224,87 +1723,226 @@
         document.getElementById('fullscreenIframe').src = '';
     }
 
-    // ---- CHAT ----
-    let username = localStorage.getItem('desritory-username') || '';
-    let myOwnerId = localStorage.getItem('desritory-ownerid') || '';
-    let isChatOpen = false;
-    let messageIds = new Set();
-    let messagesCache = {};
-    let replyingToMessage = null;
-    let selectedImageBase64 = null;
-    let typingTimeout = null;
-    let currentlyTypingUsers = new Set();
-    let unreadMessageCount = 0;
-    let lastReadTimestamp = Date.now();
-    let messageHistory = [];
-    let spamWarningCount = 0;
-    let spamWarningTimeout = null;
-    let slurTimeoutId = null;
-    let slurTimerInterval = null;
-    let nameKeepAliveInterval = null;
-    let pendingNameRequestId = null;
-    let pendingNameRequestResolve = null;
-    let chatListenersAttached = false;
-    let bufferedMessages = [];
-    let pendingIncomingRequestId = null;
-
-    if (!myOwnerId) {
-        myOwnerId = 'owner_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('desritory-ownerid', myOwnerId);
+    function toggleStealth() {
+        const cur = localStorage.getItem('desritory-stealth') === 'true';
+        const nv = !cur;
+        localStorage.setItem('desritory-stealth', nv);
+        applyStealth(nv);
+        const nav = document.getElementById('nav-stealth');
+        nav.classList.toggle('stealth-on', nv);
     }
 
-    function updateNotificationBadge() {
-        const badge = document.getElementById('chatNotificationBadge');
-        if (unreadMessageCount > 0) {
-            badge.textContent = unreadMessageCount > 99 ? '99+' : unreadMessageCount;
-            badge.classList.add('active');
+    function applyStealth(on) {
+        const bar = document.getElementById('stealthStatusBar');
+        if (on) {
+            document.title = 'Google';
+            let fav = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            fav.rel = 'shortcut icon'; fav.href = 'https://www.google.com/favicon.ico';
+            document.head.appendChild(fav);
+            if (bar) bar.style.display = 'flex';
         } else {
-            badge.classList.remove('active');
+            document.title = 'Desritory V3';
+            const fav = document.querySelector("link[rel*='icon']");
+            if (fav) fav.href = '';
+            if (bar) bar.style.display = 'none';
         }
     }
 
-    function updateUsernameDisplay() {
-        const el = document.getElementById('currentUsernameDisplay');
-        if (el && username) el.textContent = `(${username})`;
+    function buildThemeGrid() {
+        const grid = document.getElementById('themeGrid');
+        grid.innerHTML = '';
+        const saved = localStorage.getItem('desritory-theme') || 'slate';
+        Object.entries(themes).forEach(([key, theme]) => {
+            const el = document.createElement('div');
+            el.className = 'theme-swatch' + (key === saved ? ' active' : '');
+            el.dataset.theme = key;
+            el.innerHTML = `<div class="swatch-dot" style="background:${theme.primary};box-shadow:0 0 8px ${theme.primary}66;"></div><div class="swatch-name">${themeNames[key]}</div>`;
+            el.onclick = () => {
+                document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+                el.classList.add('active');
+                applyTheme(key);
+            };
+            grid.appendChild(el);
+        });
     }
 
-    async function resolveUsername(desiredName) {
-        if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return desiredName;
+    function applyTheme(key) {
+        const t = themes[key];
+        if (!t) return;
+        localStorage.setItem('desritory-theme', key);
+        document.documentElement.style.setProperty('--primary', t.primary);
+        document.documentElement.style.setProperty('--primary-dim', t.primary + '20');
+        document.documentElement.style.setProperty('--primary-glow', t.primary + '44');
+        document.body.style.background = t.bg;
+        document.documentElement.style.setProperty('--bg', t.bg);
+        document.querySelectorAll('.theme-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === key));
+    }
+
+    function setSE(key, btn) {
+        localStorage.setItem('desritory-se', key);
+        document.querySelectorAll('.se-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function toggleCloak() {
+        const t = document.getElementById('cloakToggle');
+        t.classList.toggle('on');
+        const on = t.classList.contains('on');
+        localStorage.setItem('desritory-cloak', on);
+        if (on) { document.title = 'Google'; } else { document.title = 'Desritory V3'; }
+    }
+
+    function togglePanic() {
+        const t = document.getElementById('panicToggle');
+        t.classList.toggle('on');
+        localStorage.setItem('desritory-panic', t.classList.contains('on'));
+    }
+
+    function toggleParticles() {
+        const t = document.getElementById('particlesToggle');
+        t.classList.toggle('on');
+        const on = t.classList.contains('on');
+        localStorage.setItem('desritory-particles', on);
+        document.getElementById('bgCanvas').style.display = on ? 'block' : 'none';
+    }
+
+    function toggleSounds() {
+        const t = document.getElementById('soundToggle');
+        t.classList.toggle('on');
+        localStorage.setItem('desritory-sounds', t.classList.contains('on'));
+    }
+
+    function changeUsername() {
+        if (username && window.firebaseChat && window.firebaseChat.isInitialized()) window.firebaseChat.releaseName(username);
+        username = '';
+        localStorage.removeItem('desritory-username');
+        updateUsernameDisplay();
+        showPanel('chat');
+    }
+
+    function updateUsernameDisplay() {
+        const el = document.getElementById('usernameDisplay');
+        if (el) el.textContent = username ? `(${username})` : '';
+        const label = document.getElementById('chatUserLabel');
+        if (label) label.textContent = username ? `@${username}` : '';
+    }
+
+    let username = localStorage.getItem('desritory-username') || '';
+    let myOwnerId = localStorage.getItem('desritory-ownerid') || ('owner_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
+    localStorage.setItem('desritory-ownerid', myOwnerId);
+
+    let isChatOpen = false, messageIds = new Set(), messagesCache = {};
+    let replyingToMessage = null, selectedImageBase64 = null;
+    let typingTimeout = null, currentlyTypingUsers = new Set();
+    let unreadCount = 0, lastReadTimestamp = Date.now();
+    let msgHistory = [], spamWarnCount = 0, spamWarnTimeout = null;
+    let slurTO = null, slurInterval = null;
+    let nameKeepAlive = null, pendingNameRequestResolve = null, pendingNameRequestId = null;
+    let chatListenersAttached = false, bufferedMessages = [], pendingIncomingId = null;
+
+    function openChat() {
+        isChatOpen = true;
+        unreadCount = 0;
+        lastReadTimestamp = Date.now();
+        updateBadge();
+        updateUsernameDisplay();
+
+        if (!username) {
+            document.getElementById('chatSetup').style.display = 'flex';
+            document.getElementById('chatBody').style.display = 'none';
+            setTimeout(() => document.getElementById('chatSetupInput')?.focus(), 150);
+        } else {
+            document.getElementById('chatSetup').style.display = 'none';
+            document.getElementById('chatBody').style.display = 'flex';
+            initChatListeners();
+        }
+    }
+
+    function submitUsername() {
+        let desired = document.getElementById('chatSetupInput').value.trim() || ('Anon' + Math.floor(Math.random() * 1000));
+        if (window.firebaseChat && window.firebaseChat.isInitialized()) {
+            resolveUsername(desired).then(resolved => {
+                username = resolved;
+                localStorage.setItem('desritory-username', username);
+                updateUsernameDisplay();
+                startNameKeepAlive();
+                listenForNameRequests();
+                document.getElementById('chatSetup').style.display = 'none';
+                document.getElementById('chatBody').style.display = 'flex';
+                initChatListeners();
+            }).catch(() => {
+                username = desired;
+                localStorage.setItem('desritory-username', username);
+                updateUsernameDisplay();
+                document.getElementById('chatSetup').style.display = 'none';
+                document.getElementById('chatBody').style.display = 'flex';
+                initChatListeners();
+            });
+        } else {
+            username = desired;
+            localStorage.setItem('desritory-username', username);
+            updateUsernameDisplay();
+            document.getElementById('chatSetup').style.display = 'none';
+            document.getElementById('chatBody').style.display = 'flex';
+            initChatListeners();
+        }
+    }
+
+    function initChatListeners() {
+        if (chatListenersAttached) { flushBuffered(); return; }
+        chatListenersAttached = true;
+        if (window.firebaseChat && window.firebaseChat.isInitialized()) {
+            window.firebaseChat.listenToMessages(msg => {
+                bufferedMessages.push(msg);
+                if (isChatOpen) flushBuffered();
+            });
+            window.firebaseChat.listenToTyping(handleTypingUpdate);
+        }
+        setTimeout(() => { const m = document.getElementById('chatMessages'); if (m) m.scrollTop = m.scrollHeight; }, 100);
+    }
+
+    function flushBuffered() {
+        const msgs = bufferedMessages.slice(); bufferedMessages = [];
+        msgs.forEach(displayMessage);
+    }
+
+    async function resolveUsername(name) {
+        if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return name;
         let result;
-        try { result = await window.firebaseChat.checkNameAvailable(desiredName); } catch (e) { return desiredName; }
-        if (result.available) { await window.firebaseChat.claimName(desiredName, myOwnerId); return desiredName; }
-        if (result.ownerId === myOwnerId) return desiredName;
-        return new Promise((resolve) => {
+        try { result = await window.firebaseChat.checkNameAvailable(name); } catch { return name; }
+        if (result.available) { await window.firebaseChat.claimName(name, myOwnerId); return name; }
+        if (result.ownerId === myOwnerId) return name;
+        return new Promise(resolve => {
             pendingNameRequestResolve = resolve;
-            const requestId = 'req_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-            pendingNameRequestId = requestId;
-            document.getElementById('nameWaitingOverlay').classList.add('active');
-            document.getElementById('nameWaitingText').textContent = `Waiting for the current holder of "${desiredName}" to respond...`;
-            window.firebaseChat.sendNameRequest(requestId, myOwnerId, desiredName, result.ownerId);
-            window.firebaseChat.listenNameRequest(requestId, (data) => {
+            const rid = 'req_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+            pendingNameRequestId = rid;
+            document.getElementById('nameWaitingModal').classList.add('on');
+            document.getElementById('nameWaitingText').textContent = `Waiting for holder of "${name}" to respond...`;
+            window.firebaseChat.sendNameRequest(rid, myOwnerId, name, result.ownerId);
+            window.firebaseChat.listenNameRequest(rid, data => {
                 if (data.status === 'approved') {
-                    document.getElementById('nameWaitingOverlay').classList.remove('active');
-                    window.firebaseChat.claimName(desiredName, myOwnerId);
-                    window.firebaseChat.cleanupNameRequest(requestId);
+                    document.getElementById('nameWaitingModal').classList.remove('on');
+                    window.firebaseChat.claimName(name, myOwnerId);
+                    window.firebaseChat.cleanupNameRequest(rid);
                     pendingNameRequestId = null; pendingNameRequestResolve = null;
-                    resolve(desiredName);
+                    resolve(name);
                 } else if (data.status === 'denied') {
-                    document.getElementById('nameWaitingOverlay').classList.remove('active');
-                    window.firebaseChat.cleanupNameRequest(requestId);
+                    document.getElementById('nameWaitingModal').classList.remove('on');
+                    window.firebaseChat.cleanupNameRequest(rid);
                     pendingNameRequestId = null; pendingNameRequestResolve = null;
-                    const alt = desiredName + Math.floor(Math.random() * 9000 + 1000);
-                    alert(`Request denied. You'll be assigned "${alt}" instead.`);
+                    const alt = name + Math.floor(Math.random() * 9000 + 1000);
+                    alert(`Denied. You'll be assigned "${alt}".`);
                     window.firebaseChat.claimName(alt, myOwnerId);
                     resolve(alt);
                 }
             });
             setTimeout(() => {
                 if (pendingNameRequestResolve) {
-                    document.getElementById('nameWaitingOverlay').classList.remove('active');
-                    window.firebaseChat.cleanupNameRequest(requestId);
+                    document.getElementById('nameWaitingModal').classList.remove('on');
+                    window.firebaseChat.cleanupNameRequest(rid);
                     pendingNameRequestId = null; pendingNameRequestResolve = null;
-                    const alt = desiredName + Math.floor(Math.random() * 9000 + 1000);
-                    alert(`No response. You'll be assigned "${alt}" instead.`);
+                    const alt = name + Math.floor(Math.random() * 9000 + 1000);
+                    alert(`No response. You'll be assigned "${alt}".`);
                     window.firebaseChat.claimName(alt, myOwnerId);
                     resolve(alt);
                 }
@@ -2312,142 +1950,90 @@
         });
     }
 
+    function startNameKeepAlive() {
+        if (nameKeepAlive) clearInterval(nameKeepAlive);
+        nameKeepAlive = setInterval(() => {
+            if (window.firebaseChat && window.firebaseChat.isInitialized() && username)
+                window.firebaseChat.keepNameAlive(username, myOwnerId);
+        }, 60000);
+    }
+
     function listenForNameRequests() {
         if (!window.firebaseChat || !window.firebaseChat.isInitialized()) return;
-        window.firebaseChat.listenForIncomingNameRequests(myOwnerId, (requestId, data) => {
-            if (pendingIncomingRequestId) return;
-            pendingIncomingRequestId = requestId;
+        window.firebaseChat.listenForIncomingNameRequests(myOwnerId, (rid, data) => {
+            if (pendingIncomingId) return;
+            pendingIncomingId = rid;
             document.getElementById('nameRequesterDisplay').textContent = 'Someone';
             document.getElementById('nameRequestedDisplay').textContent = data.desiredName;
-            document.getElementById('nameRequestModal').classList.add('active');
+            document.getElementById('nameRequestModal').classList.add('on');
         });
     }
 
     function respondToNameRequest(approved) {
-        document.getElementById('nameRequestModal').classList.remove('active');
-        if (pendingIncomingRequestId) {
-            window.firebaseChat.respondToNameRequest(pendingIncomingRequestId, approved);
-            pendingIncomingRequestId = null;
+        document.getElementById('nameRequestModal').classList.remove('on');
+        if (pendingIncomingId) { window.firebaseChat.respondToNameRequest(pendingIncomingId, approved); pendingIncomingId = null; }
+    }
+
+    function updateBadge() {
+        const badge = document.getElementById('chatBadge');
+        if (unreadCount > 0) { badge.textContent = unreadCount > 99 ? '99+' : unreadCount; badge.classList.add('show'); }
+        else badge.classList.remove('show');
+    }
+
+    function displayMessage(message) {
+        if (messageIds.has(message.id)) return;
+        messageIds.add(message.id);
+        messagesCache[message.id] = message;
+        if (!isChatOpen && message.username !== username && message.timestamp > lastReadTimestamp) {
+            unreadCount++;
+            updateBadge();
+            playNotif();
+            return;
         }
+        if (!isChatOpen) return;
+        const area = document.getElementById('chatMessages');
+        if (!area) return;
+        const shouldScroll = area.scrollHeight - area.scrollTop - area.clientHeight < 100;
+        const div = document.createElement('div');
+        div.className = 'chat-msg';
+        let replyHtml = '';
+        if (message.replyTo) replyHtml = `<div class="msg-reply-bar"><strong>@${esc(message.replyTo.username)}</strong>: ${esc((message.replyTo.text||'').substring(0,50))}</div>`;
+        let imgHtml = '';
+        if (message.imageUrl) imgHtml = `<img src="${message.imageUrl}" class="msg-image" onclick="window.open('${message.imageUrl}','_blank')">`;
+        div.innerHTML = `
+            <div class="msg-actions"><button class="msg-reply-btn" onclick="replyTo('${message.id}','${esc(message.username)}')">↩ Reply</button></div>
+            ${replyHtml}
+            <div class="msg-username">${esc(message.username)}</div>
+            <div class="msg-text">${esc(message.text||'')}</div>
+            ${imgHtml}
+            <div class="msg-time">${fmtTime(message.timestamp)}</div>
+        `;
+        area.appendChild(div);
+        while (area.children.length > 100) area.removeChild(area.firstChild);
+        if (shouldScroll) area.scrollTop = area.scrollHeight;
     }
 
-    function openChat() {
-        openWindow('chatWindow');
-        // Always show setup screen if no username yet
-        if (!username) {
-            document.getElementById('chatSetupScreen').style.display = 'flex';
-            document.getElementById('chatBody').style.display = 'none';
-            setTimeout(() => {
-                const inp = document.getElementById('chatSetupInput');
-                if (inp) inp.focus();
-            }, 150);
-        } else {
-            document.getElementById('chatSetupScreen').style.display = 'none';
-            document.getElementById('chatBody').style.display = 'flex';
-            openChatWindow();
-        }
+    function replyTo(id, user) {
+        replyingToMessage = { id, username: user };
+        document.getElementById('replyBar').classList.add('on');
+        document.getElementById('replyToUser').textContent = user;
+        document.getElementById('chatInput').focus();
     }
 
-    function handleSetupKeyPress(e) {
-        if (e.key === 'Enter') submitUsername();
-    }
-
-    function submitUsername() {
-        let desiredName = document.getElementById('chatSetupInput').value.trim();
-        if (!desiredName) desiredName = 'Anonymous' + Math.floor(Math.random() * 1000);
-
-        if (window.firebaseChat && window.firebaseChat.isInitialized()) {
-            resolveUsername(desiredName).then(resolvedName => {
-                username = resolvedName;
-                localStorage.setItem('desritory-username', username);
-                updateUsernameDisplay();
-                if (nameKeepAliveInterval) clearInterval(nameKeepAliveInterval);
-                nameKeepAliveInterval = setInterval(() => {
-                    if (window.firebaseChat && window.firebaseChat.isInitialized() && username)
-                        window.firebaseChat.keepNameAlive(username, myOwnerId);
-                }, 60000);
-                listenForNameRequests();
-                document.getElementById('chatSetupScreen').style.display = 'none';
-                document.getElementById('chatBody').style.display = 'flex';
-                openChatWindow();
-            }).catch(() => {
-                username = desiredName;
-                localStorage.setItem('desritory-username', username);
-                updateUsernameDisplay();
-                document.getElementById('chatSetupScreen').style.display = 'none';
-                document.getElementById('chatBody').style.display = 'flex';
-                openChatWindow();
-            });
-        } else {
-            username = desiredName;
-            localStorage.setItem('desritory-username', username);
-            updateUsernameDisplay();
-            document.getElementById('chatSetupScreen').style.display = 'none';
-            document.getElementById('chatBody').style.display = 'flex';
-            openChatWindow();
-        }
-    }
-
-    function changeUsername() {
-        // Reset username and reopen chat setup
-        if (username && window.firebaseChat && window.firebaseChat.isInitialized()) {
-            window.firebaseChat.releaseName(username);
-        }
-        username = '';
-        localStorage.removeItem('desritory-username');
-        updateUsernameDisplay();
-        closeWindow('settingsWindow');
-        openChat();
-    }
-
-    function openChatWindow() {
-        isChatOpen = true;
-        unreadMessageCount = 0;
-        lastReadTimestamp = Date.now();
-        updateNotificationBadge();
-        if (window.firebaseChat && window.firebaseChat.isInitialized()) {
-            if (!chatListenersAttached) {
-                chatListenersAttached = true;
-                window.firebaseChat.listenToMessages((message) => {
-                    bufferedMessages.push(message);
-                    if (isChatOpen) flushBufferedMessages();
-                });
-                window.firebaseChat.listenToTyping(handleTypingUpdate);
-            } else {
-                flushBufferedMessages();
-            }
-        }
-        setTimeout(() => {
-            const msgs = document.getElementById('chatMessages');
-            if (msgs) msgs.scrollTop = msgs.scrollHeight;
-        }, 100);
-    }
-
-    function flushBufferedMessages() {
-        const toFlush = bufferedMessages.slice();
-        bufferedMessages = [];
-        for (const msg of toFlush) displayMessage(msg);
-    }
-
-    function closeChat() {
-        isChatOpen = false;
-        closeWindow('chatWindow');
-        cancelReply(); removeImage();
-        lastReadTimestamp = Date.now();
-        if (window.firebaseChat && window.firebaseChat.isInitialized() && username)
-            window.firebaseChat.setTyping(username, false);
+    function cancelReply() {
+        replyingToMessage = null;
+        document.getElementById('replyBar').classList.remove('on');
     }
 
     function handleImageUpload(event) {
         const file = event.target.files[0];
         if (file && file.type.startsWith('image/')) {
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = e => {
                 selectedImageBase64 = e.target.result;
-                const preview = document.getElementById('imagePreview');
-                preview.src = selectedImageBase64;
-                preview.classList.add('active');
-                document.querySelector('.remove-image').style.display = 'flex';
+                const p = document.getElementById('imgPreview');
+                p.src = selectedImageBase64; p.classList.add('on');
+                document.getElementById('removeImgBtn').style.display = 'flex';
             };
             reader.readAsDataURL(file);
         }
@@ -2455,30 +2041,17 @@
 
     function removeImage() {
         selectedImageBase64 = null;
-        const preview = document.getElementById('imagePreview');
-        preview.classList.remove('active'); preview.src = '';
-        const rmBtn = document.querySelector('.remove-image');
-        if (rmBtn) rmBtn.style.display = 'none';
+        const p = document.getElementById('imgPreview');
+        p.classList.remove('on'); p.src = '';
+        document.getElementById('removeImgBtn').style.display = 'none';
         document.getElementById('imageInput').value = '';
-    }
-
-    function replyToMessage(messageId, msgUsername) {
-        replyingToMessage = { id: messageId, username: msgUsername };
-        document.getElementById('replyingToBar').classList.add('active');
-        document.getElementById('replyingToUser').textContent = msgUsername;
-        document.getElementById('chatInput').focus();
-    }
-
-    function cancelReply() {
-        replyingToMessage = null;
-        document.getElementById('replyingToBar').classList.remove('active');
     }
 
     function handleTyping() {
         if (!window.firebaseChat || !window.firebaseChat.isInitialized() || !username) return;
-        const input = document.getElementById('chatInput');
+        const inp = document.getElementById('chatInput');
         if (typingTimeout) clearTimeout(typingTimeout);
-        if (input.value.trim().length > 0) {
+        if (inp.value.trim().length > 0) {
             window.firebaseChat.setTyping(username, true);
             typingTimeout = setTimeout(() => window.firebaseChat.setTyping(username, false), 3000);
         } else {
@@ -2486,79 +2059,77 @@
         }
     }
 
-    function handleTypingUpdate(typingUsername, isTyping) {
-        if (typingUsername === username) return;
-        if (isTyping) currentlyTypingUsers.add(typingUsername);
-        else currentlyTypingUsers.delete(typingUsername);
-        const indicator = document.getElementById('typingIndicator');
-        const usersEl = document.getElementById('typingUsers');
-        if (currentlyTypingUsers.size === 0) { indicator.classList.remove('active'); return; }
-        indicator.classList.add('active');
-        const users = Array.from(currentlyTypingUsers);
-        if (users.length === 1) usersEl.textContent = `${users[0]} is typing`;
-        else if (users.length === 2) usersEl.textContent = `${users[0]} and ${users[1]} are typing`;
-        else usersEl.textContent = `${users[0]}, ${users[1]}, and ${users.length - 2} more are typing`;
+    function handleTypingUpdate(u, on) {
+        if (u === username) return;
+        if (on) currentlyTypingUsers.add(u); else currentlyTypingUsers.delete(u);
+        const bar = document.getElementById('typingBar');
+        const el = document.getElementById('typingUsers');
+        if (!currentlyTypingUsers.size) { bar.classList.remove('on'); return; }
+        bar.classList.add('on');
+        const arr = Array.from(currentlyTypingUsers);
+        if (arr.length === 1) el.textContent = `${arr[0]} is typing`;
+        else if (arr.length === 2) el.textContent = `${arr[0]} and ${arr[1]} are typing`;
+        else el.textContent = `${arr[0]}, ${arr[1]}, and ${arr.length - 2} more are typing`;
     }
 
-    function containsSlur(text) { return SLUR_PATTERNS.some(p => p.test(text)); }
+    function handleChatKey(e) { if (e.key === 'Enter') { e.preventDefault(); sendMessage(); } }
 
-    function applyEmojiShortcuts(text) {
-        let result = text;
-        for (const [s, e] of Object.entries(EMOJI_SHORTCUTS)) {
-            result = result.replace(new RegExp(s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), e);
-        }
-        return result;
+    function containsSlur(t) { return SLUR_PATTERNS.some(p => p.test(t)); }
+
+    function applyEmoji(t) {
+        let r = t;
+        for (const [s, e] of Object.entries(EMOJI_MAP)) r = r.replace(new RegExp(s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), e);
+        return r;
     }
 
-    function checkForSpam(message) {
+    function checkSpam(msg) {
         const now = Date.now();
-        const trimmed = message.trim().toLowerCase();
-        messageHistory.push({ text: trimmed, timestamp: now });
-        messageHistory = messageHistory.filter(m => now - m.timestamp < 3000);
-        if (messageHistory.filter(m => m.text === trimmed).length >= 5) { showSpamWarning(); return true; }
+        const trimmed = msg.trim().toLowerCase();
+        msgHistory.push({ text: trimmed, timestamp: now });
+        msgHistory = msgHistory.filter(m => now - m.timestamp < 3000);
+        if (msgHistory.filter(m => m.text === trimmed).length >= 5) { showSpamWarn(); return true; }
         return false;
     }
 
-    function showSpamWarning() {
-        const el = document.getElementById('spamWarning');
-        const textEl = document.getElementById('spamWarningText');
-        const chatInput = document.getElementById('chatInput');
-        const sendBtn = document.querySelector('.chat-send-btn');
-        if (chatInput) chatInput.disabled = true;
-        if (sendBtn) sendBtn.disabled = true;
-        spamWarningCount++;
-        textEl.textContent = spamWarningCount === 1 ? "Can you please not spam?" : spamWarningCount === 2 ? "you're very annoying" : "what is wrong with you";
-        el.classList.add('active');
-        if (spamWarningTimeout) clearTimeout(spamWarningTimeout);
-        spamWarningTimeout = setTimeout(() => {
-            el.classList.remove('active');
-            if (chatInput) chatInput.disabled = false;
-            if (sendBtn) sendBtn.disabled = false;
+    function showSpamWarn() {
+        const el = document.getElementById('spamWarn');
+        const txt = document.getElementById('spamWarnText');
+        const inp = document.getElementById('chatInput');
+        const btn = document.querySelector('.send-btn');
+        if (inp) inp.disabled = true;
+        if (btn) btn.disabled = true;
+        spamWarnCount++;
+        txt.textContent = spamWarnCount === 1 ? "Can you please not spam?" : spamWarnCount === 2 ? "you're very annoying" : "what is wrong with you";
+        el.classList.add('on');
+        if (spamWarnTimeout) clearTimeout(spamWarnTimeout);
+        spamWarnTimeout = setTimeout(() => {
+            el.classList.remove('on');
+            if (inp) inp.disabled = false;
+            if (btn) btn.disabled = false;
         }, 5000);
     }
 
-    function showSlurWarning() {
-        const el = document.getElementById('slurWarning');
+    function showSlurWarn() {
+        const el = document.getElementById('slurWarn');
         const timerEl = document.getElementById('slurTimer');
-        const chatInput = document.getElementById('chatInput');
-        const sendBtn = document.querySelector('.chat-send-btn');
-        if (chatInput) { chatInput.value = ''; chatInput.disabled = true; }
-        if (sendBtn) sendBtn.disabled = true;
-        let seconds = 10;
-        timerEl.textContent = seconds;
-        el.classList.add('active');
-        if (slurTimerInterval) clearInterval(slurTimerInterval);
-        if (slurTimeoutId) clearTimeout(slurTimeoutId);
-        slurTimerInterval = setInterval(() => { seconds--; timerEl.textContent = seconds; if (seconds <= 0) clearInterval(slurTimerInterval); }, 1000);
-        slurTimeoutId = setTimeout(() => {
-            el.classList.remove('active');
-            if (chatInput) chatInput.disabled = false;
-            if (sendBtn) sendBtn.disabled = false;
+        const inp = document.getElementById('chatInput');
+        const btn = document.querySelector('.send-btn');
+        if (inp) { inp.value = ''; inp.disabled = true; }
+        if (btn) btn.disabled = true;
+        let sec = 10;
+        timerEl.textContent = sec;
+        el.classList.add('on');
+        if (slurInterval) clearInterval(slurInterval);
+        if (slurTO) clearTimeout(slurTO);
+        slurInterval = setInterval(() => { sec--; timerEl.textContent = sec; if (sec <= 0) clearInterval(slurInterval); }, 1000);
+        slurTO = setTimeout(() => {
+            el.classList.remove('on');
+            if (inp) inp.disabled = false;
+            if (btn) btn.disabled = false;
         }, 10000);
     }
 
-    // Notification sound
-    function playNotifSound() {
+    function playNotif() {
         if (localStorage.getItem('desritory-sounds') !== 'true') return;
         try {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2573,205 +2144,154 @@
     }
 
     function sendMessage() {
-        const input = document.getElementById('chatInput');
-        let message = input.value.trim();
-        if (!message && !selectedImageBase64) return;
-        if (message && containsSlur(message)) { showSlurWarning(); return; }
-        if (message) message = applyEmojiShortcuts(message);
-        if (message && checkForSpam(message)) return;
+        const inp = document.getElementById('chatInput');
+        let msg = inp.value.trim();
+        if (!msg && !selectedImageBase64) return;
+        if (msg && containsSlur(msg)) { showSlurWarn(); return; }
+        if (msg) msg = applyEmoji(msg);
+        if (msg && checkSpam(msg)) return;
         if (window.firebaseChat && window.firebaseChat.isInitialized()) {
-            const replyTo = replyingToMessage ? { id: replyingToMessage.id, username: replyingToMessage.username, text: messagesCache[replyingToMessage.id]?.text || '' } : null;
+            const reply = replyingToMessage ? { id: replyingToMessage.id, username: replyingToMessage.username, text: messagesCache[replyingToMessage.id]?.text || '' } : null;
             window.firebaseChat.setTyping(username, false);
             if (typingTimeout) clearTimeout(typingTimeout);
-            window.firebaseChat.sendMessage(username, message, selectedImageBase64, replyTo)
-                .then(() => { input.value = ''; cancelReply(); removeImage(); })
-                .catch(() => alert('Failed to send message.'));
+            window.firebaseChat.sendMessage(username, msg, selectedImageBase64, reply)
+                .then(() => { inp.value = ''; cancelReply(); removeImage(); })
+                .catch(() => alert('Failed to send.'));
         } else {
             alert('Chat not connected.');
         }
     }
 
-    function displayMessage(message) {
-        if (messageIds.has(message.id)) return;
-        messageIds.add(message.id);
-        messagesCache[message.id] = message;
-        if (!isChatOpen && message.username !== username && message.timestamp > lastReadTimestamp) {
-            unreadMessageCount++;
-            updateNotificationBadge();
-            playNotifSound();
-            return;
-        }
-        if (!isChatOpen) return;
-        const msgs = document.getElementById('chatMessages');
-        if (!msgs) return;
-        const shouldScroll = msgs.scrollHeight - msgs.scrollTop - msgs.clientHeight < 100;
-        const div = document.createElement('div');
-        div.className = 'chat-msg';
-        let replyHTML = '';
-        if (message.replyTo) replyHTML = `<div class="chat-reply-indicator"><strong>@${escapeHtml(message.replyTo.username)}</strong>: ${escapeHtml((message.replyTo.text || '').substring(0, 50))}</div>`;
-        let imgHTML = '';
-        if (message.imageUrl) imgHTML = `<img src="${message.imageUrl}" class="chat-msg-image" onclick="window.open('${message.imageUrl}','_blank')">`;
-        div.innerHTML = `
-            <div class="chat-msg-actions"><button class="chat-action-btn" onclick="replyToMessage('${message.id}','${escapeHtml(message.username)}')"><i class="fas fa-reply"></i> Reply</button></div>
-            ${replyHTML}
-            <div class="chat-msg-username">${escapeHtml(message.username)}</div>
-            <div class="chat-msg-text">${escapeHtml(message.text || '')}</div>
-            ${imgHTML}
-            <div class="chat-msg-time">${formatTimestamp(message.timestamp)}</div>
-        `;
-        msgs.appendChild(div);
-        while (msgs.children.length > 100) msgs.removeChild(msgs.firstChild);
-        if (shouldScroll) msgs.scrollTop = msgs.scrollHeight;
-    }
+    function esc(t) { const d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }
+    function fmtTime(ts) { if (!ts) return ''; try { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch { return ''; } }
 
-    function handleChatKeyPress(e) { if (e.key === 'Enter') { e.preventDefault(); sendMessage(); } }
-    function escapeHtml(text) { const d = document.createElement('div'); d.textContent = text || ''; return d.innerHTML; }
-    function formatTimestamp(ts) { if (!ts) return ''; try { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch { return ''; } }
-
-    function toggleCloak() {
-        const t = document.getElementById('cloakToggle');
-        t.classList.toggle('active');
-        const enabled = t.classList.contains('active');
-        localStorage.setItem('desritory-cloak', enabled);
-        if (enabled) {
-            document.title = 'Google';
-            const fav = document.querySelector("link[rel*='icon']") || document.createElement('link');
-            fav.type = 'image/x-icon'; fav.rel = 'shortcut icon'; fav.href = 'https://www.google.com/favicon.ico';
-            document.getElementsByTagName('head')[0].appendChild(fav);
-        } else { document.title = 'Desritory V3'; }
-    }
-
-    function togglePanic() {
-        const t = document.getElementById('panicToggle');
-        t.classList.toggle('active');
-        localStorage.setItem('desritory-panic', t.classList.contains('active'));
-    }
-
-    function toggleParticles() {
-        const t = document.getElementById('particlesToggle');
-        t.classList.toggle('active');
-        const enabled = t.classList.contains('active');
-        localStorage.setItem('desritory-particles', enabled);
-        document.getElementById('particleCanvas').style.display = enabled ? 'block' : 'none';
-    }
-
-    function toggleSounds() {
-        const t = document.getElementById('soundToggle');
-        t.classList.toggle('active');
-        localStorage.setItem('desritory-sounds', t.classList.contains('active'));
-    }
-
-    // ---- PARTICLES (with idle throttle) ----
-    function createParticles() {
-        const canvas = document.getElementById('particleCanvas');
+    function initBackground() {
+        const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
-        const particles = [];
-        const mouse = { x: null, y: null, lastMove: 0 };
-        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; mouse.lastMove = Date.now(); });
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', () => {
+            resize();
+            particles.forEach(p => {
+                if (p.x > canvas.width) p.x = Math.random() * canvas.width;
+                if (p.y > canvas.height) p.y = Math.random() * canvas.height;
+            });
+        });
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.8 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.4;
-                this.speedY = (Math.random() - 0.5) * 0.4;
-            }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(255,255,255,0.7)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+        const CONFIG = {
+            count: 80,
+            minR: 2,
+            maxR: 4,
+            speed: 0.6,
+            linkDist: 150,
+            mouseDist: 180,
+            dotOpacity: 0.75,
+            lineOpacity: 0.25,
+            mouseLineOpacity: 0.5,
+        };
+
+        const mouse = { x: -9999, y: -9999, active: false };
+        window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
+        window.addEventListener('mouseleave', () => { mouse.active = false; mouse.x = -9999; mouse.y = -9999; });
+
+        function getPrimaryRGB() {
+            const hex = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#7c4dff';
+            const m = hex.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+            if (m) return [parseInt(m[1],16), parseInt(m[2],16), parseInt(m[3],16)];
+            return [124, 77, 255];
         }
 
-        for (let i = 0; i < 80; i++) particles.push(new Particle());
+        function makeParticle() {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = (Math.random() * 0.5 + 0.2) * CONFIG.speed;
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * (CONFIG.maxR - CONFIG.minR) + CONFIG.minR,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                opacity: Math.random() * 0.3 + CONFIG.dotOpacity,
+            };
+        }
 
-        let lastFrame = 0;
-        function animate(now) {
-            const isIdle = Date.now() - mouse.lastMove > 3000;
-            const targetFPS = isIdle ? 15 : 60;
-            const minInterval = 1000 / targetFPS;
-            if (now - lastFrame < minInterval) { requestAnimationFrame(animate); return; }
-            lastFrame = now;
+        const particles = Array.from({ length: CONFIG.count }, makeParticle);
 
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const c1 = getComputedStyle(document.documentElement).getPropertyValue('--particle-color-1').trim();
-            const c2 = getComputedStyle(document.documentElement).getPropertyValue('--particle-color-2').trim();
-            const nearMouse = new Set();
 
-            for (let a = 0; a < particles.length; a++) {
-                particles[a].update(); particles[a].draw();
-                if (mouse.x !== null && !isIdle) {
-                    const dx = particles[a].x - mouse.x;
-                    const dy = particles[a].y - mouse.y;
+            const [r, g, b] = getPrimaryRGB();
+            const W = canvas.width, H = canvas.height;
+
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = W;
+                if (p.x > W) p.x = 0;
+                if (p.y < 0) p.y = H;
+                if (p.y > H) p.y = 0;
+            });
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 150) {
-                        nearMouse.add(a);
-                        const op = 1 - dist / 150;
-                        ctx.strokeStyle = c2.replace('0.6', String(op * 0.7));
-                        ctx.lineWidth = 1.5;
+                    if (dist < CONFIG.linkDist) {
+                        const alpha = CONFIG.lineOpacity * (1 - dist / CONFIG.linkDist);
+                        ctx.strokeStyle = `rgba(${r},${g},${b},${alpha})`;
+                        ctx.lineWidth = 0.8;
                         ctx.beginPath();
-                        ctx.moveTo(particles[a].x, particles[a].y);
-                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.stroke();
                     }
                 }
             }
 
-            if (!isIdle) {
-                for (let a = 0; a < particles.length; a++) {
-                    for (let b = a + 1; b < particles.length; b++) {
-                        if (nearMouse.has(a) && nearMouse.has(b)) {
-                            const dx = particles[a].x - particles[b].x;
-                            const dy = particles[a].y - particles[b].y;
-                            const dist = Math.sqrt(dx * dx + dy * dy);
-                            if (dist < 120) {
-                                ctx.strokeStyle = c1.replace('0.8', String((1 - dist / 120) * 0.4));
-                                ctx.lineWidth = 1;
-                                ctx.beginPath();
-                                ctx.moveTo(particles[a].x, particles[a].y);
-                                ctx.lineTo(particles[b].x, particles[b].y);
-                                ctx.stroke();
-                            }
-                        }
+            if (mouse.active) {
+                particles.forEach(p => {
+                    const dx = p.x - mouse.x;
+                    const dy = p.y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < CONFIG.mouseDist) {
+                        const alpha = CONFIG.mouseLineOpacity * (1 - dist / CONFIG.mouseDist);
+                        ctx.strokeStyle = `rgba(${r},${g},${b},${alpha})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
                     }
-                }
+                });
             }
+
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
+                ctx.fill();
+            });
+
             requestAnimationFrame(animate);
         }
+
         requestAnimationFrame(animate);
     }
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closeFullscreen();
-            document.getElementById('systemTray').classList.remove('visible');
-        }
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeFullscreen();
         if (e.key === "'" && localStorage.getItem('desritory-panic') === 'true') window.location.href = 'https://google.com';
     });
 
-    // ---- INIT ----
-    createParticles();
+    initBackground();
     renderGames();
     renderApps();
-    buildThemeSwatches();
-    initProxy();
+    buildThemeGrid();
     updateUsernameDisplay();
-
-    if (Math.random() < 1 / 10000) {
-        document.getElementById('desktopLogo').style.transform = 'rotate(180deg)';
-        document.getElementById('desktopLogo').style.transition = 'transform 1s ease';
-    }
 
     const CURRENT_VERSION = '3.0.0';
     const savedVersion = localStorage.getItem('desritory-version');
@@ -2784,18 +2304,28 @@
         localStorage.setItem('desritory-version', CURRENT_VERSION);
     }
 
-    const savedTheme = localStorage.getItem('desritory-theme') || 'blackwhite';
-    changeTheme(savedTheme);
+    applyTheme(localStorage.getItem('desritory-theme') || 'slate');
 
-    if (localStorage.getItem('desritory-stealth') === 'true') applyStealthMode(true);
-    if (localStorage.getItem('desritory-cloak') === 'true') { document.getElementById('cloakToggle').classList.add('active'); toggleCloak(); }
-    if (localStorage.getItem('desritory-panic') === 'true') document.getElementById('panicToggle').classList.add('active');
-    if (localStorage.getItem('desritory-sounds') === 'true') document.getElementById('soundToggle').classList.add('active');
-    if (localStorage.getItem('desritory-particles') === 'false') { document.getElementById('particlesToggle').classList.remove('active'); document.getElementById('particleCanvas').style.display = 'none'; }
+    if (localStorage.getItem('desritory-stealth') === 'true') {
+        applyStealth(true);
+        document.getElementById('nav-stealth').classList.add('stealth-on');
+    }
+
+    const savedSE = localStorage.getItem('desritory-se') || 'google';
+    const seBtn = document.getElementById('se-' + savedSE);
+    if (seBtn) { document.querySelectorAll('.se-btn').forEach(b => b.classList.remove('active')); seBtn.classList.add('active'); }
+
+    if (localStorage.getItem('desritory-cloak') === 'true') document.getElementById('cloakToggle').classList.add('on');
+    if (localStorage.getItem('desritory-panic') === 'true') document.getElementById('panicToggle').classList.add('on');
+    if (localStorage.getItem('desritory-sounds') === 'true') document.getElementById('soundToggle').classList.add('on');
+    if (localStorage.getItem('desritory-particles') === 'false') {
+        document.getElementById('particlesToggle').classList.remove('on');
+        document.getElementById('bgCanvas').style.display = 'none';
+    }
 
     if (username && window.firebaseChat && window.firebaseChat.isInitialized()) {
         listenForNameRequests();
-        nameKeepAliveInterval = setInterval(() => { if (window.firebaseChat && username) window.firebaseChat.keepNameAlive(username, myOwnerId); }, 60000);
+        startNameKeepAlive();
     }
 
     window.addEventListener('beforeunload', () => {
