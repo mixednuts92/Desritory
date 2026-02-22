@@ -169,18 +169,60 @@
             background: transparent; position: relative;
         }
         .home-center { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+        .home-logo-wrap {
+            position: relative;
+            width: 110px; height: 110px;
+            margin-bottom: 18px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .home-logo-ring {
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--primary);
+            border-right-color: var(--primary-glow);
+            animation: logoSpin 3s linear infinite;
+        }
+        .home-logo-ring2 {
+            position: absolute; inset: 10px;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            border-bottom-color: var(--primary);
+            border-left-color: var(--primary-glow);
+            animation: logoSpin 2s linear infinite reverse;
+        }
+        .home-logo-glow {
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            animation: logoPulse 2.5s ease-in-out infinite;
+        }
+        .home-logo-icon {
+            font-size: 38px;
+            position: relative; z-index: 2;
+            animation: logoFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 12px var(--primary));
+        }
+        @keyframes logoSpin { to { transform: rotate(360deg); } }
+        @keyframes logoPulse { 0%,100%{opacity:0.4;transform:scale(0.95)} 50%{opacity:1;transform:scale(1.05)} }
+        @keyframes logoFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
         .home-wordmark {
             font-size: clamp(36px, 5vw, 64px);
             font-weight: 700; letter-spacing: -1px;
             color: var(--text); margin-bottom: 4px;
+            animation: wordmarkIn 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
         }
+        @keyframes wordmarkIn { from{opacity:0;transform:translateY(16px) scale(0.95)} to{opacity:1;transform:none} }
         .home-wordmark span { color: var(--primary); }
         .home-sub {
             font-size: 13px; color: var(--text-faint);
             letter-spacing: 3px; text-transform: uppercase;
             margin-bottom: 40px;
+            animation: wordmarkIn 0.8s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;
         }
-        .home-cards { display: flex; gap: 10px; }
+        .home-cards { display: flex; gap: 10px; animation: wordmarkIn 0.8s 0.2s cubic-bezier(0.34,1.56,0.64,1) both; }
         .home-card {
             width: 100px; height: 90px;
             background: var(--surface);
@@ -919,6 +961,12 @@
         <div class="panel active" id="panel-home">
             <div id="homeScreen">
                 <div class="home-center">
+                    <div class="home-logo-wrap">
+                        <div class="home-logo-glow"></div>
+                        <div class="home-logo-ring"></div>
+                        <div class="home-logo-ring2"></div>
+                        <div class="home-logo-icon">🛡</div>
+                    </div>
                     <div class="home-wordmark">DESRIT<span>O</span>RY <span style="font-size:0.45em;font-weight:600;color:var(--text-faint);letter-spacing:1px;vertical-align:middle;border:1.5px solid var(--border-hover);border-radius:6px;padding:2px 8px;position:relative;top:-4px;">V4</span></div>
                     <div class="home-sub" id="homeSub">Welcome back</div>
                     <div class="home-cards">
@@ -1141,12 +1189,12 @@
                     <div class="update-ver">v4.0.0</div>
                     <div class="update-sub">What's new in this update</div>
                     <div class="update-notes">
-                        • Welcome to V4.5!<br>
-                        • New sidebar navigation<br>
+                        • Welcome to V4!!<br>
+                        • New sidebar navigation — Selenite-style layout<br>
                         • Status bar with live stats at the bottom<br>
                         • Panels replace floating windows — cleaner UX<br><br>
                         • CHAT UPDATES:<br>
-                        • Removed pop-up when first opening the chat<br>
+                        • Inline "Join the Chat" — no more popups!<br>
                         • Timestamps hidden by default, shows on hover<br>
                         • Change your username anytime from Settings<br>
                         • Message reactions (hover a message → 😊)<br>
@@ -1156,6 +1204,7 @@
                         • SETTINGS UPDATES:<br>
                         • Theme picker now color swatches<br>
                         • Notification sounds toggle<br>
+                        • Particle system saves battery when idle<br>
                         • Chat font size: small / medium / large<br>
                         • Custom panic redirect URL<br>
                         • Keyboard shortcuts (Ctrl+1-5, /)<br>
@@ -1163,7 +1212,7 @@
                         • POLISH:<br>
                         • Mobile responsive layout<br>
                         • Favicon notification dot for unread chat<br>
-                        • thats all for now
+                        • that's all, enjoy V4!
                     </div>
                 </div>
             </div>
