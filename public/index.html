@@ -1263,13 +1263,33 @@
                     <div class="s-section">
                         <div class="s-label">Options</div>
                         <div class="toggle-row" onclick="toggleCloak()">
-                            <span class="toggle-row-label">Tab Cloaking</span>
-                            <div class="toggle" id="cloakToggle"><div class="toggle-knob"></div></div>
-                        </div>
+    <span class="toggle-row-label">Tab Cloaking</span>
+    <div class="toggle" id="cloakToggle"><div class="toggle-knob"></div></div>
+</div>
+<div id="cloakPresetRow" style="display:none;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;gap:10px;align-items:center;flex-wrap:wrap;">
+    <span style="font-size:12px;color:var(--text-dim);flex-shrink:0;">Cloak Preset</span>
+    <select id="cloakPresetSelect" onchange="applyCloakPreset(this.value)" style="flex:1;padding:7px 10px;background:var(--bg3);border:1px solid var(--border-hover);border-radius:7px;color:var(--text);font-size:12px;font-family:'Outfit',sans-serif;outline:none;cursor:pointer;">
+        <option value="google">Google</option>
+        <option value="docs">Google Docs</option>
+        <option value="canvas">Canvas</option>
+        <option value="khan">Khan Academy</option>
+        <option value="classroom">Google Classroom</option>
+        <option value="desmos">Desmos</option>
+        <option value="wikipedia">Wikipedia</option>
+        <option value="schoology">Schoology</option>
+    </select>
+</div>
                         <div class="toggle-row" onclick="togglePanic()">
-                            <span class="toggle-row-label">Panic Key (' key)</span>
-                            <div class="toggle" id="panicToggle"><div class="toggle-knob"></div></div>
-                        </div>
+    <span class="toggle-row-label">Panic Key</span>
+    <div class="toggle" id="panicToggle"><div class="toggle-knob"></div></div>
+</div>
+<div id="panicKeyRow" style="display:none;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;gap:10px;align-items:center;">
+    <span style="font-size:12px;color:var(--text-dim);flex-shrink:0;">Key to press</span>
+    <input id="panicKeyInput" readonly placeholder="Click then press a key..."
+        style="flex:1;padding:7px 10px;background:var(--bg3);border:1px solid var(--border-hover);border-radius:7px;color:var(--primary);font-size:13px;font-family:'JetBrains Mono',monospace;outline:none;cursor:pointer;text-align:center;"
+        onclick="startKeyCapture()"
+    >
+</div>
                         <div class="toggle-row" onclick="toggleParticles()">
                             <span class="toggle-row-label">Show Particles</span>
                             <div class="toggle on" id="particlesToggle"><div class="toggle-knob"></div></div>
@@ -1805,19 +1825,75 @@
         btn.classList.add('active');
     }
 
-    function toggleCloak() {
-        const t = document.getElementById('cloakToggle');
-        t.classList.toggle('on');
-        const on = t.classList.contains('on');
-        localStorage.setItem('desritory-cloak', on);
-        if (on) { document.title = 'Google'; } else { document.title = 'Desritory V3'; }
+   const CLOAK_PRESETS = {
+    google:    { title: 'Google',          favicon: 'https://www.google.com/favicon.ico' },
+    docs:      { title: 'Google Docs',     favicon: 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico' },
+    canvas:    { title: 'Canvas',          favicon: 'https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico' },
+    khan:      { title: 'Khan Academy',    favicon: 'https://cdn.kastatic.org/images/favicon.ico' },
+    classroom: { title: 'Google Classroom',favicon: 'https://ssl.gstatic.com/classroom/favicon.png' },
+    desmos:    { title: 'Desmos',          favicon: 'https://www.desmos.com/favicon.ico' },
+    wikipedia: { title: 'Wikipedia',       favicon: 'https://en.wikipedia.org/favicon.ico' },
+    schoology: { title: 'Schoology',       favicon: 'https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/favicon.ico' },
+};
+
+function toggleCloak() {
+    const t = document.getElementById('cloakToggle');
+    t.classList.toggle('on');
+    const on = t.classList.contains('on');
+    localStorage.setItem('desritory-cloak', on);
+    const presetRow = document.getElementById('cloakPresetRow');
+    if (presetRow) presetRow.style.display = on ? 'flex' : 'none';
+    if (on) {
+        const saved = localStorage.getItem('desritory-cloak-preset') || 'google';
+        document.getElementById('cloakPresetSelect').value = saved;
+        applyCloakPreset(saved);
+    } else {
+        document.title = 'Desritory V4';
+        const fav = document.querySelector("link[rel*='icon']");
+        if (fav) fav.href = '';
+    }
+}
+
+function applyCloakPreset(key) {
+    const preset = CLOAK_PRESETS[key];
+    if (!preset) return;
+    localStorage.setItem('desritory-cloak-preset', key);
+    document.title = preset.title;
+    let fav = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    fav.rel = 'shortcut icon';
+    fav.href = preset.favicon;
+    document.head.appendChild(fav);
+}
+
+  function togglePanic() {
+    const t = document.getElementById('panicToggle');
+    t.classList.toggle('on');
+    const on = t.classList.contains('on');
+    localStorage.setItem('desritory-panic', on);
+    const row = document.getElementById('panicKeyRow');
+    if (row) row.style.display = on ? 'flex' : 'none';
+}
+
+function startKeyCapture() {
+    const inp = document.getElementById('panicKeyInput');
+    inp.value = '...';
+    inp.style.borderColor = 'var(--primary)';
+    inp.style.color = 'var(--text-faint)';
+
+    function onKey(e) {
+        e.preventDefault();
+        const key = e.key;
+        // ignore modifier-only presses
+        if (['Control','Shift','Alt','Meta'].includes(key)) return;
+        localStorage.setItem('desritory-panic-key', key);
+        inp.value = key === ' ' ? 'Space' : key;
+        inp.style.borderColor = 'var(--border-hover)';
+        inp.style.color = 'var(--primary)';
+        window.removeEventListener('keydown', onKey, true);
     }
 
-    function togglePanic() {
-        const t = document.getElementById('panicToggle');
-        t.classList.toggle('on');
-        localStorage.setItem('desritory-panic', t.classList.contains('on'));
-    }
+    window.addEventListener('keydown', onKey, true);
+}
 
     function toggleParticles() {
         const t = document.getElementById('particlesToggle');
@@ -2304,17 +2380,27 @@
     }
 
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeFullscreen();
-        if (e.key === "'" && localStorage.getItem('desritory-panic') === 'true') window.location.href = 'https://google.com';
-    });
+    if (e.key === 'Escape') closeFullscreen();
+    if (localStorage.getItem('desritory-panic') === 'true') {
+        const panicKey = localStorage.getItem('desritory-panic-key') || "'";
+        if (e.key === panicKey) window.location.href = 'https://google.com';
+    }
+});
 
+if (localStorage.getItem('desritory-panic') === 'true') {
+    document.getElementById('panicToggle').classList.add('on');
+    const row = document.getElementById('panicKeyRow');
+    const inp = document.getElementById('panicKeyInput');
+    if (row) row.style.display = 'flex';
+    if (inp) inp.value = localStorage.getItem('desritory-panic-key') || "'";
+}
     initBackground();
     renderGames();
     renderApps();
     buildThemeGrid();
     updateUsernameDisplay();
 
-    const CURRENT_VERSION = '3.0.0';
+    const CURRENT_VERSION = '4.0.0';
     const savedVersion = localStorage.getItem('desritory-version');
     if (savedVersion !== CURRENT_VERSION) {
         const su = localStorage.getItem('desritory-username');
@@ -2336,18 +2422,15 @@
     const seBtn = document.getElementById('se-' + savedSE);
     if (seBtn) { document.querySelectorAll('.se-btn').forEach(b => b.classList.remove('active')); seBtn.classList.add('active'); }
 
-    if (localStorage.getItem('desritory-cloak') === 'true') document.getElementById('cloakToggle').classList.add('on');
-    if (localStorage.getItem('desritory-panic') === 'true') document.getElementById('panicToggle').classList.add('on');
-    if (localStorage.getItem('desritory-sounds') === 'true') document.getElementById('soundToggle').classList.add('on');
-    if (localStorage.getItem('desritory-particles') === 'false') {
-        document.getElementById('particlesToggle').classList.remove('on');
-        document.getElementById('bgCanvas').style.display = 'none';
-    }
-
-    if (username && window.firebaseChat && window.firebaseChat.isInitialized()) {
-        listenForNameRequests();
-        startNameKeepAlive();
-    }
+   if (localStorage.getItem('desritory-cloak') === 'true') {
+    document.getElementById('cloakToggle').classList.add('on');
+    const savedPreset = localStorage.getItem('desritory-cloak-preset') || 'google';
+    const presetRow = document.getElementById('cloakPresetRow');
+    const presetSelect = document.getElementById('cloakPresetSelect');
+    if (presetRow) presetRow.style.display = 'flex';
+    if (presetSelect) presetSelect.value = savedPreset;
+    applyCloakPreset(savedPreset);
+}
 
     window.addEventListener('beforeunload', () => {
         if (username && window.firebaseChat && window.firebaseChat.isInitialized()) window.firebaseChat.releaseName(username);
