@@ -1277,7 +1277,7 @@
         
         
         const cuRef = ref(db, `chatUsers/${sessionUid}`);
-        set(cuRef, { username: '...', timestamp: serverTimestamp() }).catch(() => {});
+        set(cuRef, { username: localStorage.getItem('desritory-username') || '...', timestamp: serverTimestamp() }).catch(() => {});
         onDisconnect(cuRef).remove();
 
         
