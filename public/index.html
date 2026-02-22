@@ -1049,6 +1049,14 @@
                     <div class="s-section">
                         <div class="s-label">Theme</div>
                         <div class="theme-grid" id="themeGrid"></div>
+                        <div style="margin-top:10px;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+                            <span style="font-size:12px;color:var(--text-dim);flex-shrink:0;">Custom color</span>
+                            <input type="color" id="customColorPicker" value="#7c4dff"
+                                style="width:36px;height:28px;border:none;border-radius:6px;cursor:pointer;background:none;padding:0;"
+                                oninput="applyCustomColor(this.value)">
+                            <span id="customColorHex" style="font-size:11px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;">#7c4dff</span>
+                            <button onclick="resetCustomColor()" style="margin-left:auto;padding:4px 10px;background:var(--surface-hover);border:1px solid var(--border-hover);border-radius:6px;color:var(--text-dim);font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">Reset</button>
+                        </div>
                     </div>
                     <div class="s-section">
                         <div class="s-label">Search Engine</div>
@@ -1133,12 +1141,12 @@
                     <div class="update-ver">v4.0.0</div>
                     <div class="update-sub">What's new in this update</div>
                     <div class="update-notes">
-                        • Welcome to V4!!<br>
-                        • New sidebar navigation — Selenite-style layout<br>
+                        • Welcome to V4.5!<br>
+                        • New sidebar navigation<br>
                         • Status bar with live stats at the bottom<br>
                         • Panels replace floating windows — cleaner UX<br><br>
                         • CHAT UPDATES:<br>
-                        • Inline "Join the Chat" — no more popups!<br>
+                        • Removed pop-up when first opening the chat<br>
                         • Timestamps hidden by default, shows on hover<br>
                         • Change your username anytime from Settings<br>
                         • Message reactions (hover a message → 😊)<br>
@@ -1148,7 +1156,6 @@
                         • SETTINGS UPDATES:<br>
                         • Theme picker now color swatches<br>
                         • Notification sounds toggle<br>
-                        • Particle system saves battery when idle<br>
                         • Chat font size: small / medium / large<br>
                         • Custom panic redirect URL<br>
                         • Keyboard shortcuts (Ctrl+1-5, /)<br>
@@ -1156,7 +1163,7 @@
                         • POLISH:<br>
                         • Mobile responsive layout<br>
                         • Favicon notification dot for unread chat<br>
-                        • that's all, enjoy V4!
+                        • thats all for now
                     </div>
                 </div>
             </div>
@@ -1773,6 +1780,30 @@
         document.body.style.background = t.bg;
         document.documentElement.style.setProperty('--bg', t.bg);
         document.querySelectorAll('.theme-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === key));
+        const picker = document.getElementById('customColorPicker');
+        if (picker) picker.value = t.primary.length === 7 ? t.primary : '#888888';
+        const hexEl = document.getElementById('customColorHex');
+        if (hexEl) hexEl.textContent = t.primary;
+    }
+
+    function applyCustomColor(hex) {
+        document.documentElement.style.setProperty('--primary', hex);
+        document.documentElement.style.setProperty('--primary-dim', hex + '20');
+        document.documentElement.style.setProperty('--primary-glow', hex + '44');
+        localStorage.setItem('desritory-custom-color', hex);
+        const hexEl = document.getElementById('customColorHex');
+        if (hexEl) hexEl.textContent = hex;
+        document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+    }
+
+    function resetCustomColor() {
+        localStorage.removeItem('desritory-custom-color');
+        const savedTheme = localStorage.getItem('desritory-theme') || 'slate';
+        applyTheme(savedTheme);
+        const picker = document.getElementById('customColorPicker');
+        if (picker) picker.value = themes[savedTheme]?.primary || '#888888';
+        const hexEl = document.getElementById('customColorHex');
+        if (hexEl) hexEl.textContent = themes[savedTheme]?.primary || '#888888';
     }
 
     function setSE(key, btn) {
@@ -2581,6 +2612,21 @@
         fsBtn.classList.add('active');
         const map = { small: '11px', medium: '13px', large: '15px' };
         document.documentElement.style.setProperty('--font-size-base', map[savedFS]);
+    }
+
+    const savedCustomColor = localStorage.getItem('desritory-custom-color');
+    if (savedCustomColor) {
+        applyCustomColor(savedCustomColor);
+        const picker = document.getElementById('customColorPicker');
+        if (picker) picker.value = savedCustomColor;
+        const hexEl = document.getElementById('customColorHex');
+        if (hexEl) hexEl.textContent = savedCustomColor;
+    } else {
+        const currentTheme = localStorage.getItem('desritory-theme') || 'slate';
+        const picker = document.getElementById('customColorPicker');
+        if (picker) picker.value = themes[currentTheme]?.primary || '#888888';
+        const hexEl = document.getElementById('customColorHex');
+        if (hexEl) hexEl.textContent = themes[currentTheme]?.primary || '#888888';
     }
 
     if (localStorage.getItem('desritory-sounds') === 'true') document.getElementById('soundToggle').classList.add('on');
