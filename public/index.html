@@ -39,7 +39,7 @@
             font-size: var(--font-size-base);
         }
 
-        /* ─── LAYOUT ─── */
+        
         #layout {
             display: grid;
             grid-template-columns: var(--sidebar-w) 1fr;
@@ -47,7 +47,7 @@
             height: 100vh;
         }
 
-        /* ─── SIDEBAR ─── */
+        
         #sidebar {
             grid-row: 1 / 3;
             background: var(--bg2);
@@ -131,14 +131,14 @@
         .nav-badge.show { display: flex; }
         .sidebar-spacer { flex: 1; }
 
-        /* ─── MAIN ─── */
+        
         #main {
             grid-column: 2; grid-row: 1;
             position: relative; overflow: hidden;
             background: var(--bg);
         }
 
-        /* ─── STATUSBAR ─── */
+        
         #statusbar {
             grid-column: 2; grid-row: 2;
             background: var(--bg2);
@@ -161,7 +161,7 @@
         .status-spacer { flex: 1; }
         .status-time { font-weight: 600; color: var(--text); }
 
-        /* ─── HOME ─── */
+        
         #homeScreen {
             display: flex; flex-direction: row;
             align-items: center; justify-content: center;
@@ -201,7 +201,7 @@
         .home-card i { font-size: 22px; }
         .home-card span { font-size: 11px; font-weight: 600; }
 
-        /* ─── PANELS ─── */
+        
         .panel { display: none; flex-direction: column; height: 100%; animation: panelIn 0.2s ease; }
         .panel.active { display: flex; }
         @keyframes panelIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
@@ -230,7 +230,7 @@
         .panel-search::placeholder { color: var(--text-faint); }
         .panel-body { flex: 1; overflow-y: auto; padding: 16px; background: transparent; }
 
-        /* ─── GAMES GRID ─── */
+        
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -263,7 +263,7 @@
         .game-card-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .game-card-cat { font-size: 11px; color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* ─── PROXY ─── */
+        
         .proxy-home {
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
@@ -308,7 +308,7 @@
         .proxy-quick-link span:last-child { font-size: 11px; color: var(--text-dim); font-weight: 500; }
         .proxy-iframe { width: 100%; height: 100%; border: none; display: none; }
 
-        /* ─── CHAT ─── */
+        
         .chat-body { display: flex; flex-direction: column; height: 100%; }
         .chat-setup-screen {
             display: flex; flex-direction: column;
@@ -350,7 +350,7 @@
 
         .chat-main-area { display: flex; flex: 1; overflow: hidden; }
 
-        /* Chat user list */
+        
         #chatUserList {
             width: 160px;
             border-right: 1px solid var(--border);
@@ -412,7 +412,7 @@
         .chat-msg:hover .msg-time { opacity: 1; }
         @keyframes msgIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
 
-        /* Reactions */
+        
         .msg-reactions {
             display: flex; flex-wrap: wrap; gap: 4px;
             margin-top: 6px;
@@ -489,7 +489,7 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Pinned message */
+        
         #pinnedMsg {
             display: none;
             padding: 8px 14px;
@@ -510,7 +510,7 @@
         }
         .unpin-btn:hover { color: var(--text); }
 
-        /* Pin / edit / delete actions */
+        
         .msg-edit-input {
             width: 100%;
             background: var(--bg3);
@@ -605,7 +605,7 @@
         }
         .send-btn:hover { opacity: 0.82; }
 
-        /* ─── SETTINGS ─── */
+        
         .settings-body { padding: 20px; }
         .s-section { margin-bottom: 24px; }
         .s-label {
@@ -642,7 +642,7 @@
         .se-btn:hover { background: var(--surface-hover); color: var(--text); }
         .se-btn.active { background: var(--primary-dim); border-color: rgba(124,77,255,0.3); color: var(--primary); }
 
-        /* Font size setting */
+        
         .font-row {
             display: flex; gap: 7px;
         }
@@ -684,7 +684,7 @@
         }
         .toggle.on .toggle-knob { transform: translateX(18px); }
 
-        /* Custom panic URL */
+        
         .panic-url-row {
             display: none;
             padding: 10px 14px;
@@ -694,13 +694,13 @@
             gap: 10px; align-items: center;
         }
 
-        /* ─── UPDATES ─── */
+        
         .update-body { padding: 24px; }
         .update-ver { font-size: 38px; font-weight: 700; color: var(--primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; }
         .update-sub { font-size: 13px; color: var(--text-faint); margin-bottom: 18px; }
         .update-notes { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; font-size: 13px; color: var(--text-dim); line-height: 1.9; }
 
-        /* ─── FULLSCREEN ─── */
+        
         #fullscreenOverlay {
             position: fixed;
             top: 0; left: var(--sidebar-w); right: 0; bottom: var(--statusbar-h);
@@ -727,7 +727,7 @@
         .fs-title { font-size: 13px; font-weight: 600; color: var(--text-dim); }
         #fullscreenIframe { width: 100%; flex: 1; border: none; }
 
-        /* ─── LOADING ─── */
+        
         #loadingScreen {
             display: none; position: fixed; inset: 0;
             background: rgba(13,13,16,0.95); z-index: 10000;
@@ -745,7 +745,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-text { font-size: 14px; color: var(--text-dim); font-weight: 500; }
 
-        /* ─── MODALS ─── */
+        
         .modal-overlay {
             display: none; position: fixed; inset: 0;
             background: rgba(0,0,0,0.7);
@@ -784,7 +784,7 @@
             margin: 0 auto 16px;
         }
 
-        /* ─── FLOATING WARNS ─── */
+        
         .floating-warn {
             position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.92);
@@ -801,7 +801,7 @@
         #slurWarn .sw-text { font-size: 13px; color: var(--text-dim); margin-bottom: 10px; }
         #slurWarn .sw-timer { font-size: 28px; font-weight: 900; color: var(--primary); font-family: 'JetBrains Mono', monospace; }
 
-        /* ─── KEYBOARD SHORTCUTS HINT ─── */
+        
         #shortcutsHint {
             position: fixed;
             bottom: calc(var(--statusbar-h) + 12px);
@@ -829,7 +829,7 @@
             font-size: 10px; color: var(--text);
         }
 
-        /* ─── BACKGROUND ─── */
+        
         #bgCanvas {
             position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh;
@@ -842,14 +842,14 @@
         .panel-header { background: rgba(13,13,16,0.6) !important; backdrop-filter: blur(8px); }
         .panel { background: transparent; }
 
-        /* ─── SCROLLBAR ─── */
+        
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
 
         .nav-item.stealth-on { background: rgba(124,77,255,0.1); border-color: rgba(124,77,255,0.2); color: var(--primary); }
 
-        /* ─── MOBILE ─── */
+        
         @media (max-width: 600px) {
             :root { --sidebar-w: 0px; }
             #sidebar { display: none; }
@@ -887,7 +887,6 @@
 
 <canvas id="bgCanvas"></canvas>
 
-<!-- Mobile nav -->
 <div id="mobileNav">
     <div class="mnav-item active" onclick="showPanel('home')"><i class="fas fa-house"></i><span>Home</span></div>
     <div class="mnav-item" onclick="showPanel('proxy')"><i class="fas fa-shield-halved"></i><span>Proxy</span></div>
@@ -916,7 +915,7 @@
 
     <main id="main">
 
-        <!-- HOME -->
+        
         <div class="panel active" id="panel-home">
             <div id="homeScreen">
                 <div class="home-center">
@@ -932,7 +931,7 @@
             </div>
         </div>
 
-        <!-- PROXY -->
+        
         <div class="panel" id="panel-proxy">
             <div class="panel-header">
                 <div class="panel-title">Proxy</div>
@@ -958,7 +957,7 @@
             <iframe id="proxyIframe" class="proxy-iframe"></iframe>
         </div>
 
-        <!-- GAMES -->
+        
         <div class="panel" id="panel-games">
             <div class="panel-header">
                 <div class="panel-title">Games</div>
@@ -977,7 +976,7 @@
             </div>
         </div>
 
-        <!-- APPS -->
+        
         <div class="panel" id="panel-apps">
             <div class="panel-header">
                 <div class="panel-title">Apps</div>
@@ -988,7 +987,7 @@
             </div>
         </div>
 
-        <!-- CHAT -->
+        
         <div class="panel" id="panel-chat">
             <div class="panel-header">
                 <div class="panel-title">Chat Room</div>
@@ -1042,7 +1041,7 @@
             </div>
         </div>
 
-        <!-- SETTINGS -->
+        
         <div class="panel" id="panel-settings">
             <div class="panel-header"><div class="panel-title">Settings</div></div>
             <div class="panel-body">
@@ -1126,7 +1125,7 @@
             </div>
         </div>
 
-        <!-- UPDATES -->
+        
         <div class="panel" id="panel-updates">
             <div class="panel-header"><div class="panel-title">Updates</div></div>
             <div class="panel-body">
@@ -1135,28 +1134,29 @@
                     <div class="update-sub">What's new in this update</div>
                     <div class="update-notes">
                         • Welcome to V4!!<br>
-                        • New sidebar navigation<br>
-                        • Status bar with live statistics at the bottom<br>
-                        • Panels replace floating windows<br><br>
+                        • New sidebar navigation — Selenite-style layout<br>
+                        • Status bar with live stats at the bottom<br>
+                        • Panels replace floating windows — cleaner UX<br><br>
                         • CHAT UPDATES:<br>
-                        • Removed pop-up when joining chat<br>
+                        • Inline "Join the Chat" — no more popups!<br>
                         • Timestamps hidden by default, shows on hover<br>
                         • Change your username anytime from Settings<br>
                         • Message reactions (hover a message → 😊)<br>
                         • Edit &amp; delete your own messages<br>
-                        • Added the ability to pin messages (might remove if goes bad)<br>
-                        • Shows who's in chat on the left side in chat<br><br>
+                        • Pinned messages support<br>
+                        • Live user list sidebar<br><br>
                         • SETTINGS UPDATES:<br>
-                        • Theme picker now replaced with color swatches<br>
-                        • Notification sounds button in settings<br>
-                        • Chat font size option in settings: small / medium / large<br>
-                        • Custom panic key url redirect<br>
+                        • Theme picker now color swatches<br>
+                        • Notification sounds toggle<br>
+                        • Particle system saves battery when idle<br>
+                        • Chat font size: small / medium / large<br>
+                        • Custom panic redirect URL<br>
                         • Keyboard shortcuts (Ctrl+1-5, /)<br>
                         • Game sorting: default / A-Z / recent / category<br><br>
                         • POLISH:<br>
                         • Mobile responsive layout<br>
-                        • Notification dot for unread chat<br>
-                        • thats all for now
+                        • Favicon notification dot for unread chat<br>
+                        • that's all, enjoy V4!
                     </div>
                 </div>
             </div>
@@ -1186,7 +1186,6 @@
     </div>
 </div>
 
-<!-- FULLSCREEN -->
 <div id="fullscreenOverlay">
     <div class="fs-bar">
         <button class="fs-back" onclick="closeFullscreen()">← Back</button>
@@ -1195,13 +1194,11 @@
     <iframe id="fullscreenIframe"></iframe>
 </div>
 
-<!-- LOADING -->
 <div id="loadingScreen">
     <div class="loader-ring"></div>
     <div class="loading-text" id="loadingText">Loading...</div>
 </div>
 
-<!-- MODALS -->
 <div class="modal-overlay" id="nameRequestModal">
     <div class="modal-box">
         <div class="modal-title">Name Request</div>
@@ -1220,7 +1217,6 @@
     </div>
 </div>
 
-<!-- FLOATING WARNS -->
 <div class="floating-warn" id="spamWarn"><div id="spamWarnText">Hey, stop spamming!!</div></div>
 <div class="floating-warn" id="slurWarn">
     <div class="sw-icon">🚫</div>
@@ -1229,7 +1225,6 @@
     <div class="sw-timer" id="slurTimer">10</div>
 </div>
 
-<!-- SHORTCUTS HINT -->
 <div id="shortcutsHint">
     <div class="shortcut-row"><span class="shortcut-key">Ctrl+1</span> Home &nbsp; <span class="shortcut-key">Ctrl+2</span> Proxy</div>
     <div class="shortcut-row"><span class="shortcut-key">Ctrl+3</span> Games &nbsp; <span class="shortcut-key">Ctrl+4</span> Chat</div>
@@ -1237,7 +1232,6 @@
     <div class="shortcut-row"><span class="shortcut-key">Esc</span> Close fullscreen</div>
 </div>
 
-<!-- FIREBASE MODULE -->
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
     import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp, push, onChildAdded, onChildChanged, onChildRemoved, limitToLast, query, remove, get, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
@@ -1253,36 +1247,51 @@
     };
 
     let db = null, isInit = false;
-    let messagesRef, typingRef, presenceRef, activeNamesRef, nameRequestsRef, reactionsRef, pinnedRef, chatUsersRef;
+    let messagesRef, typingRef, presenceRef, activeNamesRef, nameRequestsRef, pinnedRef, chatUsersRef;
+
+    
+    const sessionUid = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 
     try {
         const app = initializeApp(firebaseConfig);
         db = getDatabase(app);
-        messagesRef = ref(db, 'messages');
-        typingRef = ref(db, 'typing');
-        presenceRef = ref(db, 'presence');
+        messagesRef    = ref(db, 'messages');
+        typingRef      = ref(db, 'typing');
+        presenceRef    = ref(db, 'presence');
         activeNamesRef = ref(db, 'activeNames');
-        nameRequestsRef = ref(db, 'nameRequests');
-        reactionsRef = ref(db, 'reactions');
-        pinnedRef = ref(db, 'pinned');
-        chatUsersRef = ref(db, 'chatUsers');
+        nameRequestsRef= ref(db, 'nameRequests');
+        pinnedRef      = ref(db, 'pinned');
+        chatUsersRef   = ref(db, 'chatUsers');
         isInit = true;
 
-        const uid = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        const pRef = ref(db, `presence/${uid}`);
+        
+        const pRef = ref(db, `presence/${sessionUid}`);
         set(pRef, { online: true, lastSeen: serverTimestamp() }).catch(() => {});
         onDisconnect(pRef).remove();
         setInterval(() => { if (isInit) set(pRef, { online: true, lastSeen: serverTimestamp() }).catch(() => {}); }, 30000);
-
-        onValue(ref(db, 'presence'), (snap) => {
-            const d = snap.val();
+        onValue(ref(db, 'presence'), snap => {
             const el = document.getElementById('onlineCount');
-            if (el) el.textContent = d ? Object.keys(d).length : 0;
+            if (el) el.textContent = snap.val() ? Object.keys(snap.val()).length : 0;
         });
+
+        
+        
+        const cuRef = ref(db, `chatUsers/${sessionUid}`);
+        set(cuRef, { username: '...', timestamp: serverTimestamp() }).catch(() => {});
+        onDisconnect(cuRef).remove();
+
+        
+        window._updateChatUserName = (name) => {
+            set(cuRef, { username: name, timestamp: serverTimestamp() }).catch(() => {});
+        };
+
     } catch (e) {
         console.error('Firebase error:', e);
         setChatStatus('error', '🔴 Firebase not configured');
     }
+
+    
+    function safeKey(s) { return s.replace(/[.#$[\]/]/g, '_'); }
 
     window.firebaseChat = {
         sendMessage: (u, t, img=null, reply=null) => {
@@ -1294,43 +1303,41 @@
         },
         listenToMessages: (cb) => {
             if (!isInit) return;
-            onChildAdded(query(messagesRef, limitToLast(50)), (snap) => { const m = snap.val(); m.id = snap.key; cb(m); });
+            onChildAdded(query(messagesRef, limitToLast(50)), snap => { const m = snap.val(); m.id = snap.key; cb(m); });
         },
         setTyping: (u, on) => {
             if (!isInit) return Promise.reject();
-            const r = ref(db, `typing/${u.replace(/[.#$[\]]/g, '_')}`);
+            const r = ref(db, `typing/${safeKey(u)}`);
             return on ? set(r, { username: u, timestamp: serverTimestamp() }) : remove(r);
         },
         listenToTyping: (cb) => {
             if (!isInit) return;
-            onChildAdded(typingRef, s => { const d = s.val(); if(d) cb(d.username, true); });
-            onChildChanged(typingRef, s => { const d = s.val(); if(d) cb(d.username, true); });
-            onChildRemoved(typingRef, s => { const d = s.val(); if(d) cb(d.username, false); });
+            onChildAdded(typingRef,   s => { const d=s.val(); if(d) cb(d.username,true);  });
+            onChildChanged(typingRef, s => { const d=s.val(); if(d) cb(d.username,true);  });
+            onChildRemoved(typingRef, s => { const d=s.val(); if(d) cb(d.username,false); });
         },
         isInitialized: () => isInit,
         checkNameAvailable: async (name) => {
             if (!isInit) return { available: true };
-            const safe = name.replace(/[.#$[\]]/g, '_').toLowerCase();
-            const snap = await get(ref(db, `activeNames/${safe}`));
+            const snap = await get(ref(db, `activeNames/${safeKey(name.toLowerCase())}`));
             if (!snap.exists()) return { available: true };
             const d = snap.val();
-            if (Date.now() - d.lastSeen > 120000) { await remove(ref(db, `activeNames/${safe}`)); return { available: true }; }
+            if (Date.now() - d.lastSeen > 120000) { await remove(ref(db, `activeNames/${safeKey(name.toLowerCase())}`)); return { available: true }; }
             return { available: false, ownerId: d.ownerId };
         },
         claimName: (name, oid) => {
             if (!isInit) return Promise.resolve();
-            const safe = name.replace(/[.#$[\]]/g, '_').toLowerCase();
-            const r = ref(db, `activeNames/${safe}`);
+            const r = ref(db, `activeNames/${safeKey(name.toLowerCase())}`);
             onDisconnect(r).remove();
             return set(r, { ownerId: oid, lastSeen: serverTimestamp(), displayName: name });
         },
         keepNameAlive: (name, oid) => {
             if (!isInit) return;
-            set(ref(db, `activeNames/${name.replace(/[.#$[\]]/g,'_').toLowerCase()}`), { ownerId: oid, lastSeen: serverTimestamp(), displayName: name }).catch(() => {});
+            set(ref(db, `activeNames/${safeKey(name.toLowerCase())}`), { ownerId: oid, lastSeen: serverTimestamp(), displayName: name }).catch(() => {});
         },
         releaseName: (name) => {
             if (!isInit) return;
-            remove(ref(db, `activeNames/${name.replace(/[.#$[\]]/g,'_').toLowerCase()}`)).catch(() => {});
+            remove(ref(db, `activeNames/${safeKey(name.toLowerCase())}`)).catch(() => {});
         },
         sendNameRequest: (rid, reqTemp, desired, targetOid) => {
             if (!isInit) return Promise.reject();
@@ -1361,22 +1368,24 @@
             if (!isInit) return;
             remove(ref(db, `nameRequests/${rid}`)).catch(() => {});
         },
-        // REACTIONS
-        addReaction: (msgId, emoji, username) => {
+
+        
+        
+        _rKey: (emoji, uname) => encodeURIComponent(emoji).replace(/%/g,'p') + '__' + uname.replace(/[.#$[\]/]/g,'_'),
+        addReaction: (msgId, emoji, uname) => {
             if (!isInit) return Promise.reject();
-            const key = `${emoji}_${username.replace(/[.#$[\]]/g,'_')}`;
-            return set(ref(db, `reactions/${msgId}/${key}`), { emoji, username, timestamp: serverTimestamp() });
+            return set(ref(db, `reactions/${msgId}/${window.firebaseChat._rKey(emoji,uname)}`), { emoji, username: uname });
         },
-        removeReaction: (msgId, emoji, username) => {
+        removeReaction: (msgId, emoji, uname) => {
             if (!isInit) return Promise.reject();
-            const key = `${emoji}_${username.replace(/[.#$[\]]/g,'_')}`;
-            return remove(ref(db, `reactions/${msgId}/${key}`));
+            return remove(ref(db, `reactions/${msgId}/${window.firebaseChat._rKey(emoji,uname)}`));
         },
         listenToReactions: (msgId, cb) => {
-            if (!isInit) return;
-            onValue(ref(db, `reactions/${msgId}`), snap => { cb(snap.val() || {}); });
+            if (!isInit) return () => {};
+            return onValue(ref(db, `reactions/${msgId}`), snap => { cb(snap.val() || {}); });
         },
-        // EDIT/DELETE
+
+        
         editMessage: (msgId, newText) => {
             if (!isInit) return Promise.reject();
             return update(ref(db, `messages/${msgId}`), { text: newText, edited: true });
@@ -1385,22 +1394,22 @@
             if (!isInit) return Promise.reject();
             return remove(ref(db, `messages/${msgId}`));
         },
-        // PINNED
-        pinMessage: (msgId, text, username) => {
+
+        
+        pinMessage: (msgId, text, uname) => {
             if (!isInit) return Promise.reject();
-            return set(pinnedRef, { msgId, text, username, timestamp: serverTimestamp() });
+            return set(pinnedRef, { msgId, text, username: uname, timestamp: serverTimestamp() });
         },
-        unpin: () => { if (!isInit) return; remove(pinnedRef).catch(()=>{}); },
+        unpin: () => { if (isInit) remove(pinnedRef).catch(() => {}); },
         listenToPinned: (cb) => {
             if (!isInit) return;
             onValue(pinnedRef, snap => { cb(snap.exists() ? snap.val() : null); });
         },
-        // CHAT USERS
-        setChatUser: (username, oid) => {
-            if (!isInit) return;
-            const r = ref(db, `chatUsers/${oid}`);
-            set(r, { username, timestamp: serverTimestamp() }).catch(()=>{});
-            onDisconnect(r).remove();
+
+        
+        
+        setChatUser: (uname) => {
+            if (window._updateChatUserName) window._updateChatUserName(uname);
         },
         listenChatUsers: (cb) => {
             if (!isInit) return;
@@ -1416,7 +1425,6 @@
     }
 </script>
 
-<!-- MAIN SCRIPT -->
 <script>
     const EMOJI_MAP = {
         ':sob:':'😭',':cry:':'😢',':smile:':'😊',':laugh:':'😂',':lol:':'😂',
@@ -1535,7 +1543,7 @@
         schoology: { title: 'Schoology',        favicon: 'https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/favicon.ico' },
     };
 
-    // ── STATE ──
+    
     let currentPanel = 'home';
     let username = localStorage.getItem('desritory-username') || '';
     let myOwnerId = localStorage.getItem('desritory-ownerid') || ('owner_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
@@ -1553,7 +1561,7 @@
     let faviconCanvas = null, faviconCtx = null, faviconLink = null;
     let showingShortcuts = false;
 
-    // ── PANEL NAVIGATION ──
+    
     function showPanel(id) {
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -1564,7 +1572,7 @@
         const nav = document.getElementById('nav-' + id);
         if (nav) nav.classList.add('active');
 
-        // mobile nav highlight
+        
         const mnavItems = document.querySelectorAll('.mnav-item');
         const panelOrder = ['home','proxy','games','chat','settings'];
         const idx = panelOrder.indexOf(id);
@@ -1574,7 +1582,7 @@
         if (id === 'chat') openChat();
     }
 
-    // ── TIME ──
+    
     function updateTime() {
         const now = new Date();
         let h = now.getHours();
@@ -1596,7 +1604,7 @@
     }
     setHomeSub();
 
-    // ── PROXY ──
+    
     function launchProxy() {
         const inp = document.getElementById('proxyInput');
         if (inp) launchProxyUrl(inp.value.trim());
@@ -1627,7 +1635,7 @@
         return SEARCH_ENGINES[localStorage.getItem('desritory-se') || 'google'] || SEARCH_ENGINES.google;
     }
 
-    // ── GAMES ──
+    
     function renderGames(filter = '') {
         const list = document.getElementById('gamesList');
         const sort = document.getElementById('gameSortSelect')?.value || 'default';
@@ -1711,7 +1719,7 @@
         document.getElementById('fullscreenIframe').src = '';
     }
 
-    // ── STEALTH ──
+    
     function toggleStealth() {
         const cur = localStorage.getItem('desritory-stealth') === 'true';
         const nv = !cur;
@@ -1736,7 +1744,7 @@
         }
     }
 
-    // ── THEME ──
+    
     function buildThemeGrid() {
         const grid = document.getElementById('themeGrid');
         grid.innerHTML = '';
@@ -1773,7 +1781,7 @@
         btn.classList.add('active');
     }
 
-    // ── FONT SIZE ──
+    
     function setFontSize(size, btn) {
         const map = { small: '11px', medium: '13px', large: '15px' };
         document.documentElement.style.setProperty('--font-size-base', map[size]);
@@ -1782,7 +1790,7 @@
         btn.classList.add('active');
     }
 
-    // ── CLOAK ──
+    
     function toggleCloak() {
         const t = document.getElementById('cloakToggle');
         t.classList.toggle('on');
@@ -1811,7 +1819,7 @@
         document.head.appendChild(fav);
     }
 
-    // ── PANIC ──
+    
     function togglePanic() {
         const t = document.getElementById('panicToggle');
         t.classList.toggle('on');
@@ -1839,7 +1847,7 @@
         window.addEventListener('keydown', onKey, true);
     }
 
-    // ── PARTICLES ──
+    
     function toggleParticles() {
         const t = document.getElementById('particlesToggle');
         t.classList.toggle('on');
@@ -1854,13 +1862,13 @@
         localStorage.setItem('desritory-sounds', t.classList.contains('on'));
     }
 
-    // ── SHORTCUTS HINT ──
+    
     function toggleShortcutsHint() {
         showingShortcuts = !showingShortcuts;
         document.getElementById('shortcutsHint').classList.toggle('on', showingShortcuts);
     }
 
-    // ── USERNAME ──
+    
     function changeUsername() {
         if (username && window.firebaseChat && window.firebaseChat.isInitialized()) window.firebaseChat.releaseName(username);
         username = '';
@@ -1876,7 +1884,7 @@
         if (label) label.textContent = username ? `@${username}` : '';
     }
 
-    // ── CHAT ──
+    
     function openChat() {
         isChatOpen = true;
         unreadCount = 0;
@@ -1904,7 +1912,7 @@
                 updateUsernameDisplay();
                 startNameKeepAlive();
                 listenForNameRequests();
-                window.firebaseChat.setChatUser(username, myOwnerId);
+                window.firebaseChat.setChatUser(username);
                 document.getElementById('chatSetup').style.display = 'none';
                 document.getElementById('chatBody').style.display = 'flex';
                 initChatListeners();
@@ -1918,6 +1926,7 @@
         username = name;
         localStorage.setItem('desritory-username', username);
         updateUsernameDisplay();
+        if (window.firebaseChat) window.firebaseChat.setChatUser(username);
         document.getElementById('chatSetup').style.display = 'none';
         document.getElementById('chatBody').style.display = 'flex';
         initChatListeners();
@@ -1945,7 +1954,13 @@
                 const body = document.getElementById('userListBody');
                 if (!body) return;
                 body.innerHTML = '';
-                Object.values(data).forEach(u => {
+                
+                const users = Object.values(data).filter(u => u.username && u.username !== '...');
+                if (!users.length) {
+                    body.innerHTML = '<div style="padding:8px;font-size:11px;color:var(--text-faint);">No users yet</div>';
+                    return;
+                }
+                users.forEach(u => {
                     const item = document.createElement('div');
                     item.className = 'user-list-item';
                     const initial = (u.username || '?')[0].toUpperCase();
@@ -2036,7 +2051,7 @@
         else badge.classList.remove('show');
     }
 
-    // ── FAVICON NOTIFICATION DOT ──
+    
     function updateFaviconDot() {
         try {
             if (!faviconCanvas) {
@@ -2072,7 +2087,7 @@
         } catch(e) {}
     }
 
-    // ── MESSAGE DISPLAY ──
+    
     function displayMessage(message) {
         if (messageIds.has(message.id)) return;
         messageIds.add(message.id);
@@ -2129,7 +2144,7 @@
         while (area.children.length > 100) area.removeChild(area.firstChild);
         if (shouldScroll) area.scrollTop = area.scrollHeight;
 
-        // Listen for reaction updates
+        
         if (window.firebaseChat && window.firebaseChat.isInitialized()) {
             window.firebaseChat.listenToReactions(message.id, (data) => {
                 renderReactions(message.id, data);
@@ -2140,39 +2155,46 @@
     function renderReactions(msgId, data) {
         const el = document.getElementById('reactions-' + msgId);
         if (!el) return;
-        // group by emoji
+        
+        if (!reactionState[msgId]) reactionState[msgId] = {};
         const grouped = {};
         Object.values(data).forEach(r => {
+            if (!r.emoji || !r.username) return;
             if (!grouped[r.emoji]) grouped[r.emoji] = [];
             grouped[r.emoji].push(r.username);
+            if (r.username === username) reactionState[msgId][r.emoji] = true;
+        });
+        
+        Object.keys(reactionState[msgId]).forEach(e => {
+            if (!grouped[e] || !grouped[e].includes(username)) reactionState[msgId][e] = false;
         });
         el.innerHTML = Object.entries(grouped).map(([emoji, users]) => {
-            const mine = users.includes(username);
-            return `<div class="reaction-pill ${mine ? 'mine' : ''}" onclick="toggleReaction('${msgId}','${emoji}')" title="${users.join(', ')}">${emoji} <span class="r-count">${users.length}</span></div>`;
+            const mine = reactionState[msgId][emoji] === true;
+            const safeEmoji = emoji.replace(/'/g, "\'");
+            return `<div class="reaction-pill ${mine ? 'mine' : ''}" onclick="toggleReaction('${msgId}','${safeEmoji}')" title="${users.join(', ')}">${emoji} <span class="r-count">${users.length}</span></div>`;
         }).join('');
     }
-
     function showReactionPicker(msgId, btn) {
-        // close all other pickers
+        
         document.querySelectorAll('.reaction-picker.on').forEach(p => {
             if (p.id !== 'picker-' + msgId) p.classList.remove('on');
         });
         document.getElementById('picker-' + msgId)?.classList.toggle('on');
     }
 
-    // Close pickers when clicking away
+    
     document.addEventListener('click', e => {
         if (!e.target.closest('.reaction-picker') && !e.target.closest('.msg-action-btn')) {
             document.querySelectorAll('.reaction-picker.on').forEach(p => p.classList.remove('on'));
         }
     });
 
+    
+    const reactionState = {};
     function toggleReaction(msgId, emoji) {
         if (!window.firebaseChat || !window.firebaseChat.isInitialized() || !username) return;
-        const key = `${emoji}_${username.replace(/[.#$[\]]/g,'_')}`;
-        // check current state via DOM
-        const pill = document.querySelector(`#reactions-${msgId} .reaction-pill.mine[onclick*="${emoji}"]`);
-        if (pill) {
+        const alreadyReacted = reactionState[msgId] && reactionState[msgId][emoji];
+        if (alreadyReacted) {
             window.firebaseChat.removeReaction(msgId, emoji, username);
         } else {
             window.firebaseChat.addReaction(msgId, emoji, username);
@@ -2385,7 +2407,7 @@
     function esc(t) { const d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }
     function fmtTime(ts) { if (!ts) return ''; try { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch { return ''; } }
 
-    // ── BACKGROUND PARTICLES ──
+    
     function initBackground() {
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
@@ -2458,14 +2480,14 @@
         requestAnimationFrame(animate);
     }
 
-    // ── KEYBOARD SHORTCUTS ──
+    
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             closeFullscreen();
             document.querySelectorAll('.reaction-picker.on').forEach(p => p.classList.remove('on'));
         }
 
-        // Panic key (capture before shortcuts)
+        
         if (localStorage.getItem('desritory-panic') === 'true') {
             const panicKey = localStorage.getItem('desritory-panic-key') || "'";
             if (e.key === panicKey && !e.ctrlKey) {
@@ -2475,7 +2497,7 @@
             }
         }
 
-        // Ctrl+1-5 panel shortcuts
+        
         if (e.ctrlKey && !e.shiftKey && !e.altKey) {
             const panels = ['home','proxy','games','chat','settings'];
             const num = parseInt(e.key);
@@ -2486,7 +2508,7 @@
             }
         }
 
-        // / to focus proxy search or game search
+        
         if (e.key === '/' && !e.ctrlKey && document.activeElement.tagName !== 'INPUT') {
             e.preventDefault();
             if (currentPanel === 'games') {
@@ -2500,7 +2522,7 @@
         }
     });
 
-    // ── INIT ──
+    
     const CURRENT_VERSION = '4.0.0';
     const savedVersion = localStorage.getItem('desritory-version');
     if (savedVersion !== CURRENT_VERSION) {
@@ -2512,7 +2534,7 @@
         localStorage.setItem('desritory-version', CURRENT_VERSION);
     }
 
-    // Restore settings
+    
     applyTheme(localStorage.getItem('desritory-theme') || 'slate');
     buildThemeGrid();
     renderGames();
@@ -2547,7 +2569,7 @@
         if (inp) inp.value = localStorage.getItem('desritory-panic-key') || "'";
         if (urlInp) urlInp.value = localStorage.getItem('desritory-panic-url') || 'https://google.com';
     } else {
-        // set default panic URL even if not enabled
+        
         const urlInp = document.getElementById('panicUrlInput');
         if (urlInp) urlInp.value = localStorage.getItem('desritory-panic-url') || 'https://google.com';
     }
