@@ -1189,18 +1189,17 @@
                     <div class="update-ver">v4.0.0</div>
                     <div class="update-sub">What's new in this update</div>
                     <div class="update-notes">
-                        • Welcome to V4!!<br>
-                        • New sidebar navigation — Selenite-style layout<br>
+                        • Welcome to V4!<br>
+                        • New sidebar navigation<br>
                         • Status bar with live stats at the bottom<br>
-                        • Panels replace floating windows — cleaner UX<br><br>
                         • CHAT UPDATES:<br>
-                        • Inline "Join the Chat" — no more popups!<br>
+                        • Added in tab pop-up for the chat!<br>
                         • Timestamps hidden by default, shows on hover<br>
                         • Change your username anytime from Settings<br>
                         • Message reactions (hover a message → 😊)<br>
                         • Edit &amp; delete your own messages<br>
                         • Pinned messages support<br>
-                        • Live user list sidebar<br><br>
+                        • Live user list sidebar in chat<br><br>
                         • SETTINGS UPDATES:<br>
                         • Theme picker now color swatches<br>
                         • Notification sounds toggle<br>
@@ -1211,8 +1210,8 @@
                         • Game sorting: default / A-Z / recent / category<br><br>
                         • POLISH:<br>
                         • Mobile responsive layout<br>
-                        • Favicon notification dot for unread chat<br>
-                        • that's all, enjoy V4!
+                        • Favicon notification dot for unread chat (i think it works idk)<br>
+                        • that's all for now
                     </div>
                 </div>
             </div>
@@ -1667,7 +1666,7 @@
         let phrases;
         if (h >= 0 && h < 5) phrases = ["you're up late", "hi night owl", "go to sleep.", "why are you awake"];
         else if (h >= 7 && h < 9) phrases = ["you're up early", "good morning", "wow it's morning"];
-        else phrases = ["browse games", "have fun!", "welcome to freedom.", "haiiiii :333"];
+        else phrases = ["we're just better.", "i <3 s0rrow.", "Welcome to Freedom.", "uhhhh no?", "i love music"];
         document.getElementById('homeSub').textContent = phrases[Math.floor(Math.random() * phrases.length)];
     }
     setHomeSub();
