@@ -893,15 +893,23 @@
 
         
         @media (max-width: 600px) {
-            :root { --sidebar-w: 0px; }
+            :root { --sidebar-w: 0px; --statusbar-h: 0px; }
             #sidebar { display: none; }
+            #layout {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr;
+            }
+            #main { grid-column: 1; grid-row: 1; }
+            #statusbar { display: none; }
             #mobileNav {
                 display: flex !important;
-                position: fixed; bottom: var(--statusbar-h); left: 0; right: 0;
-                background: rgba(17,17,22,0.95);
+                position: fixed;
+                bottom: 0; left: 0; right: 0;
+                background: rgba(17,17,22,0.97);
                 backdrop-filter: blur(14px);
                 border-top: 1px solid var(--border);
-                z-index: 200; padding: 6px 0;
+                z-index: 200;
+                padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
                 justify-content: space-around;
             }
             .mnav-item {
@@ -913,13 +921,22 @@
                 font-size: 9px; font-weight: 600;
                 text-transform: uppercase;
                 transition: all 0.18s;
+                -webkit-tap-highlight-color: transparent;
             }
             .mnav-item.active { color: var(--primary); }
             .mnav-item i { font-size: 18px; }
-            #layout { grid-template-columns: 1fr; }
-            #main { grid-column: 1; }
-            #statusbar { grid-column: 1; }
             #chatUserList { display: none !important; }
+            .panel-header { padding: 0 14px; }
+            .panel-body { padding: 10px; }
+            .proxy-home { padding: 0 12px; }
+            .proxy-quick { grid-template-columns: repeat(3,1fr); gap:6px; }
+            .home-wordmark { font-size: clamp(28px,8vw,48px); }
+            .home-cards { flex-wrap: wrap; justify-content: center; gap: 8px; }
+            .home-card { width: 90px; height: 80px; }
+            .games-grid { grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap:10px; }
+            body { padding-bottom: calc(58px + env(safe-area-inset-bottom)); overflow: hidden; }
+            .chat-input-row { padding: 8px; gap: 6px; }
+            .settings-body { padding: 14px; }
         }
 
         #mobileNav { display: none; }
@@ -1286,7 +1303,6 @@
     <div class="shortcut-row"><span class="shortcut-key">Ctrl+5</span> Settings &nbsp; <span class="shortcut-key">/</span> Focus search</div>
     <div class="shortcut-row"><span class="shortcut-key">Esc</span> Close fullscreen</div>
 </div>
-
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
     import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp, push, onChildAdded, onChildChanged, onChildRemoved, limitToLast, query, remove, get, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
@@ -1304,7 +1320,6 @@
     let db = null, isInit = false;
     let messagesRef, typingRef, presenceRef, activeNamesRef, nameRequestsRef, pinnedRef, chatUsersRef;
 
-    
     const sessionUid = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 
     try {
@@ -1319,7 +1334,6 @@
         chatUsersRef   = ref(db, 'chatUsers');
         isInit = true;
 
-        
         const pRef = ref(db, `presence/${sessionUid}`);
         set(pRef, { online: true, lastSeen: serverTimestamp() }).catch(() => {});
         onDisconnect(pRef).remove();
@@ -1329,13 +1343,10 @@
             if (el) el.textContent = snap.val() ? Object.keys(snap.val()).length : 0;
         });
 
-        
-        
         const cuRef = ref(db, `chatUsers/${sessionUid}`);
         set(cuRef, { username: localStorage.getItem('desritory-username') || '...', timestamp: serverTimestamp() }).catch(() => {});
         onDisconnect(cuRef).remove();
 
-        
         window._updateChatUserName = (name) => {
             set(cuRef, { username: name, timestamp: serverTimestamp() }).catch(() => {});
         };
@@ -1345,7 +1356,6 @@
         setChatStatus('error', '🔴 Firebase not configured');
     }
 
-    
     function safeKey(s) { return s.replace(/[.#$[\]/]/g, '_'); }
 
     window.firebaseChat = {
@@ -1424,8 +1434,6 @@
             remove(ref(db, `nameRequests/${rid}`)).catch(() => {});
         },
 
-        
-        
         _rKey: (emoji, uname) => encodeURIComponent(emoji).replace(/%/g,'p') + '__' + uname.replace(/[.#$[\]/]/g,'_'),
         addReaction: (msgId, emoji, uname) => {
             if (!isInit) return Promise.reject();
@@ -1440,7 +1448,6 @@
             return onValue(ref(db, `reactions/${msgId}`), snap => { cb(snap.val() || {}); });
         },
 
-        
         editMessage: (msgId, newText) => {
             if (!isInit) return Promise.reject();
             return update(ref(db, `messages/${msgId}`), { text: newText, edited: true });
@@ -1450,7 +1457,6 @@
             return remove(ref(db, `messages/${msgId}`));
         },
 
-        
         pinMessage: (msgId, text, uname) => {
             if (!isInit) return Promise.reject();
             return set(pinnedRef, { msgId, text, username: uname, timestamp: serverTimestamp() });
@@ -1461,8 +1467,6 @@
             onValue(pinnedRef, snap => { cb(snap.exists() ? snap.val() : null); });
         },
 
-        
-        
         setChatUser: (uname) => {
             if (window._updateChatUserName) window._updateChatUserName(uname);
         },
@@ -1505,13 +1509,14 @@
     const REACTION_EMOJIS = ['❤️','😂','😮','😢','😡','👍','👎','🔥','💯','💀','🤯','😎'];
 
     const SLUR_PATTERNS = [
-        /\bn[i!1|]+[g9]+[e3]+r/gi,/\bn[i!1|]+g{2,}/gi,/\bn[i!1|]gg[ae3]/gi,
+        /\bn[iÍíÌìÎîïÏ!1|]+[g9]+[e3]+r/gi,/\bn[iÍíÌìÎîïÏ!1|]+g{2,}/gi,/\bn[iÍíÌìÎîïÏ!1|]gg[ae3]/gi,
         /\bf[a@]+g{2,}[o0]t/gi,/\bf[a@]+g[s$]/gi,/\bfagg?[o0]t/gi,/\bfag\b/gi,
-        /\bk[i!1]+k[e3]/gi,/\bsp[i!1]+c/gi,/\bch[i!1]+nk/gi,
+        /\bk[iÍíÌìÎîïÏ!1]+k[e3]/gi,/\bsp[iÍíÌìÎîïÏ!1]+c/gi,/\bch[iÍíÌìÎîïÏ!1]+nk/gi,
         /\bw[e3]+tb[a@]+ck/gi,/\bcr[a@]+ck[e3]+r/gi,/\br[e3]+t[a@]+rd/gi,
-        /\bc[o0]+[o0]+n/gi,/\bj[i!1]+gg[a@]+b[o0]+[o0]/gi,
+        /\bc[o0]+[o0]+n/gi,/\bj[iÍíÌìÎîïÏ!1]+gg[a@]+b[o0]+[o0]/gi,
         /\bn1gger/gi,/\bn1gg3r/gi,/\br3gg1n\b/gi,
         /[a-z0-9]nigger/gi,/[a-z0-9]n1gger/gi,/[a-z0-9]n1gg3r/gi,
+        /\bn[ÍíÌìÎîïÏ]gg[ae3r]/gi,/\bn[ÍíÌìÎîïÏ]+g+[e3r]+/gi,
     ];
 
     const SEARCH_ENGINES = {
@@ -1542,14 +1547,14 @@
         fallout:'https://cdn.jsdelivr.net/gh/gn-math/covers@main/585.png',
         granny:'https://cdn.jsdelivr.net/gh/gn-math/covers@main/90.png',
         slender:'https://cdn.jsdelivr.net/gh/gn-math/covers@main/451.png',
-        
-        
+        zombie:'https://cdn2.steamgriddb.com/icon_thumb/0d4efaa2c9d1041eb9b8b5319eec8531.png',
     };
 
     const games = [
         {name:'Subway Surfers NY',icon:'https://playernation.graphicon.org/resources/semag/subway-surfers-ny/NewYorkIcon.png',url:'https://playernation.graphicon.org/resources/semag/subway-surfers-ny/index.html',category:'Runner'},
         {name:'GTA Vice City',icon:'https://i.imgur.com/Zli9nme.png',url:'https://playernation.graphicon.org/resources/semag/gtavc/index.html',category:'Action'},
         {name:'Doki Doki Literature Club',icon:'https://playernation.graphicon.org/resources/semag/ddlc/icons/web-icon.png',url:'https://playernation.graphicon.org/resources/semag/ddlc/index.html',category:'Visual Novel'},
+        {name:'Nazi Zombies',icon:IMAGES.zombie,url:'/games/nzp.html',category:'zombie fun'},
         {name:'DDLC Plus',icon:'https://i.imgur.com/b8DhT4P.jpeg',url:'https://playernation.graphicon.org/resources/semag/ddlcplus/index.html',category:'Visual Novel'},
         {name:'JHBETR',icon:IMAGES.jhbetr,url:'https://jhbetr.github.io/',category:'amazing game play it'},
         {name:'Minecraft',icon:IMAGES.minecraft,url:'/games/minecraft.html',category:'minecraft'},
@@ -1610,7 +1615,6 @@
         schoology: { title: 'Schoology',        favicon: 'https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/favicon.ico' },
     };
 
-    
     let currentPanel = 'home';
     let username = localStorage.getItem('desritory-username') || '';
     let myOwnerId = localStorage.getItem('desritory-ownerid') || ('owner_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
@@ -1628,7 +1632,6 @@
     let faviconCanvas = null, faviconCtx = null, faviconLink = null;
     let showingShortcuts = false;
 
-    
     function showPanel(id) {
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -1639,7 +1642,6 @@
         const nav = document.getElementById('nav-' + id);
         if (nav) nav.classList.add('active');
 
-        
         const mnavItems = document.querySelectorAll('.mnav-item');
         const panelOrder = ['home','proxy','games','chat','settings'];
         const idx = panelOrder.indexOf(id);
@@ -1649,7 +1651,6 @@
         if (id === 'chat') openChat();
     }
 
-    
     function updateTime() {
         const now = new Date();
         let h = now.getHours();
@@ -1671,7 +1672,6 @@
     }
     setHomeSub();
 
-    
     function launchProxy() {
         const inp = document.getElementById('proxyInput');
         if (inp) launchProxyUrl(inp.value.trim());
@@ -1702,7 +1702,6 @@
         return SEARCH_ENGINES[localStorage.getItem('desritory-se') || 'google'] || SEARCH_ENGINES.google;
     }
 
-    
     function renderGames(filter = '') {
         const list = document.getElementById('gamesList');
         const sort = document.getElementById('gameSortSelect')?.value || 'default';
@@ -1786,7 +1785,6 @@
         document.getElementById('fullscreenIframe').src = '';
     }
 
-    
     function toggleStealth() {
         const cur = localStorage.getItem('desritory-stealth') === 'true';
         const nv = !cur;
@@ -1811,7 +1809,6 @@
         }
     }
 
-    
     function buildThemeGrid() {
         const grid = document.getElementById('themeGrid');
         grid.innerHTML = '';
@@ -1872,7 +1869,6 @@
         btn.classList.add('active');
     }
 
-    
     function setFontSize(size, btn) {
         const map = { small: '11px', medium: '13px', large: '15px' };
         document.documentElement.style.setProperty('--font-size-base', map[size]);
@@ -1881,7 +1877,6 @@
         btn.classList.add('active');
     }
 
-    
     function toggleCloak() {
         const t = document.getElementById('cloakToggle');
         t.classList.toggle('on');
@@ -1910,7 +1905,6 @@
         document.head.appendChild(fav);
     }
 
-    
     function togglePanic() {
         const t = document.getElementById('panicToggle');
         t.classList.toggle('on');
@@ -1938,7 +1932,6 @@
         window.addEventListener('keydown', onKey, true);
     }
 
-    
     function toggleParticles() {
         const t = document.getElementById('particlesToggle');
         t.classList.toggle('on');
@@ -1953,13 +1946,11 @@
         localStorage.setItem('desritory-sounds', t.classList.contains('on'));
     }
 
-    
     function toggleShortcutsHint() {
         showingShortcuts = !showingShortcuts;
         document.getElementById('shortcutsHint').classList.toggle('on', showingShortcuts);
     }
 
-    
     function changeUsername() {
         if (username && window.firebaseChat && window.firebaseChat.isInitialized()) window.firebaseChat.releaseName(username);
         username = '';
@@ -1975,7 +1966,6 @@
         if (label) label.textContent = username ? `@${username}` : '';
     }
 
-    
     function openChat() {
         isChatOpen = true;
         unreadCount = 0;
@@ -2045,7 +2035,6 @@
                 const body = document.getElementById('userListBody');
                 if (!body) return;
                 body.innerHTML = '';
-                
                 const users = Object.values(data).filter(u => u.username && u.username !== '...');
                 if (!users.length) {
                     body.innerHTML = '<div style="padding:8px;font-size:11px;color:var(--text-faint);">No users yet</div>';
@@ -2142,7 +2131,6 @@
         else badge.classList.remove('show');
     }
 
-    
     function updateFaviconDot() {
         try {
             if (!faviconCanvas) {
@@ -2178,7 +2166,6 @@
         } catch(e) {}
     }
 
-    
     function displayMessage(message) {
         if (messageIds.has(message.id)) return;
         messageIds.add(message.id);
@@ -2235,7 +2222,6 @@
         while (area.children.length > 100) area.removeChild(area.firstChild);
         if (shouldScroll) area.scrollTop = area.scrollHeight;
 
-        
         if (window.firebaseChat && window.firebaseChat.isInitialized()) {
             window.firebaseChat.listenToReactions(message.id, (data) => {
                 renderReactions(message.id, data);
@@ -2246,7 +2232,6 @@
     function renderReactions(msgId, data) {
         const el = document.getElementById('reactions-' + msgId);
         if (!el) return;
-        
         if (!reactionState[msgId]) reactionState[msgId] = {};
         const grouped = {};
         Object.values(data).forEach(r => {
@@ -2255,7 +2240,6 @@
             grouped[r.emoji].push(r.username);
             if (r.username === username) reactionState[msgId][r.emoji] = true;
         });
-        
         Object.keys(reactionState[msgId]).forEach(e => {
             if (!grouped[e] || !grouped[e].includes(username)) reactionState[msgId][e] = false;
         });
@@ -2265,22 +2249,20 @@
             return `<div class="reaction-pill ${mine ? 'mine' : ''}" onclick="toggleReaction('${msgId}','${safeEmoji}')" title="${users.join(', ')}">${emoji} <span class="r-count">${users.length}</span></div>`;
         }).join('');
     }
+
     function showReactionPicker(msgId, btn) {
-        
         document.querySelectorAll('.reaction-picker.on').forEach(p => {
             if (p.id !== 'picker-' + msgId) p.classList.remove('on');
         });
         document.getElementById('picker-' + msgId)?.classList.toggle('on');
     }
 
-    
     document.addEventListener('click', e => {
         if (!e.target.closest('.reaction-picker') && !e.target.closest('.msg-action-btn')) {
             document.querySelectorAll('.reaction-picker.on').forEach(p => p.classList.remove('on'));
         }
     });
 
-    
     const reactionState = {};
     function toggleReaction(msgId, emoji) {
         if (!window.firebaseChat || !window.firebaseChat.isInitialized() || !username) return;
@@ -2498,7 +2480,6 @@
     function esc(t) { const d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }
     function fmtTime(ts) { if (!ts) return ''; try { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch { return ''; } }
 
-    
     function initBackground() {
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
@@ -2571,14 +2552,12 @@
         requestAnimationFrame(animate);
     }
 
-    
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             closeFullscreen();
             document.querySelectorAll('.reaction-picker.on').forEach(p => p.classList.remove('on'));
         }
 
-        
         if (localStorage.getItem('desritory-panic') === 'true') {
             const panicKey = localStorage.getItem('desritory-panic-key') || "'";
             if (e.key === panicKey && !e.ctrlKey) {
@@ -2588,7 +2567,6 @@
             }
         }
 
-        
         if (e.ctrlKey && !e.shiftKey && !e.altKey) {
             const panels = ['home','proxy','games','chat','settings'];
             const num = parseInt(e.key);
@@ -2599,7 +2577,6 @@
             }
         }
 
-        
         if (e.key === '/' && !e.ctrlKey && document.activeElement.tagName !== 'INPUT') {
             e.preventDefault();
             if (currentPanel === 'games') {
@@ -2613,7 +2590,6 @@
         }
     });
 
-    
     const CURRENT_VERSION = '4.0.0';
     const savedVersion = localStorage.getItem('desritory-version');
     if (savedVersion !== CURRENT_VERSION) {
@@ -2625,7 +2601,6 @@
         localStorage.setItem('desritory-version', CURRENT_VERSION);
     }
 
-    
     applyTheme(localStorage.getItem('desritory-theme') || 'slate');
     buildThemeGrid();
     renderGames();
@@ -2660,7 +2635,6 @@
         if (inp) inp.value = localStorage.getItem('desritory-panic-key') || "'";
         if (urlInp) urlInp.value = localStorage.getItem('desritory-panic-url') || 'https://google.com';
     } else {
-        
         const urlInp = document.getElementById('panicUrlInput');
         if (urlInp) urlInp.value = localStorage.getItem('desritory-panic-url') || 'https://google.com';
     }
